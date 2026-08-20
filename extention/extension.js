@@ -1106,7 +1106,22 @@ class MultiAISidebarProvider {
           break;
         case 'copy_rules':
           try {
-            const rulesPrompt = `# Autonomous Multi-AI Agentic Protocol (STRICT ENFORCEMENT)\n\nWhenever I send ANY message, coding task, or question in Antigravity Chat or type /agent <prompt>:\n1. You MUST NOT answer using your internal single AI model.\n2. You MUST route the task strictly through the Multi-AI Router & 6-Specialist Council (DeepSeek, Groq Qwen 3.6-27B, Llama 3.3 ECC Shield, Nemotron QA, Cohere Coder, Executive Judge).\n3. Always broadcast live telemetry to .ai_team_status.json so the Round-Table HUD lights up in real-time.`;
+            const rulesPrompt = `# STRICT MANDATORY AGENTIC PROTOCOL
+
+## Directive 1: Strict Ban on Single AI Response
+Under NO circumstance should Antigravity respond to user coding prompts or /agent requests as a single AI.
+You MUST execute the 6 specialized AI roles sequentially and in parallel:
+1. 🧠 Planner/Architect: Bynara Agnes 2.5 Flash / DeepSeek R1
+2. ⚡ Lead Coder: Groq LPU (qwen/qwen3.6-27b @ 540 tok/s)
+3. 🛡️ Security Auditor: Groq GPT-OSS 120B (ECC AgentShield)
+4. 🧪 QA Tester: OpenRouter Nvidia Nemotron 3.5 Lightning
+5. 💻 Refactor Agent: Cohere North Mini Code
+6. ⚖️ Executive Judge: Agnes 2.5 Judge Synthesis
+
+## Directive 2: Mandatory Live HUD Telemetry
+On EVERY prompt (especially /agent <prompt>):
+- Write active agents, dialogues, real model IDs, and lasers to .ai_team_status.json with isBusy: true.
+- Present the final response categorized with the specific contributions of the 6 Council Members.`;
             await vscode.env.clipboard.writeText(rulesPrompt);
             vscode.window.showInformationMessage('📋 Multi-AI Agentic Rules copied to Clipboard! Paste it directly in Antigravity chat.');
           } catch(e) {}
