@@ -543,7 +543,7 @@ function getRoundTableHtml(nonce, initData = null) {
   <div class="topbar">
     <div class="topbar-left">
       <span class="logo">🏢</span>
-      <div><span class="title-text">AgentCouncil — Multi-AI Parallel Council</span><span class="ver">v1.0.0 — Official Release</span></div>
+      <div><span class="title-text">AgentCouncil — Multi-AI Parallel Council</span><span class="ver">v1.0.2 — Official Release</span></div>
     </div>
     <div class="topbar-right" style="display:flex;align-items:center;gap:8px;">
       <div class="pill pill-live"><div class="dot"></div>LIVE</div>
@@ -752,12 +752,8 @@ function createOrShowSettingsPage(context) {
           } else if (provider === 'openrouter') {
             if (!key) throw new Error('Please enter OpenRouter API Key first.');
             res = await callOpenRouter(key, 'nvidia/nemotron-3.5-lightning:free', testMsg, 20);
-          } else       if (provider === 'bynara') {
-        const bynaraInput = document.getElementById('ep-bynara');
-        if (bynaraInput && (bynaraInput.value.includes('api.bynara.ai') || !bynaraInput.value.trim())) {
-          bynaraInput.value = 'https://router.bynara.id/v1/chat/completions';
-        }
-                        let cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://router.bynara.id/v1/chat/completions';
+          } else if (provider === 'bynara') {
+            let cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://router.bynara.id/v1/chat/completions';
             if (cleanEp.includes('api.bynara.ai')) {
               cleanEp = 'https://router.bynara.id/v1/chat/completions';
             }
@@ -1045,15 +1041,13 @@ function getSettingsPageHtml() {
 
       if (provider === 'groq') key = document.getElementById('key-groq').value;
       if (provider === 'openrouter') key = document.getElementById('key-openrouter').value;
-            if (provider === 'bynara') {
-        const bynaraInput = document.getElementById('ep-bynara');
-        if (bynaraInput && (bynaraInput.value.includes('api.bynara.ai') || !bynaraInput.value.trim())) {
-          bynaraInput.value = 'https://router.bynara.id/v1/chat/completions';
-        }
-        key = document.getElementById('key-bynara').value;
-        endpoint = document.getElementById('ep-bynara').value;
-      }
-      if (provider === 'tokenrouter') {
+          } else if (provider === 'bynara') {
+            let cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://router.bynara.id/v1/chat/completions';
+            if (cleanEp.includes('api.bynara.ai')) {
+              cleanEp = 'https://router.bynara.id/v1/chat/completions';
+            }
+            res = await callBynaraRouter(key, cleanEp, 'agnes-2.5-flash', testMsg, 20);
+          } else if (provider === 'tokenrouter') {
         key = document.getElementById('key-tokenrouter').value;
         endpoint = document.getElementById('ep-tokenrouter').value;
       }
