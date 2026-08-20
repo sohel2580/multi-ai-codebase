@@ -1452,6 +1452,11 @@ function getModelRecsHtml(models) {
 </html>`;
 }
 
+
+async function cmdCheckBestModels(context) {
+  showModelRecommendationsPage(context);
+}
+
 async function cmdCheckBestModels_DISABLED(context) {
   const cfg = getApiConfig();
   const https = require('https');
