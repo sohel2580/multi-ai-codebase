@@ -528,6 +528,9 @@ function getRoundTableHtml(nonce, initData = null) {
     .agent-emoji{font-size:1.75rem;margin-bottom:3px;line-height:1;}
     .agent-name{font-size:.8rem;font-weight:800;}
     .agent-role{font-size:.63rem;color:var(--muted);margin-bottom:6px;}
+    
+    .squad-count{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:10px;background:rgba(59,130,246,0.18);color:#60a5fa;font-size:0.64rem;font-weight:800;border:1px solid rgba(59,130,246,0.35);letter-spacing:0.02em;}
+
     .agent-badge{display:inline-block;font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.05);color:var(--muted);transition:background .3s,color .3s;}
     .agent.speaking .agent-badge{background:rgba(59,130,246,.18);color:var(--gblue);}
     .agent.working .agent-badge{background:rgba(52,211,153,.18);color:var(--green);}
@@ -658,6 +661,10 @@ function getRoundTableHtml(nonce, initData = null) {
       if(ag)ag.classList.add(idx===0?'speaking':'working');
       const bd=document.getElementById('bd-'+id);
             if(bd)bd.textContent=idx===0?'⚡ Active':'🔄 Parallel';
+      if(d.squadCounts && d.squadCounts[id]){
+        const sq = document.getElementById('sq-'+id);
+        if(sq) sq.textContent = '👥 ' + d.squadCounts[id] + ' Models';
+      }
       if(d.realModels && d.realModels[id]){
         const rl = document.getElementById('rl-'+id);
         if(rl) rl.textContent = d.realModels[id];
