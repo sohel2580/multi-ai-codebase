@@ -1275,35 +1275,42 @@ function getSettingsPageHtml(sessionId = Date.now()) {
   </div>
 
   <script>
-    const vscode = acquireVsCodeApi();
-
-    function openLink(url) {
-      vscode.postMessage({ type: 'open_external', url });
+    let vscode;
+    try {
+      vscode = acquireVsCodeApi();
+    } catch(e) {
+      console.warn('VSCode API already acquired');
     }
 
-    fetch('https://api.ipify.org?format=json')
-      .then(res => res.json())
-      .then(d => {
-        const el = document.getElementById('user-public-ip');
-        if (el) el.textContent = d.ip;
-      })
-      .catch(() => {
-        const el = document.getElementById('user-public-ip');
-        if (el) el.textContent = '82.167.11.107';
-      });
+    window.openLink = function(url) {
+      if (vscode) vscode.postMessage({ type: 'open_external', url });
+    };
 
-    function copyIp() {
+    try {
+      fetch('https://api.ipify.org?format=json')
+        .then(res => res.json())
+        .then(d => {
+          const el = document.getElementById('user-public-ip');
+          if (el) el.textContent = d.ip;
+        })
+        .catch(() => {
+          const el = document.getElementById('user-public-ip');
+          if (el) el.textContent = '82.167.11.107';
+        });
+    } catch(e) {}
+
+    window.copyIp = function() {
       const ip = document.getElementById('user-public-ip').textContent;
       navigator.clipboard.writeText(ip);
-      vscode.postMessage({ type: 'ip_copied', ip });
-    }
+      if (vscode) vscode.postMessage({ type: 'ip_copied', ip });
+    };
 
-    function toggleInput(id) {
+    window.toggleInput = function(id) {
       const inp = document.getElementById(id);
-      inp.type = inp.type === 'password' ? 'text' : 'password';
-    }
+      if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
+    };
 
-    function testProvider(provider) {
+    window.testProvider = function(provider) {
       const statusEl = document.getElementById('status-' + provider);
       if (statusEl) {
         statusEl.className = 'test-status show testing';
@@ -1317,8 +1324,8 @@ function getSettingsPageHtml(sessionId = Date.now()) {
       if (elKey) key = elKey.value;
       const elEp = document.getElementById('ep-' + provider);
       if (elEp) endpoint = elEp.value;
-      vscode.postMessage({ type: 'test_key', provider, key, endpoint });
-    }
+      if (vscode) vscode.postMessage({ type: 'test_key', provider, key, endpoint });
+    };
 
     window.addEventListener('message', (event) => {
       const msg = event.data;
@@ -1329,7 +1336,7 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           if (msg.success) {
             statusEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);padding:8px 12px;border-radius:6px;margin-top:4px;">' +
               '<span>' + msg.message + '</span>' +
-              '<button class="action-btn" id="save-inline-' + msg.provider + '" style="background:#22c55e;color:#050b14;font-weight:800;border:none;padding:5px 12px;" onclick="saveSingleKey(\'' + msg.provider + '\')">💾 Save This Key</button>' +
+              '<button class="action-btn" id="save-inline-' + msg.provider + '" style="background:#22c55e;color:#050b14;font-weight:800;border:none;padding:5px 12px;" onclick="window.saveSingleKey(\'' + msg.provider + '\')">💾 Save This Key</button>' +
             '</div>';
           } else {
             statusEl.textContent = msg.message;
@@ -1345,17 +1352,34 @@ function getSettingsPageHtml(sessionId = Date.now()) {
       }
     });
 
-    function saveSingleKey(provider) {
+    window.saveSingleKey = function(provider) {
       const btn = document.getElementById('save-inline-' + provider);
       if (btn) { btn.innerHTML = '⏳ Saving...'; btn.disabled = true; }
       const elKey = document.getElementById('key-' + provider);
       const key = elKey ? elKey.value : '';
       const elEp = document.getElementById('ep-' + provider);
       const endpoint = elEp ? elEp.value : '';
-      vscode.postMessage({ type: 'save_single_key', provider, key, endpoint });
-    }
+      if (vscode) vscode.postMessage({ type: 'save_single_key', provider, key, endpoint });
+    };
 
-    document.getElementById('saveBtn').addEventListener('click', () => {
+    // Attach robust direct event listeners to ensure clickability
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.test-btn').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        const match = onclickAttr.match(/testProvider\(['"]([^'"]+)['"]\)/);
+        if (match && match[1]) {
+          const prov = match[1];
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.testProvider(prov);
+          });
+        }
+      });
+    });
+
+    const saveBtnEl = document.getElementById('saveBtn');
+    if (saveBtnEl) {
+      saveBtnEl.addEventListener('click', () => {
       const keys = {
         groq: (document.getElementById('key-groq') || {}).value || '',
         cerebras: (document.getElementById('key-cerebras') || {}).value || '',
@@ -1758,7 +1782,7 @@ async function showModelRecommendationsPage(context) {
           };
           status.totalModelsOnline = squadCounts.total;
           status.realMetrics = `${squadCounts.total} Real Live AI Models Connected & Distributed`;
-          writeStatusData(status);
+          writeStatus(status);
         } catch(e) {}
 
         vscode.window.showInformationMessage(`✅ ${squadCounts.total} Models Applied to Council: Qwen (${squadCounts.qwen}), DeepSeek (${squadCounts.deepseek}), Llama (${squadCounts.llama}), Nemotron (${squadCounts.gemma}), Judge (${squadCounts.claude}), Polish (${squadCounts.seo})`);
