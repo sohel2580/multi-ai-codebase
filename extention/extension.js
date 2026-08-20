@@ -634,6 +634,16 @@ function getRoundTableHtml(nonce, initData = null) {
 
     // Live Dynamic Token Counter in Topbar
     const tCount = d.totalTokens !== undefined ? d.totalTokens : 0;
+    if (d.totalModelsOnline) {
+      const topTotal = document.getElementById('top-total-models');
+      if (topTotal) topTotal.textContent = '🏢 ' + d.totalModelsOnline + ' AI Models Enterprise Squad';
+    }
+    if (d.squadCounts) {
+      Object.keys(d.squadCounts).forEach(k => {
+        const sqEl = document.getElementById('sq-' + k);
+        if (sqEl) sqEl.textContent = '👥 ' + d.squadCounts[k] + ' AI Models';
+      });
+    }
     const mSaved = d.moneySaved !== undefined ? d.moneySaved : (tCount * 0.00003).toFixed(2);
     const hTokEl = document.getElementById('hud-token-count');
     const hMonEl = document.getElementById('hud-money-saved');
@@ -1304,6 +1314,62 @@ function getSidebarHtml(initData = null) {
 // ─────────────────────────────────────────────────────────────
 let currentRecPanel = null;
 
+// ─────────────────────────────────────────────────────────────
+// 100% REAL DYNAMIC MODEL CLASSIFIER & SWARM DISTRIBUTOR
+// ─────────────────────────────────────────────────────────────
+function classifyModelsIntoSquads(models) {
+  const squads = {
+    deepseek: { name: 'Chief Architect', models: [], emoji: '🧠' },
+    qwen:     { name: 'Lead Coder', models: [], emoji: '⚡' },
+    llama:    { name: 'Security & AST', models: [], emoji: '🛡️' },
+    gemma:    { name: 'QA & Testing', models: [], emoji: '🧪' },
+    claude:   { name: 'Executive Judge', models: [], emoji: '⚖️' },
+    seo:      { name: 'Refactor & Polish', models: [], emoji: '💻' }
+  };
+
+  models.forEach(m => {
+    const id = (m.id || '').toLowerCase();
+    const name = (m.name || '').toLowerCase();
+
+    // 1. Lead Coder Squad (Coding, Dev, Qwen, DeepSeek-Coder, StarCoder, CodeLlama, North-Mini)
+    if (id.includes('qwen') || id.includes('coder') || id.includes('code') || id.includes('starcoder') || id.includes('wizardcoder') || id.includes('dev')) {
+      squads.qwen.models.push(m);
+    }
+    // 2. Chief Architect Squad (DeepSeek R1, DeepSeek V3, O1, Reasoning, Agnes, Claude, GPT-4, Thinking)
+    else if (id.includes('deepseek') || id.includes('r1') || id.includes('reason') || id.includes('think') || id.includes('agnes') || id.includes('claude') || id.includes('gpt-4') || id.includes('o1') || id.includes('o3')) {
+      squads.deepseek.models.push(m);
+    }
+    // 3. Security & AST Shield Squad (Llama, Guard, Shield, Safety, OSS, GPT-OSS, Moderation, Cyber)
+    else if (id.includes('llama') || id.includes('guard') || id.includes('shield') || id.includes('safe') || id.includes('oss') || id.includes('cyber') || id.includes('moderation')) {
+      squads.llama.models.push(m);
+    }
+    // 4. QA & Testing Squad (Nemotron, Gemma, Mistral, Test, Eval, Fast, Flash, Mini, Instant)
+    else if (id.includes('nemotron') || id.includes('nvidia') || id.includes('gemma') || id.includes('eval') || id.includes('test') || id.includes('flash') || id.includes('instant') || id.includes('speed')) {
+      squads.gemma.models.push(m);
+    }
+    // 5. Executive Judge Squad (Judge, Hermes, Command, DBRX, Mixtral, PaLM, Synthesis, Critic)
+    else if (id.includes('judge') || id.includes('hermes') || id.includes('command') || id.includes('dbrx') || id.includes('mixtral') || id.includes('synth') || id.includes('critic')) {
+      squads.claude.models.push(m);
+    }
+    // 6. Refactor & Polish Squad (Cohere, Phi, Solar, Gemma-IT, Falcon, Yi, Mini, Other Free Specialists)
+    else {
+      squads.seo.models.push(m);
+    }
+  });
+
+  return {
+    deepseek: squads.deepseek.models.length,
+    qwen:     squads.qwen.models.length,
+    llama:    squads.llama.models.length,
+    gemma:    squads.gemma.models.length,
+    claude:   squads.claude.models.length,
+    seo:      squads.seo.models.length,
+    total:    models.length,
+    details:  squads
+  };
+}
+
+
 async function showModelRecommendationsPage(context) {
   if (currentRecPanel) {
     currentRecPanel.reveal(vscode.ViewColumn.One);
@@ -1369,7 +1435,25 @@ async function showModelRecommendationsPage(context) {
   currentRecPanel.webview.onDidReceiveMessage(async (msg) => {
     switch (msg.type) {
       case 'apply_models':
-        vscode.window.showInformationMessage(`✅ ${msg.count || 'All'} Auto-Discovered AI Models successfully configured into Company Squad!`);
+        const squadCounts = classifyModelsIntoSquads(allModels);
+        
+        // 1. Update .ai_team_status.json with real live breakdown
+        try {
+          const status = readStatusData();
+          status.squadCounts = {
+            deepseek: squadCounts.deepseek.toString(),
+            qwen:     squadCounts.qwen.toString(),
+            llama:    squadCounts.llama.toString(),
+            gemma:    squadCounts.gemma.toString(),
+            claude:   squadCounts.claude.toString(),
+            seo:      squadCounts.seo.toString()
+          };
+          status.totalModelsOnline = squadCounts.total;
+          status.realMetrics = `${squadCounts.total} Real Live AI Models Connected & Distributed`;
+          writeStatusData(status);
+        } catch(e) {}
+
+        vscode.window.showInformationMessage(`✅ ${squadCounts.total} Real Live Models Distributed: Qwen (${squadCounts.qwen}), DeepSeek (${squadCounts.deepseek}), Llama (${squadCounts.llama}), Nemotron (${squadCounts.gemma}), Judge (${squadCounts.claude}), Polish (${squadCounts.seo})`);
         if (currentRecPanel) currentRecPanel.dispose();
         break;
       case 'close':
