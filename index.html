@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>AgentCouncil — Google Antigravity ও VSCode-এর জন্য ৬টি ফ্রি এআই কাউন্সিলের মহাশক্তি</title>
+  
+  <!-- Primary SEO Meta Tags -->
+  <meta name="title" content="AgentCouncil — Google Antigravity ও VSCode-এর জন্য ৬টি ফ্রি এআই কাউন্সিলের মহাশক্তি">
+  <meta name="description" content="গুগল অ্যান্টগ্র্যাভিটি (Google Antigravity) এবং VSCode ব্যবহারকারীদের জন্য বিশেষভাবে তৈরি মাল্টি-এআই এজেন্টিক কাউন্সিল। একক এআই নয়, এবার Antigravity চ্যাটে কোডিং করবে DeepSeek R1, Groq Qwen, Llama Shield, Nemotron ও Cohere একসাথে!">
+  <meta name="keywords" content="Google Antigravity AI, Antigravity Agent Extension, AgentCouncil, VSCode Multi-AI, DeepSeek Bangla, Groq LPU Coder, Qwen 2.5 Coder, OpenRouter Free AI, সোয়েল আহমেদ, অ্যান্টগ্র্যাভিটি মাল্টি এআই">
+  <meta name="author" content="Sohel Ahammad">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#040814">
+  <link rel="canonical" href="https://multi-ai-codebase-landing.vercel.app/">
+
+  <!-- OpenGraph / Social -->
+  <meta property="og:type" content="software">
+  <meta property="og:site_name" content="AgentCouncil for Google Antigravity">
+  <meta property="og:url" content="https://multi-ai-codebase-landing.vercel.app/">
+  <meta property="og:title" content="AgentCouncil — Google Antigravity-এর জন্য ৬টি ফ্রি এআই কাউন্সিলের মহাশক্তি">
+  <meta property="og:description" content="গুগল অ্যান্টগ্র্যাভিটি ব্যবহারকারীদের জন্য তৈরি ৬টি ফ্রি স্পেশালিস্ট এআই কাউন্সিল। সাথে লাইভ লেজার রাউন্ড-টেবিল HUD ও জিরো টোকেন খরচ।">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop">
+  <meta property="og:locale" content="bn_BD">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AgentCouncil — Google Antigravity-এর ৬-এআই সুপারপাওয়ার">
+  <meta name="twitter:description" content="Antigravity চ্যাটে /agent প্রম্পট লিখলেই ৬টি স্পেশালিস্ট এআই একসাথে কাজ শুরু করবে।">
+
+  <!-- Schema.org JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://multi-ai-codebase-landing.vercel.app/#software",
+        "name": "AgentCouncil: Multi-AI Free Coding Assistant for Google Antigravity",
+        "operatingSystem": "Windows, macOS, Linux (Google Antigravity IDE & VSCode)",
+        "applicationCategory": "DeveloperApplication",
+        "softwareVersion": "1.0.6",
+        "offers": {
+          "@type": "Offer",
+          "price": "0.00",
+          "priceCurrency": "USD"
+        },
+        "description": "গুগল অ্যান্টগ্র্যাভিটি (Google Antigravity) ব্যবহারকারীদের জন্য তৈরি ৬টি ফ্রি এআই স্পেশালিস্ট মডেলের যৌথ কোডিং ইঞ্জিন।",
+        "downloadUrl": "https://multi-ai-codebase-landing.vercel.app/agent-council-1.0.6.vsix",
+        "author": {
+          "@type": "Person",
+          "name": "Sohel Ahammad",
+          "url": "https://github.com/sohel2580"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://multi-ai-codebase-landing.vercel.app/#website",
+        "url": "https://multi-ai-codebase-landing.vercel.app/",
+        "name": "AgentCouncil Portal",
+        "inLanguage": "bn-BD"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Hind Siliguri"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              900: '#1e3a8a',
+            },
+            dark: {
+              base: '#030712',
+              card: '#081026',
+              cardLight: '#0d1a3d',
+              border: '#16254f',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #030712; color: #e2e8f0; font-family: 'Hind Siliguri', sans-serif; }
+    .glass-card {
+      background: rgba(8, 16, 38, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(59, 130, 246, 0.22);
+    }
+    .glass-card:hover {
+      border-color: rgba(59, 130, 246, 0.55);
+      box-shadow: 0 15px 35px -10px rgba(59, 130, 246, 0.35);
+    }
+    .neon-text {
+      background: linear-gradient(135deg, #60a5fa, #34d399, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glow-sphere {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* Animated Laser Line */
+    .laser-beam {
+      background: linear-gradient(90deg, transparent, #3b82f6, #34d399, transparent);
+      animation: scanLaser 3s linear infinite;
+    }
+    @keyframes scanLaser {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+  </style>
+</head>
+<body class="relative min-h-screen overflow-x-hidden font-sans selection:bg-brand-500 selection:text-white">
+
+  <!-- Ambient Background Glows -->
+  <div class="glow-sphere top-0 left-1/4 w-96 h-96 bg-blue-600/25"></div>
+  <div class="glow-sphere top-1/3 right-10 w-[32rem] h-[32rem] bg-emerald-500/20"></div>
+  <div class="glow-sphere bottom-20 left-10 w-[30rem] h-[30rem] bg-purple-600/20"></div>
+
+  <!-- ── TOP NOTIFICATION BAR ───────────────────────────── -->
+  <div class="bg-gradient-to-r from-blue-900/60 via-dark-card to-emerald-900/60 border-b border-blue-500/20 text-center py-2 px-4 text-xs font-semibold text-slate-300">
+    🔥 <strong>AgentCouncil v1.0.6 লাইভ রিলিজ:</strong> Google Antigravity-এর জন্য ১০০% ফ্রি মাল্টি-এআই কোডিং ইঞ্জিন! 
+    <a href="#setup" class="text-emerald-400 hover:underline ml-2">ডাউনলোড করুন ➔</a>
+  </div>
+
+  <!-- ── NAVBAR ─────────────────────────────────────────── -->
+  <nav class="sticky top-0 z-50 border-b border-dark-border/80 bg-dark-base/85 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-600 to-emerald-400 flex items-center justify-center text-2xl shadow-lg shadow-brand-500/30">
+          ⚡
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+            AgentCouncil <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono">v1.0.6</span>
+          </span>
+          <p class="text-xs text-slate-400 font-medium">Google Antigravity-এর বিশেষ এআই কাউন্সিল</p>
+        </div>
+      </div>
+
+      <div class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-300">
+        <a href="#antigravity" class="hover:text-white transition">অ্যান্টগ্র্যাভিটি সংযোগ</a>
+        <a href="#hud-demo" class="hover:text-white transition">লাইভ HUD সিমুলেশন</a>
+        <a href="#council" class="hover:text-white transition">৬টি এআই স্পেশালিস্ট</a>
+        <a href="#comparison" class="hover:text-white transition">তুলনামূলক সুবিধা</a>
+        <a href="#faq" class="hover:text-white transition">সাধারণ জিজ্ঞাসা (FAQ)</a>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/sohel2580/multi-ai-codebase" target="_blank" class="hidden sm:flex items-center gap-2 text-sm font-semibold px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800/60 hover:bg-slate-700 transition">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="agent-council-1.0.6.vsix" download class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-600 to-emerald-500 hover:from-brand-500 hover:to-emerald-400 text-white font-bold text-sm shadow-xl shadow-brand-500/25 transition transform active:scale-95">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          ডাউনলোড VSIX
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO SECTION ───────────────────────────────────── -->
+  <section class="relative pt-20 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center z-10">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm font-semibold mb-8 shadow-inner">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      Google Antigravity ও VSCode-এর জন্য ১০০% ফ্রি ও ওপেন সোর্স
+    </div>
+    
+    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight mb-8">
+      গুগল অ্যান্টগ্র্যাভিটিকে দিন <br>
+      <span class="neon-text">৬টি স্পেশালিস্ট এআই-এর মহাশক্তি</span>
+    </h1>
+
+    <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-300 leading-relaxed mb-10 font-normal">
+      অ্যান্টগ্র্যাভিটি (Google Antigravity) চ্যাটে সাধারণ সিঙ্গেল এআই-এর উত্তরে সীমাবদ্ধ থাকবেন কেন? <strong>AgentCouncil</strong> এক্সটেনশনের মাধ্যমে আপনার চ্যাটে <code class="text-emerald-400 font-mono font-bold bg-dark-card px-2 py-1 rounded border border-emerald-500/30">/agent &lt;prompt&gt;</code> লিখলেই সক্রিয় হয়ে উঠবে বিশ্বের শীর্ষ ৬টি এআই মডেল — ডিপ-রিজনিং, আল্ট্রা-ফাস্ট কোডিং এবং নিখুঁত সিকিউরিটি অডিট সম্পূর্ণ ফ্রিতে!
+    </p>
+
+    <!-- Key Metrics Highlight -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12 font-mono text-left">
+      <div class="p-4 rounded-xl glass-card border-blue-500/20">
+        <p class="text-xs text-slate-400">কোডিং স্পিড (Groq LPU)</p>
+        <p class="text-2xl font-extrabold text-amber-400 mt-1">৫৪০+ tok/s</p>
+        <p class="text-[10px] text-slate-500">Qwen 3.6-27B প্যারালাল</p>
+      </div>
+      <div class="p-4 rounded-xl glass-card border-blue-500/20">
+        <p class="text-xs text-slate-400">এআই স্পেশালিস্ট মডেল</p>
+        <p class="text-2xl font-extrabold text-blue-400 mt-1">৬টি প্যারালাল</p>
+        <p class="text-[10px] text-slate-500">সিঙ্গেল এআই নিষিদ্ধ</p>
+      </div>
+      <div class="p-4 rounded-xl glass-card border-blue-500/20">
+        <p class="text-xs text-slate-400">টোকেন ও সাবস্ক্রিপশন খরচ</p>
+        <p class="text-2xl font-extrabold text-emerald-400 mt-1">$০.০০ / ফ্রি</p>
+        <p class="text-[10px] text-slate-500">১০০% ফ্রি ওপেন রাউটার</p>
+      </div>
+      <div class="p-4 rounded-xl glass-card border-blue-500/20">
+        <p class="text-xs text-slate-400">লাইভ টেলিমিতি ও HUD</p>
+        <p class="text-2xl font-extrabold text-purple-400 mt-1">লেজার মেশ</p>
+        <p class="text-[10px] text-slate-500">Ctrl+Alt+M রাউন্ড-টেবিল</p>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+      <a href="agent-council-1.0.6.vsix" download class="w-full sm:w-auto flex items-center justify-center gap-3 px-9 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 hover:from-blue-500 hover:to-emerald-400 text-white font-bold text-lg shadow-2xl shadow-blue-500/30 transition transform hover:-translate-y-1">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        সরাসরি VSIX ডাউনলোড করুন (v1.0.6)
+      </a>
+      <a href="#antigravity" class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-2xl glass-card text-white font-semibold text-lg hover:bg-slate-800/80 transition">
+        ⚡ কীভাবে অ্যান্টগ্র্যাভিটির সাথে কাজ করে?
+      </a>
+    </div>
+
+    <!-- ── INTERACTIVE LIVE HUD SIMULATION ────────────────── -->
+    <div id="hud-demo" class="max-w-5xl mx-auto rounded-3xl p-3 bg-gradient-to-b from-blue-500/40 via-slate-800/40 to-transparent border border-blue-500/30 shadow-2xl relative">
+      <div class="rounded-2xl overflow-hidden bg-dark-card border border-dark-border p-6 text-left relative">
+        <div class="flex items-center justify-between pb-4 border-b border-dark-border mb-6">
+          <div class="flex items-center gap-2">
+            <div class="w-3.5 h-3.5 rounded-full bg-red-500"></div>
+            <div class="w-3.5 h-3.5 rounded-full bg-yellow-500"></div>
+            <div class="w-3.5 h-3.5 rounded-full bg-green-500"></div>
+            <span class="ml-2 text-xs font-mono text-slate-400">AgentCouncil Round-Table HUD (Interactive Live Preview)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono font-bold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> ৬টি নোড কানেক্টেড
+            </span>
+          </div>
+        </div>
+
+        <!-- Mini Interactive Status Canvas -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono text-xs">
+          <div class="p-4 rounded-xl bg-dark-cardLight border border-blue-500/30 text-center hover:border-blue-400 transition transform hover:-translate-y-1">
+            <span class="text-2xl">🧠</span>
+            <p class="font-bold text-blue-400 mt-2">DeepSeek R1</p>
+            <p class="text-[10px] text-slate-400">চিফ প্ল্যানার</p>
+            <span class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">Deep Reasoning</span>
+          </div>
+          <div class="p-4 rounded-xl bg-dark-cardLight border border-amber-500/30 text-center hover:border-amber-400 transition transform hover:-translate-y-1">
+            <span class="text-2xl">⚡</span>
+            <p class="font-bold text-amber-400 mt-2">Qwen 3.6-27B</p>
+            <p class="text-[10px] text-slate-400">লিড কোডার (Groq)</p>
+            <span class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">540 tok/s</span>
+          </div>
+          <div class="p-4 rounded-xl bg-dark-cardLight border border-red-500/30 text-center hover:border-red-400 transition transform hover:-translate-y-1">
+            <span class="text-2xl">🛡️</span>
+            <p class="font-bold text-red-400 mt-2">Llama 3.3</p>
+            <p class="text-[10px] text-slate-400">সিকিউরিটি শিল্ড</p>
+            <span class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded bg-red-500/20 text-red-300">AST Shield</span>
+          </div>
+          <div class="p-4 rounded-xl bg-dark-cardLight border border-emerald-500/30 text-center hover:border-emerald-400 transition transform hover:-translate-y-1">
+            <span class="text-2xl">🧪</span>
+            <p class="font-bold text-emerald-400 mt-2">Nemotron Free</p>
+            <p class="text-[10px] text-slate-400">কিউএ টেস্টার</p>
+            <span class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Auto Tests</span>
+          </div>
+          <div class="p-4 rounded-xl bg-dark-cardLight border border-cyan-500/30 text-center hover:border-cyan-400 transition transform hover:-translate-y-1">
+            <span class="text-2xl">💻</span>
+            <p class="font-bold text-cyan-400 mt-2">Cohere Coder</p>
+            <p class="text-[10px] text-slate-400">রিফ্যাক্টর এআই</p>
+            <span class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Clean Code</span>
+          </div>
+          <div class="p-4 rounded-xl bg-dark-cardLight border border-purple-500/30 text-center hover:border-purple-400 transition transform hover:-translate-y-1">
+            <span class="text-2xl">⚖️</span>
+            <p class="font-bold text-purple-400 mt-2">Agnes Judge</p>
+            <p class="text-[10px] text-slate-400">ফাইনাল জাজ</p>
+            <span class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Consensus</span>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 rounded-xl bg-dark-base border border-dark-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
+          <span class="text-slate-400">⚡ শর্টকাট কি: <kbd class="px-2 py-1 bg-slate-800 border border-slate-700 rounded text-white">Ctrl+Alt+M</kbd> চাপলেই এডিটর স্ক্রিনে ভেসে উঠবে লাইভ লেজার রাউন্ড-টেবিল!</span>
+          <span class="text-emerald-400 font-bold">🟢 Standby & Zero Latency</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ANTIGRAVITY SPECIAL INTEGRATION SECTION ─────────── -->
+  <section id="antigravity" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="glass-card rounded-3xl p-8 sm:p-14 border border-blue-500/30 relative overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold mb-4">
+            🔥 ANTIGRAVITY DUAL TRIGGER PROTOCOL
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-6 leading-tight">
+            অ্যান্টগ্র্যাভিটিতে কীভাবে <br>
+            <span class="neon-text">মাল্টি-এআই সক্রিয় করবেন?</span>
+          </h2>
+          <p class="text-slate-300 text-base leading-relaxed mb-6">
+            অ্যান্টগ্র্যাভিটি সাধারণ অবস্থায় একটি একক এআই ইঞ্জিন দিয়ে কাজ করে। কিন্তু <strong>AgentCouncil</strong> যুক্ত করার পর অ্যান্টগ্র্যাভিটি স্বয়ংক্রিয়ভাবে তার সমস্ত প্রম্পট ৬টি স্পেশালিস্ট নোডে পাঠাতে বাধ্য থাকে।
+          </p>
+          
+          <ul class="space-y-4 text-sm text-slate-300">
+            <li class="flex items-start gap-3">
+              <span class="text-emerald-400 text-lg">✓</span>
+              <div>
+                <strong class="text-white">১-ক্লিক প্রম্পট কপি:</strong> সাইডবারে থাকা <code class="text-purple-400">📋 Copy Antigravity Agent Rules</code> বাটনে ক্লিক করলে ফুল প্রোটোকল ক্লিপবোর্ডে কপি হয়ে যায়।
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-emerald-400 text-lg">✓</span>
+              <div>
+                <strong class="text-white">অ্যান্টগ্র্যাভিটি চ্যাটে পেস্ট:</strong> নিয়মটি চ্যাটে পেস্ট করলেই অ্যান্টগ্র্যাভিটি তার একক রেসপন্স বন্ধ করে ৬টি এআই কাউন্সিলের মাধ্যমে উত্তর দেওয়া শুরু করে।
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-emerald-400 text-lg">✓</span>
+              <div>
+                <strong class="text-white">রিয়েল-টাইম লেজার HUD:</strong> অ্যান্টগ্র্যাভিটিতে যেকোনো প্রশ্ন করার সাথে সাথে আপনার স্ক্রিনে রাউন্ড-টেবিল লেজার ও স্পিচ বাবল জ্বলে উঠবে!
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-dark-base border border-dark-border font-mono text-xs text-slate-300 shadow-2xl">
+          <div class="flex items-center justify-between pb-3 border-b border-dark-border mb-4 text-slate-400">
+            <span>💬 Google Antigravity Chat Prompt</span>
+            <span class="text-emerald-400">Live Agentic Mode</span>
+          </div>
+          <div class="space-y-3">
+            <p class="text-blue-400 font-bold">> /agent Build a secure authentication API in Node.js</p>
+            <div class="p-4 rounded-xl bg-dark-card border border-blue-500/20 text-slate-300 space-y-1.5">
+              <span class="text-purple-400 font-bold">[Multi-AI Council Engaged]</span><br>
+              🧠 <strong>DeepSeek:</strong> Planning JWT architecture & route security...<br>
+              ⚡ <strong>Groq Qwen:</strong> Generating code @ 540 tok/s...<br>
+              🛡️ <strong>Llama Shield:</strong> Sanitizing password hashing & tokens...<br>
+              🧪 <strong>Nemotron:</strong> QA test suite & assertions generated...<br>
+              ⚖️ <strong>Agnes Judge:</strong> Consolidated synthesis delivered!
+            </div>
+            <p class="text-emerald-400 text-[11px]">⚡ Response generated in 1.4s · Zero Cost</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6 SPECIALIST COUNCIL SECTION ───────────────────── -->
+  <section id="council" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-4">
+        কাউন্সিলের <span class="neon-text">৬ জন এআই স্পেশালিস্ট</span>
+      </h2>
+      <p class="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
+        প্রত্যেকটি মডেলের রয়েছে নিজস্ব বিশেষত্ব। তারা একসাথে কাজ করে আপনার কোডের নির্ভুলতা নিশ্চিত করে।
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Agent 1 -->
+      <div class="glass-card rounded-2xl p-8 transition duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-3xl mb-6 shadow-inner">
+          🧠
+        </div>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-bold text-white">চিফ আর্কিটেক্ট ও প্ল্যানার</h3>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30">DeepSeek R1</span>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          জটিল কোডিং সমস্যার ডিপ-রিজনিং ও স্টেপ-বাই-স্টেপ আর্কিটেকচারাল ব্লুপ্রিন্ট তৈরি করে।
+        </p>
+      </div>
+
+      <!-- Agent 2 -->
+      <div class="glass-card rounded-2xl p-8 transition duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl mb-6 shadow-inner">
+          ⚡
+        </div>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-bold text-white">আল্ট্রা-ফাস্ট লিড কোডার</h3>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">Qwen 3.6-27B (Groq)</span>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Groq LPU চিপের মাধ্যমে প্রতি সেকেন্ডে ৫৪০+ টোকেন স্পিডে নিখুঁত সোর্স কোড জেনারেট করে।
+        </p>
+      </div>
+
+      <!-- Agent 3 -->
+      <div class="glass-card rounded-2xl p-8 transition duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-3xl mb-6 shadow-inner">
+          🛡️
+        </div>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-bold text-white">সিকিউরিটি ও রেড-টিম শিল্ড</h3>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">Llama 3.3 / GPT-OSS</span>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          কোডের কোনো এপিআই কি লিক, XSS বা সিকিউরিটি দুর্বলতা থাকলে সাথে সাথে ব্লক ও সংশোধন করে।
+        </p>
+      </div>
+
+      <!-- Agent 4 -->
+      <div class="glass-card rounded-2xl p-8 transition duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl mb-6 shadow-inner">
+          🧪
+        </div>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-bold text-white">কিউএ ও টেস্ট স্পেশালিস্ট</h3>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Nemotron 3.5 Free</span>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          এজ-কেস ভ্যালিডেশন, অটোমেটেড ইউনিট টেস্ট এবং রানটাইম এরর হ্যান্ডলিং নিখুঁতভাবে পরীক্ষা করে।
+        </p>
+      </div>
+
+      <!-- Agent 5 -->
+      <div class="glass-card rounded-2xl p-8 transition duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-3xl mb-6 shadow-inner">
+          💻
+        </div>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-bold text-white">স্মার্ট কোড রিফ্যাক্টরিং</h3>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">Cohere North Mini</span>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          কোডের জটিলতা কমিয়ে পরিচ্ছন্ন, হালকা এবং অত্যন্ত রিডেবল ক্লিন কোডে রূপান্তর করে।
+        </p>
+      </div>
+
+      <!-- Agent 6 -->
+      <div class="glass-card rounded-2xl p-8 transition duration-300">
+        <div class="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-3xl mb-6 shadow-inner">
+          ⚖️
+        </div>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-xl font-bold text-white">এক্সিকিউটিভ জাজ ও সিন্থেসিস</h3>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30">Agnes 2.5 Judge</span>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          সবগুলো মডেলের সমাধান তুলনা করে সেরা কোড প্যাচটি আপনার এডিটরে ডেলিভার করে।
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── COMPARISON SECTION ──────────────────────────────── -->
+  <section id="comparison" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-4">
+        সিঙ্গেল এআই বনাম <span class="neon-text">AgentCouncil মাল্টি-এআই</span>
+      </h2>
+      <p class="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg">
+        কেন বিশ্বের আধুনিক ডেভেলপাররা সিঙ্গেল এআই ছেড়ে ৬-এজেন্ট কাউন্সিলে মাইগ্রেট করছেন?
+      </p>
+    </div>
+
+    <div class="glass-card rounded-3xl overflow-hidden border border-dark-border">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-dark-border bg-dark-cardLight/50 text-slate-300">
+              <th class="p-5 font-bold">ফিচার ও সুবিধা</th>
+              <th class="p-5 font-bold text-red-400">সাধারণ সিঙ্গেল এআই</th>
+              <th class="p-5 font-bold text-emerald-400">AgentCouncil (Multi-AI)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-dark-border/60 text-slate-300">
+            <tr>
+              <td class="p-5 font-semibold text-white">এআই মডেলের সংখ্যা</td>
+              <td class="p-5 text-red-400">মাত্র ১টি মডেল (সীমাবদ্ধ)</td>
+              <td class="p-5 text-emerald-400 font-bold">৬টি স্পেশালিস্ট মডেল প্যারালাল</td>
+            </tr>
+            <tr>
+              <td class="p-5 font-semibold text-white">কোডিং জেনারেশন স্পিড</td>
+              <td class="p-5 text-slate-400">৩০ - ৫০ টোকেন/সেকেন্ড</td>
+              <td class="p-5 text-emerald-400 font-bold">৫৪০+ টোকেন/সেকেন্ড (Groq LPU)</td>
+            </tr>
+            <tr>
+              <td class="p-5 font-semibold text-white">অটোমেটেড সিকিউরিটি অডিট</td>
+              <td class="p-5 text-red-400">নেই (দুর্বলতা থেকে যায়)</td>
+              <td class="p-5 text-emerald-400 font-bold">হ্যাঁ (Llama 3.3 AgentShield)</td>
+            </tr>
+            <tr>
+              <td class="p-5 font-semibold text-white">লাইভ রাউন্ড-টেবিল HUD</td>
+              <td class="p-5 text-red-400">নেই</td>
+              <td class="p-5 text-emerald-400 font-bold">হ্যাঁ (Ctrl+Alt+M লেজার মেশ)</td>
+            </tr>
+            <tr>
+              <td class="p-5 font-semibold text-white">মাসিক সাবস্ক্রিপশন ফি</td>
+              <td class="p-5 text-red-400">$২০ - $৪০ / মাস</td>
+              <td class="p-5 text-emerald-400 font-bold">১০০% ফ্রি ও ওপেন সোর্স</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS SECTION ───────────────────────────── -->
+  <section id="how-it-works" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-dark-card/40 border-y border-dark-border">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+        মাত্র ৩ ধাপে শুরু করুন অ্যান্টগ্র্যাভিটিতে মাল্টি-এআই কোডিং
+      </h2>
+      <p class="text-slate-400">সহজ, দ্রুত এবং ঝামেলামুক্ত ইনস্টলেশন</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="p-8 rounded-2xl bg-dark-card border border-dark-border relative">
+        <div class="text-4xl font-extrabold font-mono text-brand-500/30 mb-4">০১</div>
+        <h3 class="text-xl font-bold text-white mb-3">VSIX ফাইল ডাউনলোড</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          নিচের ডাউনলোড বাটন থেকে সরাসরি <code class="text-brand-400">agent-council-1.0.6.vsix</code> ফাইলটি ডাউনলোড করুন।
+        </p>
+      </div>
+
+      <div class="p-8 rounded-2xl bg-dark-card border border-dark-border relative">
+        <div class="text-4xl font-extrabold font-mono text-brand-500/30 mb-4">০২</div>
+        <h3 class="text-xl font-bold text-white mb-3">VSCode / Antigravity-এ ইনস্টল</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          এডিটরে <kbd class="px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-xs text-white">Ctrl+Shift+P</kbd> চেপে <strong>Extensions: Install from VSIX...</strong> নির্বাচন করুন।
+        </p>
+      </div>
+
+      <div class="p-8 rounded-2xl bg-dark-card border border-dark-border relative">
+        <div class="text-4xl font-extrabold font-mono text-brand-500/30 mb-4">০৩</div>
+        <h3 class="text-xl font-bold text-white mb-3">লাইভ HUD ওপেন করুন</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <kbd class="px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-xs text-white">Ctrl+Alt+M</kbd> চাপলেই আপনার চোখের সামনে ভেসে উঠবে রাউন্ড-টেবিল এআই কাউন্সিল!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ SECTION ────────────────────────────────────── -->
+  <section id="faq" class="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+        সাধারণ জিজ্ঞাসা <span class="neon-text">(FAQ)</span>
+      </h2>
+      <p class="text-slate-400">AgentCouncil সম্পর্কে সচরাচর জিজ্ঞাসিত প্রশ্ন ও উত্তর</p>
+    </div>
+
+    <div class="space-y-4">
+      <div class="glass-card rounded-2xl p-6 border border-dark-border">
+        <h3 class="text-lg font-bold text-white mb-2">❓ AgentCouncil কি সত্যিই ১০০% ফ্রি?</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          হ্যাঁ! এটি ওপেন-সোর্স প্রজেক্ট এবং এটি ফ্রি ক্লাউড রাউটার (Groq Free Tier, OpenRouter Free Tier, Bynara Router) ব্যবহার করে কাজ করে। আপনার কোনো ক্রেডিট কার্ডের প্রয়োজন নেই।
+        </p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-6 border border-dark-border">
+        <h3 class="text-lg font-bold text-white mb-2">❓ এটি কি Google Antigravity ও VSCode উভয় এডিটরে কাজ করে?</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          হ্যাঁ! এটি Google Antigravity IDE, Cursor, VSCodium এবং অফিসিয়াল Microsoft VS Code-এ সমানভাবে কার্যকর।
+        </p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-6 border border-dark-border">
+        <h3 class="text-lg font-bold text-white mb-2">❓ আমার কোডের প্রাইভেসি ও সিকিউরিটি কি সুরক্ষিত থাকবে?</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          সম্পূর্ণ সুরক্ষিত! আপনার কোড লোকাল এডিটরেই প্রসেস হয় এবং টোকেন শিল্ড গার্ড কোনো এপিআই কি বা সংবেদনশীল তথ্য বাইরে যেতে দেয় না।
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA DOWNLOAD FOOTER ────────────────────────────── -->
+  <section id="setup" class="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+    <div class="glass-card rounded-3xl p-10 sm:p-16 border-2 border-brand-500/30 shadow-2xl relative overflow-hidden">
+      <div class="glow-sphere top-0 right-0 w-72 h-72 bg-emerald-500/20"></div>
+      
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-6 leading-tight">
+        আপনার অ্যান্টগ্র্যাভিটিকে নিয়ে যান <br>
+        <span class="neon-text">মাল্টি-এজেন্টিক সুপারপাওয়ার স্তরে</span>
+      </h2>
+      <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-10">
+        কোনো সাবস্ক্রিপশন ফি নেই। সম্পূর্ণ ফ্রি ওপেন-সোর্স লাইসেন্স। এখনই ডাউনলোড করে অ্যান্টগ্র্যাভিটিতে আনলিমিটেড কোডিং উপভোগ করুন।
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="agent-council-1.0.6.vsix" download class="w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 hover:from-blue-500 hover:to-emerald-400 text-white font-bold text-xl shadow-2xl shadow-blue-500/40 transition transform hover:scale-105 active:scale-95">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          ডাউনলোড VSIX (v1.0.6 - 100% Free)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="border-t border-dark-border py-12 px-4 text-center text-sm text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© ২০২৬ <span class="text-slate-300 font-semibold">AgentCouncil for Google Antigravity</span> — ডেভেলপ করেছেন সোয়েল আহমেদ। সর্বস্বত্ব সংরক্ষিত।</p>
+      <div class="flex items-center gap-6">
+        <a href="https://github.com/sohel2580/multi-ai-codebase" target="_blank" class="hover:text-white transition">গিটহাব রিপোজিটরি</a>
+        <a href="https://github.com/sohel2580/multi-ai-codebase/issues" target="_blank" class="hover:text-white transition">সাপোর্ট ও ইস্যু</a>
+        <a href="https://sohel.pro.bd/" target="_blank" class="hover:text-white transition">ডেভেলপার পোর্টফোলিও</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
