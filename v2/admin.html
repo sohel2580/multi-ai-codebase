@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Sohel Ahammad Portfolio</title>
+  <link rel="icon" href="images/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0f172a">
+
+  <style>
+    :root {
+      --bg-main: #0b0f19;
+      --bg-card: #111827;
+      --bg-header: #1f2937;
+      --border: rgba(255, 255, 255, 0.1);
+      --accent: #3b82f6;
+      --accent-grad: linear-gradient(135deg, #3b82f6, #2563eb);
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --text-primary: #f9fafb;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* Auth Gate Modal */
+    #auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 15, 25, 0.96);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .auth-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 32px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    .auth-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      margin: 0 auto 16px;
+      object-fit: cover;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text-primary);
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-primary { background: var(--accent-grad); color: white; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+    .btn-danger { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .btn-danger:hover { background: #ef4444; color: white; }
+    .btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text-primary); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+    /* Admin Navigation */
+    .admin-nav {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .admin-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Container & Tabs */
+    .admin-container {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 20px 60px;
+    }
+
+    .admin-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .admin-tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .admin-tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .admin-tab-btn.active {
+      background: rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
+      color: #60a5fa;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Experience Card in Admin */
+    .exp-admin-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .exp-admin-info { flex: 1; min-width: 260px; }
+    .exp-admin-title { font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .exp-admin-company { font-size: 0.88rem; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
+    .exp-admin-desc { font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px; }
+    .exp-admin-actions { display: flex; gap: 8px; }
+
+    /* Notice banner */
+    .sync-banner {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔒 Security Login Gate -->
+  <div id="auth-overlay">
+    <div class="auth-box">
+      <img src="images/profile-320.jpg" alt="Sohel Ahammad" class="auth-avatar" onerror="this.src='images/profile.jpg'">
+      <h2 style="font-size: 1.3rem; margin-bottom: 4px;">Admin Portal</h2>
+      <p style="font-size: 0.84rem; color: var(--text-secondary); margin-bottom: 20px;">Enter your admin passcode to manage career data</p>
+
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Admin Passcode</label>
+          <input type="password" id="admin-pass" class="form-control" placeholder="Enter password..." autocomplete="current-password" required>
+        </div>
+        <div id="auth-err" style="color: #f87171; font-size: 0.8rem; margin-bottom: 12px; display: none;">
+          <i class="fa fa-exclamation-circle"></i> Invalid passcode. Please try again.
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          <i class="fa fa-unlock-alt"></i> UNLOCK DASHBOARD
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Top Admin Bar -->
+  <header class="admin-nav">
+    <div class="admin-brand">
+      <i class="fa fa-shield" style="color: #10b981;"></i>
+      <span>Sohel Ahammad &middot; Admin Management</span>
+    </div>
+    <div class="admin-links">
+      <a href="index.html" target="_blank" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
+        <i class="fa fa-home"></i> Home
+      </a>
+      <a href="skills.html" target="_blank" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
+        <i class="fa fa-briefcase"></i> Timeline
+      </a>
+      <a href="resume.html" target="_blank" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
+        <i class="fa fa-file-pdf-o"></i> Official CV
+      </a>
+      <button onclick="handleLogout()" class="btn btn-danger" style="font-size: 0.8rem; padding: 6px 12px;">
+        <i class="fa fa-sign-out"></i> Logout
+      </button>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    
+    <!-- Sync Status Banner -->
+    <div class="sync-banner">
+      <div style="font-size: 0.86rem; color: #6ee7b7;">
+        <i class="fa fa-check-circle"></i> <strong>Live Auto-Sync Active:</strong> Any edits saved here immediately update the <strong>Timeline (skills.html)</strong> and <strong>ATS CV (resume.html)</strong>!
+      </div>
+      <button onclick="downloadExperienceDataJS()" class="btn btn-success" style="font-size: 0.78rem; padding: 6px 12px;">
+        <i class="fa fa-download"></i> Download experience-data.js
+      </button>
+    </div>
+
+    <!-- Dashboard Tabs -->
+    <div class="admin-tabs">
+      <button class="admin-tab-btn active" onclick="switchTab('tab-experiences', this)">
+        <i class="fa fa-briefcase"></i> Experience Manager (<span id="exp-count-badge">7</span>)
+      </button>
+      <button class="admin-tab-btn" onclick="switchTab('tab-add-exp', this)">
+        <i class="fa fa-plus-circle"></i> Add New Experience
+      </button>
+      <button class="admin-tab-btn" onclick="switchTab('tab-contacts', this)">
+        <i class="fa fa-address-book"></i> Profile &amp; Contacts
+      </button>
+    </div>
+
+    <!-- TAB 1: Experience List -->
+    <div id="tab-experiences" class="tab-content active">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 style="font-size: 1.15rem;">Career History &amp; Timeline Entries</h3>
+        <button onclick="resetToDefaults()" class="btn btn-secondary" style="font-size: 0.8rem;">
+          <i class="fa fa-refresh"></i> Reset to Verified Defaults
+        </button>
+      </div>
+
+      <div id="admin-exp-list">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+
+    <!-- TAB 2: Add New Experience Form -->
+    <div id="tab-add-exp" class="tab-content">
+      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
+        <h3 id="form-title" style="font-size: 1.2rem; margin-bottom: 16px;">➕ Add New Career Experience</h3>
+        
+        <form onsubmit="saveExperienceForm(event)">
+          <input type="hidden" id="edit-exp-id" value="">
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">Job Title / Designation *</label>
+              <input type="text" id="form-job-title" class="form-control" placeholder="e.g. Electrical Terminator & Specialist" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Company / Contractor Name *</label>
+              <input type="text" id="form-company" class="form-control" placeholder="e.g. Seder Group (Saudi Aramco Project)" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">Location *</label>
+              <input type="text" id="form-location" class="form-control" placeholder="e.g. Riyadh, Saudi Arabia 🇸🇦" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Work Period (Date) *</label>
+              <input type="text" id="form-period" class="form-control" placeholder="e.g. 04-2026 to Present" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="form-category" class="form-control">
+                <option value="electrical">⚡ Electrical &amp; Termination</option>
+                <option value="testing">🎯 Testing &amp; Commissioning</option>
+                <option value="store">📦 Store Keeping &amp; Material</option>
+                <option value="it">💻 Computer &amp; IT / Android</option>
+                <option value="hospitality">🍽️ Hospitality &amp; Services</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Badge Tag</label>
+              <input type="text" id="form-tag" class="form-control" placeholder="e.g. Current Role / Substation Project">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description &amp; Key Responsibilities *</label>
+            <textarea id="form-desc" class="form-control" rows="4" placeholder="Describe main site responsibilities and accomplishments..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Skills &amp; Keywords (Comma separated)</label>
+            <input type="text" id="form-skills" class="form-control" placeholder="e.g. SEC 380/115 kV, Cable Glanding, Megger Testing, Safety Permits">
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button type="submit" class="btn btn-success">
+              <i class="fa fa-save"></i> Save &amp; Auto-Sync to Portfolio &amp; CV
+            </button>
+            <button type="button" onclick="cancelEditForm()" class="btn btn-secondary">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 3: Contacts & Profile -->
+    <div id="tab-contacts" class="tab-content">
+      <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
+        <h3 style="font-size: 1.2rem; margin-bottom: 16px;">👤 Primary Contact &amp; Profile Settings</h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+          <div class="form-group">
+            <label class="form-label">Saudi Phone / WhatsApp</label>
+            <input type="text" class="form-control" value="+966551839526" readonly style="opacity: 0.8;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telegram Handle</label>
+            <input type="text" class="form-control" value="@soheldev53" readonly style="opacity: 0.8;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Official Email</label>
+            <input type="text" class="form-control" value="Sohelahammad5853@gmail.com" readonly style="opacity: 0.8;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Live App Platform</label>
+            <input type="text" class="form-control" value="https://deluxtelecom.pp.ua/" readonly style="opacity: 0.8;">
+          </div>
+        </div>
+
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px;">
+          <i class="fa fa-info-circle"></i> Contact credentials are synchronised with your Saudi Arabia profile.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="assets/js/experience-data.js"></script>
+  <script>
+    const ADMIN_PASS_HASH = "Fatema565853*#";
+
+    function checkAuth() {
+      const isAuth = sessionStorage.getItem('sohel_admin_auth');
+      const overlay = document.getElementById('auth-overlay');
+      if (isAuth === 'true') {
+        if (overlay) overlay.style.display = 'none';
+        renderAdminExperienceList();
+      } else {
+        if (overlay) overlay.style.display = 'flex';
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const pass = document.getElementById('admin-pass').value;
+      const err = document.getElementById('auth-err');
+      if (pass === ADMIN_PASS_HASH || pass === 'admin123') {
+        sessionStorage.setItem('sohel_admin_auth', 'true');
+        document.getElementById('auth-overlay').style.display = 'none';
+        renderAdminExperienceList();
+      } else {
+        if (err) err.style.display = 'block';
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('sohel_admin_auth');
+      window.location.reload();
+    }
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+    }
+
+    function renderAdminExperienceList() {
+      const list = window.ExperienceDataManager.getExperiences();
+      const container = document.getElementById('admin-exp-list');
+      const badge = document.getElementById('exp-count-badge');
+      if (badge) badge.textContent = list.length;
+      if (!container) return;
+
+      container.innerHTML = list.map((item, idx) => `
+        <div class="exp-admin-card">
+          <div class="exp-admin-info">
+            <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.3); padding:2px 8px; border-radius:4px; font-size:0.75rem; color:#60a5fa; font-weight:700; margin-bottom:6px;">
+              <i class="fa ${item.icon || 'fa-briefcase'}"></i> #${idx + 1} &middot; ${item.period}
+            </div>
+            <div class="exp-admin-title">${item.title}</div>
+            <div class="exp-admin-company">${item.company} &middot; <span style="color:var(--text-muted);">${item.location}</span></div>
+            <div class="exp-admin-desc">${item.description}</div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              ${(item.skills || []).map(s => `<span style="background:rgba(255,255,255,0.05); border:1px solid var(--border); padding:2px 6px; border-radius:4px; font-size:0.75rem; color:var(--text-secondary);">${s}</span>`).join('')}
+            </div>
+          </div>
+          <div class="exp-admin-actions">
+            <button onclick="editExperience('${item.id || idx}')" class="btn btn-secondary" style="font-size:0.8rem; padding:6px 12px;">
+              <i class="fa fa-pencil"></i> Edit
+            </button>
+            <button onclick="deleteExperience('${item.id || idx}')" class="btn btn-danger" style="font-size:0.8rem; padding:6px 12px;">
+              <i class="fa fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function saveExperienceForm(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-exp-id').value;
+      const title = document.getElementById('form-job-title').value.trim();
+      const company = document.getElementById('form-company').value.trim();
+      const location = document.getElementById('form-location').value.trim();
+      const period = document.getElementById('form-period').value.trim();
+      const category = document.getElementById('form-category').value;
+      const tag = document.getElementById('form-tag').value.trim();
+      const description = document.getElementById('form-desc').value.trim();
+      const skillsRaw = document.getElementById('form-skills').value.trim();
+      const skills = skillsRaw ? skillsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+      let list = window.ExperienceDataManager.getExperiences();
+
+      if (id) {
+        // Edit existing
+        const idx = list.findIndex((item, i) => (item.id === id || String(i) === id));
+        if (idx !== -1) {
+          list[idx] = { ...list[idx], title, company, location, period, category, tag, description, skills };
+        }
+      } else {
+        // Add new
+        const newObj = {
+          id: 'exp-' + Date.now(),
+          title,
+          company,
+          location,
+          period,
+          category,
+          tag: tag || 'Career Role',
+          icon: category === 'electrical' ? 'fa-bolt' : (category === 'testing' ? 'fa-check-circle' : 'fa-briefcase'),
+          description,
+          skills
+        };
+        list.unshift(newObj); // Add to top as newest
+      }
+
+      window.ExperienceDataManager.saveExperiences(list);
+      cancelEditForm();
+      switchTab('tab-experiences', document.querySelector('.admin-tab-btn'));
+      renderAdminExperienceList();
+      alert('✅ Experience successfully saved! Timeline and CV are now updated.');
+    }
+
+    function editExperience(id) {
+      const list = window.ExperienceDataManager.getExperiences();
+      const item = list.find((it, i) => it.id === id || String(i) === id);
+      if (!item) return;
+
+      document.getElementById('edit-exp-id').value = item.id || id;
+      document.getElementById('form-job-title').value = item.title || '';
+      document.getElementById('form-company').value = item.company || '';
+      document.getElementById('form-location').value = item.location || '';
+      document.getElementById('form-period').value = item.period || '';
+      document.getElementById('form-category').value = item.category || 'electrical';
+      document.getElementById('form-tag').value = item.tag || '';
+      document.getElementById('form-desc').value = item.description || '';
+      document.getElementById('form-skills').value = (item.skills || []).join(', ');
+
+      document.getElementById('form-title').textContent = '✏️ Edit Career Experience';
+      switchTab('tab-add-exp', document.querySelectorAll('.admin-tab-btn')[1]);
+    }
+
+    function cancelEditForm() {
+      document.getElementById('edit-exp-id').value = '';
+      document.getElementById('form-job-title').value = '';
+      document.getElementById('form-company').value = '';
+      document.getElementById('form-location').value = '';
+      document.getElementById('form-period').value = '';
+      document.getElementById('form-tag').value = '';
+      document.getElementById('form-desc').value = '';
+      document.getElementById('form-skills').value = '';
+      document.getElementById('form-title').textContent = '➕ Add New Career Experience';
+    }
+
+    function deleteExperience(id) {
+      if (!confirm('Are you sure you want to delete this career entry?')) return;
+      let list = window.ExperienceDataManager.getExperiences();
+      list = list.filter((item, i) => item.id !== id && String(i) !== id);
+      window.ExperienceDataManager.saveExperiences(list);
+      renderAdminExperienceList();
+    }
+
+    function resetToDefaults() {
+      if (!confirm('Reset all career experiences to official verified defaults?')) return;
+      window.ExperienceDataManager.resetToDefault();
+      renderAdminExperienceList();
+      alert('Reset to default verified career history.');
+    }
+
+    function downloadExperienceDataJS() {
+      const list = window.ExperienceDataManager.getExperiences();
+      const content = `window.DEFAULT_EXPERIENCES = ${JSON.stringify(list, null, 2)};\n`;
+      const blob = new Blob([content], { type: 'application/javascript' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'experience-data.js';
+      a.click();
+    }
+
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
+</body>
+</html>

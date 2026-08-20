@@ -1,0 +1,86 @@
+[
+    {
+        "id": "exp1",
+        "year": "03-2020 to 09-2020",
+        "title": "Store Keeper",
+        "company": "Shapoorji Pallonji, King Abdullah Economic City, Saudi Arabia",
+        "desc": "Received, sorted, and stored products in stockrooms. Conducted stock checks to maintain the accuracy of inventory. Managed sales receipts and maintained accounting records.",
+        "start_month": "03",
+        "start_year": "2020",
+        "end_month": "09",
+        "end_year": "2020",
+        "is_running": false
+    },
+    {
+        "id": "exp2",
+        "year": "10-2020 to 11-2021",
+        "title": "Hotel Waiter & Cashier",
+        "company": "Delux Hotel, Riyadh, Saudi Arabia",
+        "desc": "Took orders from customers for food items and beverages, making recommendations. Processed payments, either by cash or card, accurately and efficiently.",
+        "start_month": "10",
+        "start_year": "2020",
+        "end_month": "11",
+        "end_year": "2021",
+        "is_running": false
+    },
+    {
+        "id": "exp3",
+        "year": "12-2021 to 07-2022",
+        "title": "Computer Operator",
+        "company": "Delux Computer, Riyadh, Saudi Arabia",
+        "desc": "Prepared CVs, edited photos, and assisted with job applications. Issued insurance documents, managed the related work. Handled cashier duties.",
+        "start_month": "12",
+        "start_year": "2021",
+        "end_month": "07",
+        "end_year": "2022",
+        "is_running": false
+    },
+    {
+        "id": "exp4",
+        "year": "08-2022 to 03-2023",
+        "title": "Electrical Terminator",
+        "company": "Jubail 3B Independent Water Project, Saudi Arabia",
+        "desc": "Connected and disconnected cables, wires, and conductors. Inspected and tested terminations for accuracy and continuity.",
+        "start_month": "08",
+        "start_year": "2022",
+        "end_month": "03",
+        "end_year": "2023",
+        "is_running": false
+    },
+    {
+        "id": "exp5",
+        "year": "04-2023 to 08-2023",
+        "title": "Testing & Commissioning (T&C) Technician",
+        "company": "Jubail 3B Independent Water Project, Saudi Arabia",
+        "desc": "Adjusted and operated tested electrical material and equipment. Testing of SCADA levels of communication.",
+        "start_month": "04",
+        "start_year": "2023",
+        "end_month": "08",
+        "end_year": "2023",
+        "is_running": false
+    },
+    {
+        "id": "exp6",
+        "year": "09-2023 to 11-2023",
+        "title": "Electrical Terminator",
+        "company": "Aramco, Al-Khafji, Saudi Arabia",
+        "desc": "Exposed and found burnt wiring resulting from a fire in the oil plant. Replaced the faulty wiring and fitted new wiring.",
+        "start_month": "09",
+        "start_year": "2023",
+        "end_month": "11",
+        "end_year": "2023",
+        "is_running": false
+    },
+    {
+        "id": "exp69ed36dd1753c",
+        "title": "Electrical Terminator",
+        "company": "Sadawi PV 380\/115 kV BSP Project, Saudi Arabia",
+        "desc": "Installed, connected, and terminated electrical cables and conductors. Performed testing and inspections to ensure proper connectivity and safety. Assisted in maintaining electrical systems according to project standards and guidelines.",
+        "start_month": "04",
+        "start_year": "2026",
+        "end_month": "",
+        "end_year": "",
+        "year": "04-2026 to Present",
+        "is_running": true
+    }
+]
