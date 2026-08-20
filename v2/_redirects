@@ -1,8 +1,0 @@
-# Clean URL redirects for Cloudflare Pages / Netlify
-/home       /index.html   200
-/skills     /skills.html  200
-/gallery    /gallery.html 200
-/blog       /blog.html    200
-/contact    /contact.html 200
-/post       /post.html    200
-/*          /404.html     404
