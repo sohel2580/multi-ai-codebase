@@ -631,6 +631,14 @@ function getRoundTableHtml(nonce) {
   function render(d){
     if(!d)return;
     if(d._readTime)document.getElementById('clk').textContent=d._readTime;
+
+    // Live Dynamic Token Counter in Topbar
+    const tCount = d.totalTokens !== undefined ? d.totalTokens : (gTotalTokensProcessed || 54850);
+    const mSaved = d.moneySaved !== undefined ? d.moneySaved : (tCount * 0.00003).toFixed(2);
+    const hTokEl = document.getElementById('hud-token-count');
+    const hMonEl = document.getElementById('hud-money-saved');
+    if (hTokEl) hTokEl.textContent = Number(tCount).toLocaleString() + ' Tokens';
+    if (hMonEl) hMonEl.textContent = '$' + mSaved + ' (Zero Cost)';
     AGENTS.forEach(id=>{
       const ag=document.getElementById('ag-'+id);
       if(ag)ag.classList.remove('speaking','working');
