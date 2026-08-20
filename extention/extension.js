@@ -822,10 +822,15 @@ function getSettingsPageHtml() {
   const cfg = getApiConfig();
   const groqVal = cfg.groqApiKey || '';
   const openrouterVal = cfg.openrouterApiKey || '';
+  const cerebrasVal = cfg.cerebrasApiKey || '';
+  const sambanovaVal = cfg.sambanovaApiKey || '';
+  const togetherVal = cfg.togetherApiKey || '';
+  const deepinfraVal = cfg.deepinfraApiKey || '';
+  const mistralVal = cfg.mistralApiKey || '';
   const bynaraKeyVal = cfg.bynaraApiKey || '';
   const bynaraEpVal = cfg.bynaraEndpoint || 'https://router.bynara.id/v1/chat/completions';
-  const tokenrouterKeyVal = cfg.tokenrouterApiKey || '';
-  const tokenrouterEpVal = cfg.tokenrouterEndpoint || 'https://co.agentrouter.org/v1/chat/completions';
+  const tokenrouterKeyVal = cfg.agentrouterApiKey || '';
+  const tokenrouterEpVal = cfg.agentrouterEndpoint || 'https://co.agentrouter.org/v1/chat/completions';
 
   const hasAnyKey = Object.values(cfg).some(v => v && v.trim().length > 5);
 
@@ -833,7 +838,7 @@ function getSettingsPageHtml() {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://*;">
   <title>Multi-AI Free Routers Settings</title>
   <style>
     :root {
@@ -850,58 +855,132 @@ function getSettingsPageHtml() {
       --ok: var(--vscode-testing-iconPassed, #22c55e);
       --err: var(--vscode-testing-iconFailed, #ef4444);
       --muted: var(--vscode-descriptionForeground, #94a3b8);
-      --tag-free: #34d399;
     }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:var(--vscode-font-family, 'Segoe UI', system-ui, sans-serif);background:var(--bg);color:var(--fg);padding:24px 32px;max-width:920px;margin:0 auto;line-height:1.5;}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      padding: 24px 32px;
+      max-width: 1000px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--bdr);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+    .title-group { display: flex; align-items: center; gap: 12px; }
+    .title-icon { font-size: 1.8rem; }
+    .title { font-size: 1.3rem; font-weight: 800; }
+    .subtitle { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+    .status-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .status-ok { background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.3); color: var(--ok); }
+    .status-warn { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--err); }
     
-    .header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);padding-bottom:18px;margin-bottom:24px;}
-    .title-group{display:flex;align-items:center;gap:12px;}
-    .title-icon{font-size:2rem;}
-    .title{font-size:1.4rem;font-weight:800;background:linear-gradient(90deg,#60a5fa,#34d399,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-    .subtitle{font-size:.82rem;color:var(--muted);margin-top:2px;}
-    
-    .status-banner{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-radius:8px;font-size:.84rem;font-weight:700;margin-bottom:22px;border:1px solid var(--bdr);}
-    .status-ok{background:rgba(34,197,94,0.12);color:var(--ok);border-color:rgba(34,197,94,0.3);}
-    .status-warn{background:rgba(245,158,11,0.12);color:#f59e0b;border-color:rgba(245,158,11,0.3);}
-    
-    .grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:24px;}
-    
-    .provider-card{background:var(--card-bg);border:1px solid var(--bdr);border-radius:10px;padding:16px 20px;transition:border-color .2s,box-shadow .2s;}
-    .provider-card:hover{border-color:var(--acc);box-shadow:0 4px 16px rgba(0,0,0,0.2);}
-    
-    .card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-    .provider-info{display:flex;align-items:center;gap:10px;}
-    .provider-icon{font-size:1.4rem;}
-    .provider-name{font-size:.95rem;font-weight:800;}
-    .provider-tag{font-size:.68rem;padding:2px 8px;border-radius:4px;background:rgba(52,211,153,0.15);color:var(--tag-free);font-weight:700;border:1px solid rgba(52,211,153,0.3);}
-    
-    .link-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--acc);font-size:.8rem;font-weight:700;cursor:pointer;text-decoration:underline;}
-    .link-btn:hover{filter:brightness(1.2);}
-    
-    .desc{font-size:.78rem;color:var(--muted);margin-bottom:10px;}
-    
-    .input-row{display:flex;flex-direction:column;gap:6px;margin-bottom:6px;}
-    .input-label{font-size:.72rem;font-weight:700;color:var(--muted);}
-    .input-wrapper{display:flex;gap:8px;align-items:center;}
-    .key-input{flex:1;background:var(--inp-bg);color:var(--inp-fg);border:1px solid var(--inp-bdr);border-radius:6px;padding:8px 12px;font-size:.82rem;font-family:'Consolas',monospace;}
-    .key-input:focus{outline:1px solid var(--acc);border-color:var(--acc);}
-    
-    .action-btn{padding:8px 12px;background:rgba(255,255,255,0.08);border:1px solid var(--bdr);border-radius:6px;color:var(--fg);cursor:pointer;font-size:.76rem;font-weight:700;display:inline-flex;align-items:center;gap:4px;}
-    .action-btn:hover{background:rgba(255,255,255,0.14);}
-    .test-btn{background:rgba(59,130,246,0.15);border-color:var(--acc);color:var(--acc);}
-    .test-btn:hover{background:rgba(59,130,246,0.25);}
-    
-    .test-status{margin-top:6px;font-size:.74rem;font-weight:700;display:none;}
-    .test-status.show{display:block;}
-    .test-status.ok{color:var(--ok);}
-    .test-status.err{color:var(--err);}
-    .test-status.testing{color:#f59e0b;}
-
-    .actions{display:flex;align-items:center;gap:12px;margin-top:10px;padding-top:16px;border-top:1px solid var(--bdr);}
-    .btn-save-all{background:var(--ok);color:#060c1a;font-weight:800;border:none;border-radius:6px;padding:12px 24px;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
-    .btn-save-all:hover{filter:brightness(1.15);}
-    .note{font-size:.75rem;color:var(--muted);}
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .provider-card {
+      background: var(--card-bg);
+      border: 1px solid var(--bdr);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .provider-info { display: flex; align-items: center; gap: 8px; }
+    .provider-icon { font-size: 1.2rem; }
+    .provider-name { font-size: 0.95rem; font-weight: 700; }
+    .provider-tag { font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: var(--ok); border: 1px solid rgba(34, 197, 94, 0.3); }
+    .link-btn {
+      font-size: 0.75rem;
+      color: var(--acc);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    .desc { font-size: 0.78rem; color: var(--muted); margin-bottom: 10px; }
+    .input-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 6px; }
+    .input-label { font-size: 0.72rem; font-weight: 700; color: var(--muted); }
+    .input-wrapper { display: flex; gap: 8px; align-items: center; }
+    .key-input {
+      flex: 1;
+      background: var(--inp-bg);
+      color: var(--inp-fg);
+      border: 1px solid var(--inp-bdr);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-family: 'Consolas', monospace;
+    }
+    .key-input:focus { outline: 1px solid var(--acc); border-color: var(--acc); }
+    .action-btn {
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--bdr);
+      border-radius: 6px;
+      color: var(--fg);
+      cursor: pointer;
+      font-size: 0.76rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .action-btn:hover { background: rgba(255,255,255,0.14); }
+    .test-btn { background: rgba(59,130,246,0.15); border-color: var(--acc); color: var(--acc); }
+    .test-btn:hover { background: rgba(59,130,246,0.25); }
+    .test-status { margin-top: 6px; font-size: 0.74rem; font-weight: 700; display: none; }
+    .test-status.show { display: block; }
+    .test-status.ok { color: var(--ok); }
+    .test-status.err { color: var(--err); }
+    .test-status.testing { color: #f59e0b; }
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--bdr);
+    }
+    .btn-save-all {
+      background: var(--ok);
+      color: #060c1a;
+      font-weight: 800;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-save-all:hover { filter: brightness(1.15); }
+    .note { font-size: 0.75rem; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -909,28 +988,28 @@ function getSettingsPageHtml() {
     <div class="title-group">
       <span class="title-icon">⚡</span>
       <div>
-        <div class="title">Free AI Routers & Live Key Validator</div>
+        <div class="title">Free AI Routers & Live Key Validator (9 Global Providers)</div>
         <div class="subtitle">Enter your Free AI API keys or Gateway Endpoints and click "⚡ Test Key" to verify instantly.</div>
       </div>
     </div>
   </div>
 
   <div class="status-banner ${hasAnyKey ? 'status-ok' : 'status-warn'}">
-    <span>${hasAnyKey ? '🟢 Free AI Multi-Router Engine Active' : '🔴 No Free Router Configured — Enter Groq or Router Key Below'}</span>
+    <span>${hasAnyKey ? '🟢 Free AI Multi-Router Engine Active' : '🔴 No Free Router Configured — Enter any Free Router Key Below'}</span>
     <span style="font-size:.75rem;">Instant Verification Enabled</span>
   </div>
 
   <div class="grid">
-    <!-- 1. GROQ FREE -->
+    <!-- 1. GROQ FREE LPU -->
     <div class="provider-card">
       <div class="card-top">
         <div class="provider-info">
           <span class="provider-icon">⚡</span>
-          <div><span class="provider-name">Groq API (Free Tier)</span> <span class="provider-tag">Free 540 tok/s · Qwen 2.5 + Llama 3.3</span></div>
+          <div><span class="provider-name">1. Groq LPU (Ultra-Fast 540 tok/s)</span> <span class="provider-tag">100% Free Tier</span></div>
         </div>
         <button class="link-btn" onclick="openLink('https://console.groq.com/keys')">🌐 Get Free Groq Key ↗</button>
       </div>
-      <div class="desc">Blazing fast free execution for Qwen 2.5 Coder and Llama 3.3 70B security auditor.</div>
+      <div class="desc">Ultra-fast free inference for Qwen 2.5 Coder 32B, Llama 3.3 70B, GPT-OSS 120B.</div>
       <div class="input-wrapper">
         <input type="password" class="key-input" id="key-groq" placeholder="gsk_..." value="${groqVal}">
         <button class="action-btn" onclick="toggleInput('key-groq')">Show/Hide</button>
@@ -939,20 +1018,128 @@ function getSettingsPageHtml() {
       <div class="test-status" id="status-groq"></div>
     </div>
 
-    <!-- 2. BYNARA / NARA ROUTER -->
+    <!-- 2. CEREBRAS FREE LPU -->
+    <div class="provider-card">
+      <div class="card-top">
+        <div class="provider-info">
+          <span class="provider-icon">🚀</span>
+          <div><span class="provider-name">2. Cerebras AI (World Fastest 2000 tok/s)</span> <span class="provider-tag">100% Free Tier</span></div>
+        </div>
+        <button class="link-btn" onclick="openLink('https://cloud.cerebras.ai')">🌐 Get Free Cerebras Key ↗</button>
+      </div>
+      <div class="desc">World's fastest AI inference hardware: Llama 3.3 70B and Llama 3.1 8B at 2,000+ tokens/sec.</div>
+      <div class="input-wrapper">
+        <input type="password" class="key-input" id="key-cerebras" placeholder="csk-..." value="${cerebrasVal}">
+        <button class="action-btn" onclick="toggleInput('key-cerebras')">Show/Hide</button>
+        <button class="action-btn test-btn" onclick="testProvider('cerebras')">⚡ Test Key</button>
+      </div>
+      <div class="test-status" id="status-cerebras"></div>
+    </div>
+
+    <!-- 3. SAMBANOVA CLOUD -->
+    <div class="provider-card">
+      <div class="card-top">
+        <div class="provider-info">
+          <span class="provider-icon">🔥</span>
+          <div><span class="provider-name">3. SambaNova Cloud (1000 tok/s)</span> <span class="provider-tag">100% Free Tier</span></div>
+        </div>
+        <button class="link-btn" onclick="openLink('https://cloud.sambanova.ai')">🌐 Get Free SambaNova Key ↗</button>
+      </div>
+      <div class="desc">Free full-precision Llama 3.3 70B, Qwen 2.5 72B & DeepSeek R1 via SambaNova SN40L chips.</div>
+      <div class="input-wrapper">
+        <input type="password" class="key-input" id="key-sambanova" placeholder="SambaNova API Key..." value="${sambanovaVal}">
+        <button class="action-btn" onclick="toggleInput('key-sambanova')">Show/Hide</button>
+        <button class="action-btn test-btn" onclick="testProvider('sambanova')">⚡ Test Key</button>
+      </div>
+      <div class="test-status" id="status-sambanova"></div>
+    </div>
+
+    <!-- 4. OPENROUTER FREE -->
+    <div class="provider-card">
+      <div class="card-top">
+        <div class="provider-info">
+          <span class="provider-icon">🧠</span>
+          <div><span class="provider-name">4. OpenRouter (Free Hub)</span> <span class="provider-tag">100% Free Models</span></div>
+        </div>
+        <button class="link-btn" onclick="openLink('https://openrouter.ai/keys')">🌐 Get Free OpenRouter Key ↗</button>
+      </div>
+      <div class="desc">Free gateway for DeepSeek R1 Free, Google Gemma Free, NVIDIA Nemotron Free & Mistral Free.</div>
+      <div class="input-wrapper">
+        <input type="password" class="key-input" id="key-openrouter" placeholder="sk-or-..." value="${openrouterVal}">
+        <button class="action-btn" onclick="toggleInput('key-openrouter')">Show/Hide</button>
+        <button class="action-btn test-btn" onclick="testProvider('openrouter')">⚡ Test Key</button>
+      </div>
+      <div class="test-status" id="status-openrouter"></div>
+    </div>
+
+    <!-- 5. MISTRAL AI -->
+    <div class="provider-card">
+      <div class="card-top">
+        <div class="provider-info">
+          <span class="provider-icon">💻</span>
+          <div><span class="provider-name">5. Mistral AI (Codestral Free)</span> <span class="provider-tag">Free Developer Tier</span></div>
+        </div>
+        <button class="link-btn" onclick="openLink('https://console.mistral.ai')">🌐 Get Free Mistral Key ↗</button>
+      </div>
+      <div class="desc">Free specialized Codestral 22B, Mistral Large, Mistral Nemo & Pixtral for coding.</div>
+      <div class="input-wrapper">
+        <input type="password" class="key-input" id="key-mistral" placeholder="Mistral API Key..." value="${mistralVal}">
+        <button class="action-btn" onclick="toggleInput('key-mistral')">Show/Hide</button>
+        <button class="action-btn test-btn" onclick="testProvider('mistral')">⚡ Test Key</button>
+      </div>
+      <div class="test-status" id="status-mistral"></div>
+    </div>
+
+    <!-- 6. TOGETHER AI -->
     <div class="provider-card">
       <div class="card-top">
         <div class="provider-info">
           <span class="provider-icon">🌐</span>
-          <div><span class="provider-name">Bynara / Nara AI Router</span> <span class="provider-tag">Free Hub · DeepSeek V4 Pro</span></div>
+          <div><span class="provider-name">6. Together AI</span> <span class="provider-tag">Free Credits Tier</span></div>
+        </div>
+        <button class="link-btn" onclick="openLink('https://api.together.ai')">🌐 Get Free Together Key ↗</button>
+      </div>
+      <div class="desc">High-speed inference hub for 100+ open-source models (Llama 3, Mixtral, CodeLlama, Qwen).</div>
+      <div class="input-wrapper">
+        <input type="password" class="key-input" id="key-together" placeholder="Together API Key..." value="${togetherVal}">
+        <button class="action-btn" onclick="toggleInput('key-together')">Show/Hide</button>
+        <button class="action-btn test-btn" onclick="testProvider('together')">⚡ Test Key</button>
+      </div>
+      <div class="test-status" id="status-together"></div>
+    </div>
+
+    <!-- 7. DEEPINFRA -->
+    <div class="provider-card">
+      <div class="card-top">
+        <div class="provider-info">
+          <span class="provider-icon">⚡</span>
+          <div><span class="provider-name">7. DeepInfra Hub</span> <span class="provider-tag">Free Tier Models</span></div>
+        </div>
+        <button class="link-btn" onclick="openLink('https://deepinfra.com/dash/api_keys')">🌐 Get Free DeepInfra Key ↗</button>
+      </div>
+      <div class="desc">Fast inference provider for DeepSeek V3, Qwen 2.5 72B, Llama 3.3 70B and embeddings.</div>
+      <div class="input-wrapper">
+        <input type="password" class="key-input" id="key-deepinfra" placeholder="DeepInfra Key..." value="${deepinfraVal}">
+        <button class="action-btn" onclick="toggleInput('key-deepinfra')">Show/Hide</button>
+        <button class="action-btn test-btn" onclick="testProvider('deepinfra')">⚡ Test Key</button>
+      </div>
+      <div class="test-status" id="status-deepinfra"></div>
+    </div>
+
+    <!-- 8. BYNARA / NARA ROUTER -->
+    <div class="provider-card">
+      <div class="card-top">
+        <div class="provider-info">
+          <span class="provider-icon">🌐</span>
+          <div><span class="provider-name">8. Bynara / Nara AI Router</span> <span class="provider-tag">Free Hub · Agnes 2.5</span></div>
         </div>
         <button class="link-btn" onclick="openLink('https://router.bynara.id')">🌐 Visit Bynara Router ↗</button>
       </div>
-      <div class="desc">Free AI Gateway router for multi-model orchestrations and DeepSeek V4 reasoning models.</div>
+      <div class="desc">Free AI Gateway router for multi-model orchestrations and Agnes / DeepSeek reasoning models.</div>
       <div class="input-row">
-        <div class="input-label">Router API Key (Optional if endpoint is public):</div>
+        <div class="input-label">Router API Key (Optional if public):</div>
         <div class="input-wrapper">
-          <input type="password" class="key-input" id="key-bynara" placeholder="Bynara API Key or Token..." value="${bynaraKeyVal}">
+          <input type="password" class="key-input" id="key-bynara" placeholder="Bynara API Key..." value="${bynaraKeyVal}">
           <button class="action-btn" onclick="toggleInput('key-bynara')">Show/Hide</button>
           <button class="action-btn test-btn" onclick="testProvider('bynara')">⚡ Test Router</button>
         </div>
@@ -964,32 +1151,12 @@ function getSettingsPageHtml() {
       <div class="test-status" id="status-bynara"></div>
     </div>
 
-    <!-- 3. OPENROUTER FREE -->
-    <div class="provider-card">
-      <div class="card-top">
-        <div class="provider-info">
-          <span class="provider-info">
-            <span class="provider-icon">🧠</span>
-            <span class="provider-name">OpenRouter (Free Models)</span> <span class="provider-tag">Free · DeepSeek R1 & Gemma</span>
-          </span>
-        </div>
-        <button class="link-btn" onclick="openLink('https://openrouter.ai/keys')">🌐 Get OpenRouter Key ↗</button>
-      </div>
-      <div class="desc">Connects to zero-cost Free Tier models like DeepSeek R1 Free, Qwen Free, and Gemma Free.</div>
-      <div class="input-wrapper">
-        <input type="password" class="key-input" id="key-openrouter" placeholder="sk-or-..." value="${openrouterVal}">
-        <button class="action-btn" onclick="toggleInput('key-openrouter')">Show/Hide</button>
-        <button class="action-btn test-btn" onclick="testProvider('openrouter')">⚡ Test Key</button>
-      </div>
-      <div class="test-status" id="status-openrouter"></div>
-    </div>
-
-    <!-- 4. TOKENROUTER / AGENT ROUTER -->
+    <!-- 9. AGENT ROUTER HUB -->
     <div class="provider-card">
       <div class="card-top">
         <div class="provider-info">
           <span class="provider-icon">🤖</span>
-          <div><span class="provider-name">AgentRouter.org Hub</span> <span class="provider-tag">Free Multi-Agent Hub</span></div>
+          <div><span class="provider-name">9. AgentRouter.org Hub</span> <span class="provider-tag">Free Multi-Agent Hub</span></div>
         </div>
         <button class="link-btn" onclick="openLink('https://agentrouter.org')">🌐 Visit Agent Router ↗</button>
       </div>
@@ -1003,7 +1170,7 @@ function getSettingsPageHtml() {
       <div class="input-row">
         <div class="input-label">Agent Router API Key / Bearer Token:</div>
         <div class="input-wrapper">
-          <input type="password" class="key-input" id="key-tokenrouter" placeholder="Agent Router Key or Token..." value="${tokenrouterKeyVal}">
+          <input type="password" class="key-input" id="key-tokenrouter" placeholder="Agent Router Key..." value="${tokenrouterKeyVal}">
           <button class="action-btn" onclick="toggleInput('key-tokenrouter')">Show/Hide</button>
           <button class="action-btn test-btn" onclick="testProvider('tokenrouter')">⚡ Test Router</button>
         </div>
@@ -1017,7 +1184,7 @@ function getSettingsPageHtml() {
   </div>
 
   <div class="actions">
-    <button class="btn-save-all" id="saveBtn">💾 Save & Apply Free AI Routers</button>
+    <button class="btn-save-all" id="saveBtn">💾 Save & Apply All 9 Free Routers</button>
     <span class="note">🔒 All Free Router Keys & Custom Endpoints are stored locally in your VSCode configuration.</span>
   </div>
 
@@ -1028,7 +1195,6 @@ function getSettingsPageHtml() {
       vscode.postMessage({ type: 'open_external', url });
     }
 
-        // Fetch live public IP for easy whitelisting
     fetch('https://api.ipify.org?format=json')
       .then(res => res.json())
       .then(d => {
@@ -1081,12 +1247,17 @@ function getSettingsPageHtml() {
 
     document.getElementById('saveBtn').addEventListener('click', () => {
       const keys = {
-        groq: document.getElementById('key-groq').value,
-        openrouter: document.getElementById('key-openrouter').value,
-        bynaraKey: document.getElementById('key-bynara').value,
-        bynaraEp: document.getElementById('ep-bynara').value,
-        tokenrouterKey: document.getElementById('key-tokenrouter').value,
-        tokenrouterEp: document.getElementById('ep-tokenrouter').value
+        groq: (document.getElementById('key-groq') || {}).value || '',
+        cerebras: (document.getElementById('key-cerebras') || {}).value || '',
+        sambanova: (document.getElementById('key-sambanova') || {}).value || '',
+        openrouter: (document.getElementById('key-openrouter') || {}).value || '',
+        mistral: (document.getElementById('key-mistral') || {}).value || '',
+        together: (document.getElementById('key-together') || {}).value || '',
+        deepinfra: (document.getElementById('key-deepinfra') || {}).value || '',
+        bynaraKey: (document.getElementById('key-bynara') || {}).value || '',
+        bynaraEp: (document.getElementById('ep-bynara') || {}).value || '',
+        tokenrouterKey: (document.getElementById('key-tokenrouter') || {}).value || '',
+        tokenrouterEp: (document.getElementById('ep-tokenrouter') || {}).value || ''
       };
       vscode.postMessage({ type: 'save_keys', keys });
     });
@@ -1095,9 +1266,7 @@ function getSettingsPageHtml() {
 </html>`;
 }
 
-// ─────────────────────────────────────────────────────────────
-// SIDEBAR PROVIDER
-// ─────────────────────────────────────────────────────────────
+
 class MultiAISidebarProvider {
   constructor(context) { 
     this.context = context; 
