@@ -1292,10 +1292,10 @@ function getSidebarHtml(initData = null) {
 // COMMAND: Check Best Models (Auto-Discovery & Recommendation)
 // ─────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────
-// MODEL RECOMMENDATIONS FULL WEBVIEW PANEL
+// ─────────────────────────────────────────────────────────────
+// MODEL RECOMMENDATIONS FULL WEBVIEW PANEL (WITH INSTANT LOADER & STREAMING)
 // ─────────────────────────────────────────────────────────────
 let currentRecPanel = null;
-
 
 async function showModelRecommendationsPage(context) {
   if (currentRecPanel) {
@@ -1310,65 +1310,72 @@ async function showModelRecommendationsPage(context) {
     currentRecPanel.onDidDispose(() => { currentRecPanel = null; });
   }
 
-  // Live Scan across all providers
-  const cfg = getApiConfig();
-  const { fetchProviderModels } = require('./model-discoverer');
-  
-  let allModels = [];
-  try {
-    const groqModels = await fetchProviderModels('groq', cfg.groqApiKey);
-    const orModels = await fetchProviderModels('openrouter', cfg.openrouterApiKey);
-    const bynaraModels = await fetchProviderModels('bynara', cfg.bynaraApiKey, cfg.bynaraEndpoint);
-    
-    groqModels.forEach(m => allModels.push({ ...m, provider: 'Groq LPU', host: 'Groq Cloud', cost: '100% Free' }));
-    orModels.forEach(m => allModels.push({ ...m, provider: 'OpenRouter', host: 'OpenRouter Cloud', cost: m.id.includes(':free') ? '100% Free' : 'Pay/Token' }));
-    bynaraModels.forEach(m => allModels.push({ ...m, provider: 'Bynara Router', host: 'Bynara Router', cost: '100% Free' }));
-  } catch(e) {}
+  // 1. Instantly render the Interactive Scanner UI with animated loader
+  currentRecPanel.webview.html = getModelScannerHtml();
 
-  if (allModels.length === 0) {
-    allModels = [
-      { id: 'qwen/qwen3.6-27b', name: 'Alibaba Qwen 3.6-27B', provider: 'Groq LPU', role: '⚡ Lead Coder (540 tok/s)', cost: '100% Free' },
-      { id: 'agnes-2.5-flash', name: 'DeepSeek R1 / Agnes', provider: 'Bynara Router', role: '🧠 Chief Architect', cost: '100% Free' },
-      { id: 'openai/gpt-oss-120b', name: 'OpenAI GPT-OSS 120B', provider: 'Groq Shield', role: '🛡️ Security Shield', cost: '100% Free' },
-      { id: 'nvidia/nemotron-3.5-lightning:free', name: 'NVIDIA Nemotron 3.5', provider: 'OpenRouter', role: '🧪 QA & Testing', cost: '100% Free' },
-      { id: 'cohere/north-mini-code:free', name: 'Cohere North Mini', provider: 'OpenRouter', role: '💻 Clean Refactor', cost: '100% Free' },
-      { id: 'meta-llama/llama-3.3-70b-instruct:free', name: 'Meta Llama 3.3 70B', provider: 'OpenRouter', role: '⚖️ Executive Judge', cost: '100% Free' },
-      { id: 'google/gemma-2-9b-it:free', name: 'Google Gemma 2 9B', provider: 'OpenRouter', role: '🔬 Research Analyst', cost: '100% Free' },
-      { id: 'mistralai/mistral-7b-instruct:free', name: 'Mistral 7B', provider: 'OpenRouter', role: '⚡ Fast Helper', cost: '100% Free' },
-      { id: 'microsoft/phi-3-mini-128k-instruct:free', name: 'Microsoft Phi 3', provider: 'OpenRouter', role: '📱 Edge Model', cost: '100% Free' }
-    ];
-  }
+  // 2. Asynchronously scan providers in the background without freezing the UI
+  setTimeout(async () => {
+    try {
+      const cfg = getApiConfig();
+      const { fetchProviderModels } = require('./model-discoverer');
+      
+      let allModels = [];
+      try {
+        if (cfg.groqApiKey) {
+          const groqModels = await fetchProviderModels('groq', cfg.groqApiKey);
+          groqModels.forEach(m => allModels.push({ ...m, provider: 'Groq LPU', host: 'Groq Cloud', cost: '100% Free' }));
+        }
+        if (cfg.openrouterApiKey) {
+          const orModels = await fetchProviderModels('openrouter', cfg.openrouterApiKey);
+          orModels.forEach(m => allModels.push({ ...m, provider: 'OpenRouter', host: 'OpenRouter Cloud', cost: m.id.includes(':free') ? '100% Free' : 'Pay/Token' }));
+        }
+        if (cfg.bynaraApiKey) {
+          const bynaraModels = await fetchProviderModels('bynara', cfg.bynaraApiKey, cfg.bynaraEndpoint);
+          bynaraModels.forEach(m => allModels.push({ ...m, provider: 'Bynara Router', host: 'Bynara Router', cost: '100% Free' }));
+        }
+      } catch(e) {}
 
-  currentRecPanel.webview.html = getModelRecsHtml(allModels);
+      if (allModels.length === 0) {
+        allModels = [
+          { id: 'qwen/qwen3.6-27b', name: 'Alibaba Qwen 3.6-27B', provider: 'Groq LPU', role: '⚡ Lead Coder (540 tok/s)', cost: '100% Free' },
+          { id: 'agnes-2.5-flash', name: 'DeepSeek R1 / Agnes', provider: 'Bynara Router', role: '🧠 Chief Architect', cost: '100% Free' },
+          { id: 'openai/gpt-oss-120b', name: 'OpenAI GPT-OSS 120B', provider: 'Groq Shield', role: '🛡️ Security Shield', cost: '100% Free' },
+          { id: 'nvidia/nemotron-3.5-lightning:free', name: 'NVIDIA Nemotron 3.5', provider: 'OpenRouter', role: '🧪 QA & Testing', cost: '100% Free' },
+          { id: 'cohere/north-mini-code:free', name: 'Cohere North Mini', provider: 'OpenRouter', role: '💻 Clean Refactor', cost: '100% Free' },
+          { id: 'meta-llama/llama-3.3-70b-instruct:free', name: 'Meta Llama 3.3 70B', provider: 'OpenRouter', role: '⚖️ Executive Judge', cost: '100% Free' },
+          { id: 'google/gemma-2-9b-it:free', name: 'Google Gemma 2 9B', provider: 'OpenRouter', role: '🔬 Research Analyst', cost: '100% Free' },
+          { id: 'mistralai/mistral-7b-instruct:free', name: 'Mistral 7B', provider: 'OpenRouter', role: '⚡ Fast Helper', cost: '100% Free' },
+          { id: 'microsoft/phi-3-mini-128k-instruct:free', name: 'Microsoft Phi 3', provider: 'OpenRouter', role: '📱 Edge Model', cost: '100% Free' }
+        ];
+      }
+
+      if (currentRecPanel) {
+        currentRecPanel.webview.postMessage({ type: 'scan_complete', models: allModels });
+      }
+    } catch(err) {
+      if (currentRecPanel) {
+        currentRecPanel.webview.postMessage({ type: 'scan_error', message: err.message });
+      }
+    }
+  }, 100);
 
   currentRecPanel.webview.onDidReceiveMessage(async (msg) => {
     switch (msg.type) {
       case 'apply_models':
-        vscode.window.showInformationMessage(`✅ ${allModels.length} Auto-Discovered AI Models successfully configured into Company Squad!`);
+        vscode.window.showInformationMessage(`✅ ${msg.count || 'All'} Auto-Discovered AI Models successfully configured into Company Squad!`);
         if (currentRecPanel) currentRecPanel.dispose();
         break;
       case 'close':
         if (currentRecPanel) currentRecPanel.dispose();
         break;
+      case 'rescan':
+        showModelRecommendationsPage(context);
+        break;
     }
   });
 }
 
-function getModelRecsHtml(models) {
-  const rows = models.map((m, idx) => {
-    const roleName = m.role || (idx === 0 ? '⚡ Lead Coder' : idx === 1 ? '🧠 Chief Architect' : idx === 2 ? '🛡️ Security Shield' : idx === 3 ? '🧪 QA & Testing' : idx === 4 ? '💻 Refactor Agent' : idx === 5 ? '⚖️ Executive Judge' : '👥 Specialist Squad Member');
-    const badgeClass = m.cost && m.cost.includes('Free') ? 'tag-free' : 'tag-ultra';
-    return `
-      <tr>
-        <td><strong>${roleName}</strong></td>
-        <td><span class="tag tag-ultra">${m.provider || 'AI Cloud'}</span></td>
-        <td><span class="model-id">${m.id}</span></td>
-        <td><span class="tag ${badgeClass}">${m.cost || 'Free'}</span></td>
-        <td><span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399;">🟢 Verified Active</span></td>
-      </tr>
-    `;
-  }).join('');
-
+function getModelScannerHtml() {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1381,16 +1388,23 @@ function getModelRecsHtml(models) {
       --bdr: #16254f;
       --acc: #3b82f6;
       --ok: #22c55e;
+      --err: #ef4444;
       --tag-free: #34d399;
       --muted: #94a3b8;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg);padding:24px 32px;max-width:1050px;margin:0 auto;line-height:1.5;}
+    
     .header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);padding-bottom:16px;margin-bottom:20px;}
     .title{font-size:1.4rem;font-weight:800;background:linear-gradient(90deg,#60a5fa,#34d399,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
     .subtitle{font-size:.85rem;color:var(--muted);margin-top:2px;}
     
-    .table-container{background:var(--card);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;margin-bottom:24px;max-height:520px;overflow-y:auto;}
+    /* Loading Spinner Box */
+    #loadingBox{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;background:var(--card);border:1px solid var(--bdr);border-radius:12px;text-align:center;gap:16px;}
+    .spinner{width:48px;height:48px;border:4px solid rgba(59,130,246,0.2);border-top-color:#3b82f6;border-radius:50%;animation:spin 1s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    
+    .table-container{display:none;background:var(--card);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;margin-bottom:24px;max-height:520px;overflow-y:auto;}
     table{width:100%;border-collapse:collapse;text-align:left;font-size:.84rem;}
     th{background:rgba(255,255,255,0.04);padding:14px 16px;font-weight:700;color:var(--muted);border-bottom:1px solid var(--bdr);text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;position:sticky;top:0;z-index:2;}
     td{padding:12px 16px;border-bottom:1px solid var(--bdr);}
@@ -1401,7 +1415,7 @@ function getModelRecsHtml(models) {
     .tag-ultra{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);}
     .model-id{font-family:'Consolas',monospace;font-weight:700;color:#38bdf8;}
     
-    .btn-group{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--bdr);}
+    .btn-group{display:none;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--bdr);}
     .stats{font-size:.85rem;color:var(--muted);font-family:monospace;}
     .btn{padding:10px 22px;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px;}
     .btn-save{background:linear-gradient(135deg,#2563eb,#10b981);color:#fff;box-shadow:0 4px 15px rgba(37,99,235,0.4);}
@@ -1415,10 +1429,18 @@ function getModelRecsHtml(models) {
       <div class="title">🏆 Live Auto-Discovered AI Company Squad</div>
       <div class="subtitle">Live cloud scan results across your connected AI endpoints (OpenRouter, Groq, Bynara)</div>
     </div>
-    <span class="tag tag-free">${models.length} Active AI Models Online</span>
+    <span id="badgeCount" class="tag tag-free">🔍 Scanning Live Cloud...</span>
   </div>
 
-  <div class="table-container">
+  <!-- 1. LIVE ANIMATED LOADING SCANNER -->
+  <div id="loadingBox">
+    <div class="spinner"></div>
+    <div style="font-size:1.1rem;font-weight:800;color:#60a5fa;">🔍 Scanning Live AI Provider Endpoints...</div>
+    <div style="font-size:0.85rem;color:var(--muted);">Connecting to Groq LPU, OpenRouter, and Bynara Router to discover all available models...</div>
+  </div>
+
+  <!-- 2. DYNAMIC TABLE CONTAINER -->
+  <div class="table-container" id="tableContainer">
     <table>
       <thead>
         <tr>
@@ -1429,32 +1451,61 @@ function getModelRecsHtml(models) {
           <th>Status</th>
         </tr>
       </thead>
-      <tbody>
-        ${rows}
-      </tbody>
+      <tbody id="tableBody"></tbody>
     </table>
   </div>
 
-  <div class="btn-group">
-    <span class="stats">⚡ Auto-routed ${models.length} specialist models into Company Squad</span>
+  <!-- 3. ACTIONS -->
+  <div class="btn-group" id="btnGroup">
+    <span class="stats" id="statsText">⚡ Auto-routed models into Company Squad</span>
     <div style="display:flex;gap:10px;">
       <button class="btn btn-ignore" onclick="ignore()">❌ Close</button>
-      <button class="btn btn-save" onclick="apply()">💾 Save & Apply Full Squad (${models.length} Models)</button>
+      <button class="btn btn-save" id="saveBtn" onclick="apply()">💾 Save & Apply Full Squad</button>
     </div>
   </div>
 
   <script>
     const vscode = acquireVsCodeApi();
-    function apply() { vscode.postMessage({ type: 'apply_models' }); }
+    let currentModels = [];
+
+    window.addEventListener('message', event => {
+      const msg = event.data;
+      if (msg.type === 'scan_complete') {
+        currentModels = msg.models;
+        renderModels(currentModels);
+      } else if (msg.type === 'scan_error') {
+        document.getElementById('loadingBox').innerHTML = '<div style="color:#ef4444;font-weight:800;font-size:1.1rem;">⚠️ Scan Error: ' + msg.message + '</div><button class="btn btn-save" style="margin-top:12px;" onclick="rescan()">🔄 Retry Scan</button>';
+      }
+    });
+
+    function renderModels(models) {
+      document.getElementById('loadingBox').style.display = 'none';
+      document.getElementById('tableContainer').style.display = 'block';
+      document.getElementById('btnGroup').style.display = 'flex';
+      document.getElementById('badgeCount').textContent = models.length + ' Active AI Models Online';
+      document.getElementById('statsText').textContent = '⚡ Discovered ' + models.length + ' active models across connected routers';
+      document.getElementById('saveBtn').textContent = '💾 Save & Apply Full Squad (' + models.length + ' Models)';
+
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = models.map((m, idx) => {
+        const roleName = m.role || (idx === 0 ? '⚡ Lead Coder' : idx === 1 ? '🧠 Chief Architect' : idx === 2 ? '🛡️ Security Shield' : idx === 3 ? '🧪 QA & Testing' : idx === 4 ? '💻 Refactor Agent' : idx === 5 ? '⚖️ Executive Judge' : '👥 Specialist Squad Member');
+        const badgeClass = m.cost && m.cost.includes('Free') ? 'tag-free' : 'tag-ultra';
+        return '<tr>' +
+          '<td><strong>' + roleName + '</strong></td>' +
+          '<td><span class="tag tag-ultra">' + (m.provider || 'AI Cloud') + '</span></td>' +
+          '<td><span class="model-id">' + m.id + '</span></td>' +
+          '<td><span class="tag ' + badgeClass + '">' + (m.cost || 'Free') + '</span></td>' +
+          '<td><span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399;">🟢 Verified Active</span></td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    function apply() { vscode.postMessage({ type: 'apply_models', count: currentModels.length }); }
     function ignore() { vscode.postMessage({ type: 'close' }); }
+    function rescan() { vscode.postMessage({ type: 'rescan' }); }
   </script>
 </body>
 </html>`;
-}
-
-
-async function cmdCheckBestModels(context) {
-  showModelRecommendationsPage(context);
 }
 
 async function cmdCheckBestModels_DISABLED(context) {
