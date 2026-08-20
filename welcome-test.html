@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>স্বাগতম — AgentCouncil মাল্টি-এআই টেস্ট পেজ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #040814;
+      --card: rgba(9, 17, 36, 0.85);
+      --border: rgba(59, 130, 246, 0.25);
+      --accent: #3b82f6;
+      --green: #34d399;
+      --purple: #c084fc;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Hind Siliguri', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Glows */
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .glow-1 { top: 10%; left: 20%; width: 350px; height: 350px; background: rgba(59, 130, 246, 0.2); }
+    .glow-2 { bottom: 10%; right: 20%; width: 400px; height: 400px; background: rgba(52, 211, 153, 0.15); }
+
+    /* Welcome Container Card */
+    .welcome-card {
+      position: relative;
+      z-index: 1;
+      background: var(--card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      max-width: 680px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.15);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      color: var(--green);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #60a5fa, #34d399, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* Council Grid Mini */
+    .council-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .council-item {
+      background: rgba(14, 26, 56, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 10px;
+      font-size: 0.8rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .council-item:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+
+    .council-item span.icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+    .council-item strong { display: block; color: var(--text); font-size: 0.82rem; }
+    .council-item small { color: var(--muted); font-size: 0.7rem; }
+
+    /* Action Button */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #2563eb, #10b981);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(37, 99, 235, 0.6);
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .footer-note {
+      margin-top: 24px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <div class="welcome-card">
+    <div class="badge">
+      <span class="dot"></span> AgentCouncil v1.0.5 Live & Connected
+    </div>
+
+    <h1>স্বাগতম! আপনার মাল্টি-এআই কাউন্সিল প্রস্তুত</h1>
+
+    <p class="subtitle">
+      অভিনন্দন! আপনার Google Antigravity ও VSCode পরিবেশে ৬টি বিশেষায়িত এআই মডেল সম্পূর্ণ সক্রিয় এবং আপনার কোডিং প্রশ্নের উত্তর দিতে প্রস্তুত।
+    </p>
+
+    <div class="council-grid">
+      <div class="council-item">
+        <span class="icon">🧠</span>
+        <strong>DeepSeek R1</strong>
+        <small>চিফ আর্কিটেক্ট</small>
+      </div>
+      <div class="council-item">
+        <span class="icon">⚡</span>
+        <strong>Qwen 3.6-27B</strong>
+        <small>লিড কোডার (540 tok/s)</small>
+      </div>
+      <div class="council-item">
+        <span class="icon">🛡️</span>
+        <strong>Llama 3.3</strong>
+        <small>সিকিউরিটি শিল্ড</small>
+      </div>
+      <div class="council-item">
+        <span class="icon">🧪</span>
+        <strong>Nemotron Free</strong>
+        <small>কিউএ টেস্টার</small>
+      </div>
+      <div class="council-item">
+        <span class="icon">💻</span>
+        <strong>Cohere Coder</strong>
+        <small>রিফ্যাক্টর এআই</small>
+      </div>
+      <div class="council-item">
+        <span class="icon">⚖️</span>
+        <strong>Agnes Judge</strong>
+        <small>ফাইনাল জাজ</small>
+      </div>
+    </div>
+
+    <button class="btn" onclick="alert('🎉 AgentCouncil টেস্ট সফল হয়েছে! চ্যাটে যেকোনো কোডিং প্রশ্ন করুন।')">
+      🚀 মাল্টি-এআই টেস্ট সফল
+    </button>
+
+    <p class="footer-note">
+      Ctrl+Alt+M চাপুন লাইভ রাউন্ড-টেবিল HUD ওপেন করতে
+    </p>
+  </div>
+
+</body>
+</html>
