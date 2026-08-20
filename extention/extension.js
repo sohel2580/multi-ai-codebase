@@ -1398,11 +1398,18 @@ async function showModelRecommendationsPage(context) {
       try {
         if (cfg.groqApiKey) {
           const groqModels = await fetchProviderModels('groq', cfg.groqApiKey);
+          // Groq API Tier has free limits on all models
           groqModels.forEach(m => allModels.push({ ...m, provider: 'Groq LPU', host: 'Groq Cloud', cost: '100% Free' }));
         }
         if (cfg.openrouterApiKey) {
           const orModels = await fetchProviderModels('openrouter', cfg.openrouterApiKey);
-          orModels.forEach(m => allModels.push({ ...m, provider: 'OpenRouter', host: 'OpenRouter Cloud', cost: m.id.includes(':free') ? '100% Free' : 'Pay/Token' }));
+          // 🛡️ STRICT FILTER: Only include models with ':free' suffix or 0 prompt pricing!
+          const freeOrModels = orModels.filter(m => {
+            const isFreeSuffix = (m.id || '').includes(':free');
+            const isZeroPrice = m.pricing && Number(m.pricing.prompt) === 0 && Number(m.pricing.completion) === 0;
+            return isFreeSuffix || isZeroPrice;
+          });
+          freeOrModels.forEach(m => allModels.push({ ...m, provider: 'OpenRouter Free', host: 'OpenRouter Cloud', cost: '100% Free' }));
         }
         if (cfg.bynaraApiKey) {
           const bynaraModels = await fetchProviderModels('bynara', cfg.bynaraApiKey, cfg.bynaraEndpoint);
