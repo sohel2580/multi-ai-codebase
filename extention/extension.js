@@ -543,7 +543,7 @@ function getRoundTableHtml(nonce, initData = null) {
   <div class="topbar">
     <div class="topbar-left">
       <span class="logo">🏢</span>
-      <div><span class="title-text">Multi-AI Parallel Council</span><span class="ver">v4.0 — Real Agentic</span></div>
+      <div><span class="title-text">Multi-AI Parallel Council</span><span class="ver">v5.1 — Real Agentic</span></div>
     </div>
     <div class="topbar-right" style="display:flex;align-items:center;gap:8px;">
       <!-- 💰 Live Token & Free Savings Counter in Round-Table HUD -->
