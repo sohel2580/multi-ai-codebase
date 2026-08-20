@@ -581,12 +581,12 @@ function getRoundTableHtml(nonce, initData = null) {
       <div class="core-state" id="coreState">Standby & Listening</div>
       <div class="core-metrics" id="coreMetrics">Awaiting command</div>
     </div>
-    <div class="agent" id="ag-deepseek"><div class="bubble" id="b-deepseek"></div><div class="agent-emoji">🧠</div><div class="agent-name" id="nm-deepseek">agnes-2.5-flash</div><div class="agent-role" id="rl-deepseek">DeepSeek / Agnes</div><div class="agent-badge" id="bd-deepseek">Standby</div><div class="squad-count" id="sq-deepseek">👥 72 AI Models</div></div>
-    <div class="agent" id="ag-qwen"><div class="bubble" id="b-qwen"></div><div class="agent-emoji">⚡</div><div class="agent-name" id="nm-qwen">qwen3.6-27b</div><div class="agent-role" id="rl-qwen">Qwen 2.5 Coder (Groq)</div><div class="agent-badge" id="bd-qwen">Standby</div><div class="squad-count" id="sq-qwen">👥 118 AI Models</div></div>
-    <div class="agent" id="ag-llama"><div class="bubble" id="b-llama"></div><div class="agent-emoji">🛡️</div><div class="agent-name" id="nm-llama">gpt-oss-120b</div><div class="agent-role" id="rl-llama">Llama / OSS Shield</div><div class="agent-badge" id="bd-llama">Standby</div><div class="squad-count" id="sq-llama">👥 64 AI Models</div></div>
-    <div class="agent" id="ag-gemma"><div class="bubble" id="b-gemma"></div><div class="agent-emoji">🧪</div><div class="agent-name" id="nm-gemma">nemotron-3.5:free</div><div class="agent-role" id="rl-gemma">Nvidia Nemotron</div><div class="agent-badge" id="bd-gemma">Standby</div><div class="squad-count" id="sq-gemma">👥 58 AI Models</div></div>
-    <div class="agent" id="ag-claude"><div class="bubble" id="b-claude"></div><div class="agent-emoji">⚖️</div><div class="agent-name" id="nm-claude">agnes-2.5-judge</div><div class="agent-role" id="rl-claude">Executive Judge</div><div class="agent-badge" id="bd-claude">Standby</div><div class="squad-count" id="sq-claude">👥 65 AI Models</div></div>
-    <div class="agent" id="ag-seo"><div class="bubble" id="b-seo"></div><div class="agent-emoji">📈</div><div class="agent-name" id="nm-seo">north-mini-code:free</div><div class="agent-role" id="rl-seo">Cohere & Mistral</div><div class="agent-badge" id="bd-seo">Standby</div><div class="squad-count" id="sq-seo">👥 53 AI Models</div></div>
+    <div class="agent" id="ag-deepseek"><div class="bubble" id="b-deepseek"></div><div class="agent-emoji">🧠</div><div class="agent-name" id="nm-deepseek">agnes-2.5-flash</div><div class="agent-role" id="rl-deepseek">DeepSeek / Agnes</div><div class="agent-badge" id="bd-deepseek">Standby</div><div class="squad-count" id="sq-deepseek">👥 ${currentStatus && currentStatus.squadCounts ? currentStatus.squadCounts.deepseek : "15"} AI Models</div></div>
+    <div class="agent" id="ag-qwen"><div class="bubble" id="b-qwen"></div><div class="agent-emoji">⚡</div><div class="agent-name" id="nm-qwen">qwen3.6-27b</div><div class="agent-role" id="rl-qwen">Qwen 2.5 Coder (Groq)</div><div class="agent-badge" id="bd-qwen">Standby</div><div class="squad-count" id="sq-qwen">👥 ${currentStatus && currentStatus.squadCounts ? currentStatus.squadCounts.qwen : "25"} AI Models</div></div>
+    <div class="agent" id="ag-llama"><div class="bubble" id="b-llama"></div><div class="agent-emoji">🛡️</div><div class="agent-name" id="nm-llama">gpt-oss-120b</div><div class="agent-role" id="rl-llama">Llama / OSS Shield</div><div class="agent-badge" id="bd-llama">Standby</div><div class="squad-count" id="sq-llama">👥 ${currentStatus && currentStatus.squadCounts ? currentStatus.squadCounts.llama : "12"} AI Models</div></div>
+    <div class="agent" id="ag-gemma"><div class="bubble" id="b-gemma"></div><div class="agent-emoji">🧪</div><div class="agent-name" id="nm-gemma">nemotron-3.5:free</div><div class="agent-role" id="rl-gemma">Nvidia Nemotron</div><div class="agent-badge" id="bd-gemma">Standby</div><div class="squad-count" id="sq-gemma">👥 ${currentStatus && currentStatus.squadCounts ? currentStatus.squadCounts.gemma : "14"} AI Models</div></div>
+    <div class="agent" id="ag-claude"><div class="bubble" id="b-claude"></div><div class="agent-emoji">⚖️</div><div class="agent-name" id="nm-claude">agnes-2.5-judge</div><div class="agent-role" id="rl-claude">Executive Judge</div><div class="agent-badge" id="bd-claude">Standby</div><div class="squad-count" id="sq-claude">👥 ${currentStatus && currentStatus.squadCounts ? currentStatus.squadCounts.claude : "11"} AI Models</div></div>
+    <div class="agent" id="ag-seo"><div class="bubble" id="b-seo"></div><div class="agent-emoji">📈</div><div class="agent-name" id="nm-seo">north-mini-code:free</div><div class="agent-role" id="rl-seo">Cohere & Mistral</div><div class="agent-badge" id="bd-seo">Standby</div><div class="squad-count" id="sq-seo">👥 ${currentStatus && currentStatus.squadCounts ? currentStatus.squadCounts.seo : "12"} AI Models</div></div>
   </div>
 
   <div class="ticker"><span class="ticker-lbl">► LIVE</span><span class="ticker-txt" id="tickerTxt">Real Multi-AI Agentic Engine · 430 AI Swarm Ready</span></div>
@@ -646,8 +646,8 @@ function getRoundTableHtml(nonce, initData = null) {
     // Live Dynamic Token Counter in Topbar
     const tCount = d.totalTokens !== undefined ? d.totalTokens : 0;
     if (d.totalModelsOnline) {
-      const topTotal = document.getElementById('top-total-models');
-      if (topTotal) topTotal.textContent = '🏢 ' + d.totalModelsOnline + ' AI Models Enterprise Squad';
+      const topVer = document.getElementById('top-ver-title');
+      if (topVer) topVer.textContent = 'v1.5.8 — ' + d.totalModelsOnline + ' AI Enterprise Edition';
     }
     if (d.squadCounts) {
       Object.keys(d.squadCounts).forEach(k => {
