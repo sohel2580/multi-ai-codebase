@@ -557,7 +557,7 @@ function getRoundTableHtml(nonce, initData = null) {
   <div class="topbar">
     <div class="topbar-left">
       <span class="logo">🏢</span>
-      <div><span class="title-text">AgentCouncil — Multi-AI Parallel Council</span><span class="ver">v1.4.2 — 430 AI Enterprise Edition</span></div>
+      <div><span class="title-text">AgentCouncil — Multi-AI Parallel Council</span><span class="ver">v1.5.7 — 430 AI Enterprise Edition</span></div>
     </div>
     <div class="topbar-right" style="display:flex;align-items:center;gap:8px;">
       <div class="pill pill-live"><div class="dot"></div>LIVE</div>
@@ -1544,7 +1544,7 @@ function getSidebarHtml(initData = null) {
   </div>
 
   <p class="note">💡 Click "⚙️ Settings & API Keys" to enter or get your provider keys.</p>
-  <p class="ver">AgentCouncil v1.4.2 — 430 AI Swarm</p>
+  <p class="ver">AgentCouncil v1.5.7 — 430 AI Swarm</p>
 
   <script>
     const vscode = acquireVsCodeApi();
