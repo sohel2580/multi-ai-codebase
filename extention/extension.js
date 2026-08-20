@@ -450,7 +450,7 @@ function createOrShowWarRoom(context) {
           writeStandby();
         }
       } catch (e) {}
-    }, 5000);
+    }, 1000);
 
     if (statusFile) {
       try {
