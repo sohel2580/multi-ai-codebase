@@ -2,7 +2,7 @@
   "name": "agent-council",
   "displayName": "AgentCouncil: Multi-AI Free Coding Assistant",
   "description": "Free Multi-Agent AI Coding Copilot — 6 Specialist AI Models (DeepSeek R1, Groq Qwen 3.6-27B, Llama 3.3, Nemotron & Cohere) with Real-Time Round-Table HUD.",
-  "version": "1.4.8",
+  "version": "1.5.0",
   "publisher": "sohel-ahammad",
   "author": {
     "name": "Sohel Ahammad"
@@ -92,6 +92,36 @@
           "default": "https://co.agentrouter.org/v1/chat/completions",
           "markdownDescription": "🤖 **Agent Router Endpoint URL**",
           "order": 6
+        },
+        "multiAI.cerebrasApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "⚡ **Cerebras Free Llama 3.3 70B @ 2000 tok/s** — [cloud.cerebras.ai](https://cloud.cerebras.ai)",
+          "order": 7
+        },
+        "multiAI.sambanovaApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "⚡ **SambaNova Free Ultra Llama 3.3 @ 1000 tok/s** — [cloud.sambanova.ai](https://cloud.sambanova.ai)",
+          "order": 8
+        },
+        "multiAI.togetherApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "🌐 **Together AI Free Tier Router** — [together.ai](https://together.ai)",
+          "order": 9
+        },
+        "multiAI.deepinfraApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "🌐 **DeepInfra Free / Pay-per-use Router** — [deepinfra.com](https://deepinfra.com)",
+          "order": 10
+        },
+        "multiAI.mistralApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "💻 **Mistral Codestral Free Coding API** — [console.mistral.ai](https://console.mistral.ai)",
+          "order": 11
         }
       }
     },

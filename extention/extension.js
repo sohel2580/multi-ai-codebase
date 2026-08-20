@@ -26,6 +26,11 @@ function getApiConfig() {
   return {
     groqApiKey:           cfg.get('groqApiKey', ''),
     openrouterApiKey:     cfg.get('openrouterApiKey', ''),
+    cerebrasApiKey:       cfg.get('cerebrasApiKey', ''),
+    sambanovaApiKey:      cfg.get('sambanovaApiKey', ''),
+    togetherApiKey:       cfg.get('togetherApiKey', ''),
+    deepinfraApiKey:      cfg.get('deepinfraApiKey', ''),
+    mistralApiKey:        cfg.get('mistralApiKey', ''),
     bynaraApiKey:         cfg.get('bynaraApiKey', ''),
     bynaraEndpoint:       cfg.get('bynaraEndpoint', 'https://router.bynara.id/v1/chat/completions'),
     agentrouterApiKey:    cfg.get('agentrouterApiKey', ''),
@@ -1056,16 +1061,10 @@ function getSettingsPageHtml() {
       let key = '';
       let endpoint = '';
 
-      if (provider === 'groq') key = document.getElementById('key-groq').value;
-      if (provider === 'openrouter') key = document.getElementById('key-openrouter').value;
-      if (provider === 'bynara') {
-        key = document.getElementById('key-bynara').value;
-        endpoint = document.getElementById('ep-bynara').value;
-      }
-      if (provider === 'tokenrouter') {
-        key = document.getElementById('key-tokenrouter').value;
-        endpoint = document.getElementById('ep-tokenrouter').value;
-      }
+      const elKey = document.getElementById('key-' + provider);
+      if (elKey) key = elKey.value;
+      const elEp = document.getElementById('ep-' + provider);
+      if (elEp) endpoint = elEp.value;
       vscode.postMessage({ type: 'test_key', provider, key, endpoint });
     }
 
@@ -1398,22 +1397,40 @@ async function showModelRecommendationsPage(context) {
       try {
         if (cfg.groqApiKey) {
           const groqModels = await fetchProviderModels('groq', cfg.groqApiKey);
-          // Groq API Tier has free limits on all models
-          groqModels.forEach(m => allModels.push({ ...m, provider: 'Groq LPU', host: 'Groq Cloud', cost: '100% Free' }));
+          groqModels.forEach(m => allModels.push({ ...m, provider: 'Groq LPU (540 tok/s)', host: 'Groq Cloud', cost: '100% Free' }));
+        }
+        if (cfg.cerebrasApiKey) {
+          const cerModels = await fetchProviderModels('cerebras', cfg.cerebrasApiKey);
+          cerModels.forEach(m => allModels.push({ ...m, provider: 'Cerebras LPU (2000 tok/s)', host: 'Cerebras Cloud', cost: '100% Free' }));
+        }
+        if (cfg.sambanovaApiKey) {
+          const samModels = await fetchProviderModels('sambanova', cfg.sambanovaApiKey);
+          samModels.forEach(m => allModels.push({ ...m, provider: 'SambaNova (1000 tok/s)', host: 'SambaNova Cloud', cost: '100% Free' }));
         }
         if (cfg.openrouterApiKey) {
           const orModels = await fetchProviderModels('openrouter', cfg.openrouterApiKey);
-          // 🛡️ STRICT FILTER: Only include models with ':free' suffix or 0 prompt pricing!
-          const freeOrModels = orModels.filter(m => {
-            const isFreeSuffix = (m.id || '').includes(':free');
-            const isZeroPrice = m.pricing && Number(m.pricing.prompt) === 0 && Number(m.pricing.completion) === 0;
-            return isFreeSuffix || isZeroPrice;
-          });
+          const freeOrModels = orModels.filter(m => (m.id || '').includes(':free') || (m.pricing && Number(m.pricing.prompt) === 0));
           freeOrModels.forEach(m => allModels.push({ ...m, provider: 'OpenRouter Free', host: 'OpenRouter Cloud', cost: '100% Free' }));
+        }
+        if (cfg.togetherApiKey) {
+          const togModels = await fetchProviderModels('together', cfg.togetherApiKey);
+          togModels.forEach(m => allModels.push({ ...m, provider: 'Together AI', host: 'Together Cloud', cost: '100% Free' }));
+        }
+        if (cfg.deepinfraApiKey) {
+          const diModels = await fetchProviderModels('deepinfra', cfg.deepinfraApiKey);
+          diModels.forEach(m => allModels.push({ ...m, provider: 'DeepInfra', host: 'DeepInfra Cloud', cost: '100% Free' }));
+        }
+        if (cfg.mistralApiKey) {
+          const misModels = await fetchProviderModels('mistral', cfg.mistralApiKey);
+          misModels.forEach(m => allModels.push({ ...m, provider: 'Mistral AI', host: 'Mistral Cloud', cost: '100% Free' }));
         }
         if (cfg.bynaraApiKey) {
           const bynaraModels = await fetchProviderModels('bynara', cfg.bynaraApiKey, cfg.bynaraEndpoint);
           bynaraModels.forEach(m => allModels.push({ ...m, provider: 'Bynara Router', host: 'Bynara Router', cost: '100% Free' }));
+        }
+        if (cfg.agentrouterApiKey) {
+          const arModels = await fetchProviderModels('tokenrouter', cfg.agentrouterApiKey, cfg.agentrouterEndpoint);
+          arModels.forEach(m => allModels.push({ ...m, provider: 'Agent Router', host: 'AgentRouter Cloud', cost: '100% Free' }));
         }
       } catch(e) {}
 
