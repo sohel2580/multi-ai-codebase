@@ -39,7 +39,7 @@ if (fs.existsSync(path.join(extDir, 'media'))) {
 // ── Files to include ──
 const filesToCopy = [
   'package.json', 'extension.js', 'ecc-engine.js',
-  'ai-router.js', 'orchestrator.js',
+  'ai-router.js', 'orchestrator.js', 'model-discoverer.js',
   'icon.svg', 'README.md', 'CHANGELOG.md', 'LICENSE'
 ];
 let copied = 0;
