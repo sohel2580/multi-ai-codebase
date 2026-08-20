@@ -420,10 +420,19 @@ async function cmdSetupKeys() {
 // ─────────────────────────────────────────────────────────────
 function createOrShowWarRoom(context) {
   try {
-    if (currentWarRoomPanel) { currentWarRoomPanel.reveal(vscode.ViewColumn.One); return; }
+    if (currentWarRoomPanel) {
+      try { currentWarRoomPanel.dispose(); } catch(e) {}
+      currentWarRoomPanel = null;
+    }
 
+    const sessionId = 'hud_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
     const nonce = crypto.randomBytes(16).toString('base64');
     currentWarRoomPanel = vscode.window.createWebviewPanel(
+      'multiAI.warRoom',
+      '⚡ Multi-AI Round-Table HUD',
+      vscode.ViewColumn.One,
+      { enableScripts: true, retainContextWhenHidden: false }
+    );
       'multiAI.warRoom',
       '⚡ Multi-AI Round-Table HUD',
       vscode.ViewColumn.One,
@@ -724,19 +733,20 @@ let currentSettingsPanel = null;
 
 function createOrShowSettingsPage(context) {
   if (currentSettingsPanel) {
-    currentSettingsPanel.reveal(vscode.ViewColumn.One);
-    currentSettingsPanel.webview.html = getSettingsPageHtml();
-    return;
+    try { currentSettingsPanel.dispose(); } catch(e) {}
+    currentSettingsPanel = null;
   }
+
+  const sessionId = 'settings_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
 
   currentSettingsPanel = vscode.window.createWebviewPanel(
     'multiAI.settingsPage',
     '⚙️ Multi-AI: Free AI Routers & Key Test',
     vscode.ViewColumn.One,
-    { enableScripts: true, retainContextWhenHidden: true }
+    { enableScripts: true, retainContextWhenHidden: false }
   );
 
-  currentSettingsPanel.webview.html = getSettingsPageHtml();
+  currentSettingsPanel.webview.html = getSettingsPageHtml(sessionId);
 
   currentSettingsPanel.webview.onDidReceiveMessage(async (msg) => {
     switch (msg.type) {
@@ -893,7 +903,7 @@ function createOrShowSettingsPage(context) {
   });
 }
 
-function getSettingsPageHtml() {
+function getSettingsPageHtml(sessionId = Date.now()) {
   const cfg = getApiConfig();
   const groqVal = cfg.groqApiKey || '';
   const openrouterVal = cfg.openrouterApiKey || '';
@@ -913,8 +923,12 @@ function getSettingsPageHtml() {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="session-id" content="${sessionId}">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://*;">
   <title>Multi-AI Free Routers Settings</title>
+  <meta name="session-id" content="${sessionId}">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <style>
     :root {
       --bg: var(--vscode-editor-background, #0b1424);
@@ -1641,19 +1655,22 @@ let latestScannedModels = [];
 
 async function showModelRecommendationsPage(context) {
   if (currentRecPanel) {
-    currentRecPanel.reveal(vscode.ViewColumn.One);
-  } else {
-    currentRecPanel = vscode.window.createWebviewPanel(
-      'multiAI.modelRecs',
-      '🏆 Live Auto-Discovered AI Models Roster',
-      vscode.ViewColumn.One,
-      { enableScripts: true, retainContextWhenHidden: true }
-    );
-    currentRecPanel.onDidDispose(() => { currentRecPanel = null; });
+    try { currentRecPanel.dispose(); } catch(e) {}
+    currentRecPanel = null;
   }
 
-  // 1. Instantly render the Interactive Scanner UI with animated loader
-  currentRecPanel.webview.html = getModelScannerHtml();
+  const sessionId = 'model_roster_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+
+  currentRecPanel = vscode.window.createWebviewPanel(
+    'multiAI.modelRecs',
+    '🏆 Live Auto-Discovered AI Models Roster',
+    vscode.ViewColumn.One,
+    { enableScripts: true, retainContextWhenHidden: false }
+  );
+  currentRecPanel.onDidDispose(() => { currentRecPanel = null; });
+
+  // 1. Instantly render the Interactive Scanner UI with unique cache-buster
+  currentRecPanel.webview.html = getModelScannerHtml(sessionId);
 
   // 2. Asynchronously scan providers in the background without freezing the UI
   setTimeout(async () => {
@@ -1766,7 +1783,7 @@ async function showModelRecommendationsPage(context) {
   });
 }
 
-function getModelScannerHtml() {
+function getModelScannerHtml(sessionId = Date.now()) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
