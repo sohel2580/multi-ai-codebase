@@ -1370,6 +1370,8 @@ function classifyModelsIntoSquads(models) {
 }
 
 
+let latestScannedModels = [];
+
 async function showModelRecommendationsPage(context) {
   if (currentRecPanel) {
     currentRecPanel.reveal(vscode.ViewColumn.One);
@@ -1415,12 +1417,11 @@ async function showModelRecommendationsPage(context) {
           { id: 'openai/gpt-oss-120b', name: 'OpenAI GPT-OSS 120B', provider: 'Groq Shield', role: '🛡️ Security Shield', cost: '100% Free' },
           { id: 'nvidia/nemotron-3.5-lightning:free', name: 'NVIDIA Nemotron 3.5', provider: 'OpenRouter', role: '🧪 QA & Testing', cost: '100% Free' },
           { id: 'cohere/north-mini-code:free', name: 'Cohere North Mini', provider: 'OpenRouter', role: '💻 Clean Refactor', cost: '100% Free' },
-          { id: 'meta-llama/llama-3.3-70b-instruct:free', name: 'Meta Llama 3.3 70B', provider: 'OpenRouter', role: '⚖️ Executive Judge', cost: '100% Free' },
-          { id: 'google/gemma-2-9b-it:free', name: 'Google Gemma 2 9B', provider: 'OpenRouter', role: '🔬 Research Analyst', cost: '100% Free' },
-          { id: 'mistralai/mistral-7b-instruct:free', name: 'Mistral 7B', provider: 'OpenRouter', role: '⚡ Fast Helper', cost: '100% Free' },
-          { id: 'microsoft/phi-3-mini-128k-instruct:free', name: 'Microsoft Phi 3', provider: 'OpenRouter', role: '📱 Edge Model', cost: '100% Free' }
+          { id: 'meta-llama/llama-3.3-70b-instruct:free', name: 'Meta Llama 3.3 70B', provider: 'OpenRouter', role: '⚖️ Executive Judge', cost: '100% Free' }
         ];
       }
+
+      latestScannedModels = allModels;
 
       if (currentRecPanel) {
         currentRecPanel.webview.postMessage({ type: 'scan_complete', models: allModels });
@@ -1435,7 +1436,8 @@ async function showModelRecommendationsPage(context) {
   currentRecPanel.webview.onDidReceiveMessage(async (msg) => {
     switch (msg.type) {
       case 'apply_models':
-        const squadCounts = classifyModelsIntoSquads(allModels);
+        const modelsToApply = (msg.models && msg.models.length > 0) ? msg.models : latestScannedModels;
+        const squadCounts = classifyModelsIntoSquads(modelsToApply);
         
         // 1. Update .ai_team_status.json with real live breakdown
         try {
@@ -1453,8 +1455,14 @@ async function showModelRecommendationsPage(context) {
           writeStatusData(status);
         } catch(e) {}
 
-        vscode.window.showInformationMessage(`✅ ${squadCounts.total} Real Live Models Distributed: Qwen (${squadCounts.qwen}), DeepSeek (${squadCounts.deepseek}), Llama (${squadCounts.llama}), Nemotron (${squadCounts.gemma}), Judge (${squadCounts.claude}), Polish (${squadCounts.seo})`);
-        if (currentRecPanel) currentRecPanel.dispose();
+        vscode.window.showInformationMessage(`✅ ${squadCounts.total} Models Applied to Council: Qwen (${squadCounts.qwen}), DeepSeek (${squadCounts.deepseek}), Llama (${squadCounts.llama}), Nemotron (${squadCounts.gemma}), Judge (${squadCounts.claude}), Polish (${squadCounts.seo})`);
+        
+        if (currentRecPanel) {
+          currentRecPanel.webview.postMessage({ type: 'apply_success', total: squadCounts.total });
+          setTimeout(() => {
+            if (currentRecPanel) currentRecPanel.dispose();
+          }, 800);
+        }
         break;
       case 'close':
         if (currentRecPanel) currentRecPanel.dispose();
@@ -1591,7 +1599,21 @@ function getModelScannerHtml() {
       }).join('');
     }
 
-    function apply() { vscode.postMessage({ type: 'apply_models', count: currentModels.length }); }
+    function apply() {
+      const btn = document.getElementById('saveBtn');
+      btn.innerHTML = '<span>⏳ Applying Squad...</span>';
+      btn.disabled = true;
+      vscode.postMessage({ type: 'apply_models', models: currentModels, count: currentModels.length });
+    }
+
+    window.addEventListener('message', event => {
+      const msg = event.data;
+      if (msg.type === 'apply_success') {
+        const btn = document.getElementById('saveBtn');
+        btn.innerHTML = '<span>✅ Saved ' + msg.total + ' Models!</span>';
+        btn.style.background = '#10b981';
+      }
+    });
     function ignore() { vscode.postMessage({ type: 'close' }); }
     function rescan() { vscode.postMessage({ type: 'rescan' }); }
   </script>
