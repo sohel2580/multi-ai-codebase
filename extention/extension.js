@@ -1645,3 +1645,5 @@ function deactivate() {
 }
 
 module.exports = { activate, deactivate };
+
+async function cmdCheckBestModels(context) { showModelRecommendationsPage(context); }
