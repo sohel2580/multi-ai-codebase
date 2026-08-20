@@ -543,7 +543,7 @@ function getRoundTableHtml(nonce, initData = null) {
   <div class="topbar">
     <div class="topbar-left">
       <span class="logo">🏢</span>
-      <div><span class="title-text">AgentCouncil — Multi-AI Parallel Council</span><span class="ver">v1.0.2 — Official Release</span></div>
+      <div><span class="title-text">AgentCouncil — Multi-AI Parallel Council</span><span class="ver">v1.0.4 — Official Release</span></div>
     </div>
     <div class="topbar-right" style="display:flex;align-items:center;gap:8px;">
       <div class="pill pill-live"><div class="dot"></div>LIVE</div>
@@ -1041,17 +1041,14 @@ function getSettingsPageHtml() {
 
       if (provider === 'groq') key = document.getElementById('key-groq').value;
       if (provider === 'openrouter') key = document.getElementById('key-openrouter').value;
-          } else if (provider === 'bynara') {
-            let cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://router.bynara.id/v1/chat/completions';
-            if (cleanEp.includes('api.bynara.ai')) {
-              cleanEp = 'https://router.bynara.id/v1/chat/completions';
-            }
-            res = await callBynaraRouter(key, cleanEp, 'agnes-2.5-flash', testMsg, 20);
-          } else if (provider === 'tokenrouter') {
+      if (provider === 'bynara') {
+        key = document.getElementById('key-bynara').value;
+        endpoint = document.getElementById('ep-bynara').value;
+      }
+      if (provider === 'tokenrouter') {
         key = document.getElementById('key-tokenrouter').value;
         endpoint = document.getElementById('ep-tokenrouter').value;
       }
-
       vscode.postMessage({ type: 'test_key', provider, key, endpoint });
     }
 
