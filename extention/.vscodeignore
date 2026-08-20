@@ -1,0 +1,11 @@
+# Development files — excluded from VSIX package
+.staging/**
+*.vsix
+build-vsix.js
+.ai_team_status.json
+scratch/**
+.eslintrc*
+*.log
+node_modules/**
+.git/**
+.gitignore

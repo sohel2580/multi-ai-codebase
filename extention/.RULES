@@ -1,0 +1,98 @@
+# Coding Rules — Multi-AI Orchestrator Extension
+# Author: Sohel Ahammad
+# Version: 4.0.0
+# These rules apply to ALL files in this extension.
+
+---
+
+## RULE-01: No NPM Dependencies in Runtime Code
+- NEVER add packages to `dependencies` in package.json
+- All HTTP calls use Node.js built-in `https` module only
+- All file operations use Node.js built-in `fs` and `path`
+- `devDependencies` are allowed (eslint, @types/vscode) but never bundled
+- REASON: VSIX must stay lean; no node_modules folder in package
+
+## RULE-02: All API Keys from VSCode Settings ONLY
+- NEVER hardcode any API key, token, or secret in any file
+- NEVER log API keys to console or write to any file
+- Keys MUST come from: `vscode.workspace.getConfiguration('multiAI').get('...')`
+- ECC scanner MUST block any PR that introduces raw key patterns
+
+## RULE-03: Every Async Call Has Timeout + Error Boundary
+- ALL `httpPost()` calls MUST use `timeoutMs` parameter (default: 30000ms)
+- ALL orchestrator steps MUST be wrapped in try/catch
+- Parallel steps MUST use `Promise.allSettled()` — never `Promise.all()`
+- REASON: One failing provider must never crash the entire pipeline
+
+## RULE-04: Webview Lifecycle — Zero Memory Leaks
+- EVERY `setInterval` MUST be stored and cleared in `onDidDispose`
+- EVERY `fs.watch` MUST be stored and `.close()`d in `onDidDispose`
+- EVERY `fs.watchFile` MUST be `fs.unwatchFile()`d in `onDidDispose`
+- Use `let` for all watcher/interval references, set to `null` after clearing
+- PATTERN: Guard every cleanup with `if (ref) { cleanup; ref = null; }`
+
+## RULE-05: Content Security Policy — No unsafe-eval
+- ALL webview panels MUST use nonce-based CSP:
+  `script-src 'nonce-${nonce}'` — generated via `crypto.randomBytes(16)`
+- NEVER use `'unsafe-eval'` or `'unsafe-inline'` for scripts
+- Inline styles (`style-src 'unsafe-inline'`) are acceptable for webviews
+
+## RULE-06: Regex Patterns Must Be Recreated Per Call
+- NEVER store regex with `/g` flag as a class property and reuse it
+- CORRECT: create a new regex inside the function: `const re = /pattern/g`
+- WRONG: `this.pattern = /sk-[a-z]+/g` then `this.pattern.test(code)` repeatedly
+- REASON: `/g` flag retains `lastIndex` state — causes false negatives
+
+## RULE-07: SVG Laser Coordinates After DOM Paint
+- NEVER calculate SVG line coordinates synchronously on mount
+- ALWAYS use double `requestAnimationFrame` before reading `getBoundingClientRect()`
+- Pattern: `requestAnimationFrame(() => requestAnimationFrame(() => positionAgents()))`
+- Recalculate on `window.resize`
+- Set SVG `viewBox` to match stage pixel dimensions exactly
+
+## RULE-08: Status File — Always Use Error Boundary
+- `JSON.parse()` on `.ai_team_status.json` MUST be in try/catch
+- On any error, return `getDefaultStatus()` — never throw
+- Never read the file synchronously during a write operation
+- Check `fs.existsSync()` before reading
+
+## RULE-09: Theme — Use VSCode CSS Variables in Sidebar
+- Sidebar HTML MUST NOT contain any hardcoded dark-theme colors
+- ALWAYS use: `var(--vscode-sideBar-background)`, `var(--vscode-button-background)`, etc.
+- HUD (Round-Table) is intentionally always dark — exception allowed with comment
+- Provide fallback values: `var(--vscode-button-background, #2563eb)`
+
+## RULE-10: Multi-Root Workspace Support
+- NEVER use `vscode.workspace.rootPath` (deprecated)
+- ALWAYS iterate `vscode.workspace.workspaceFolders` when searching for files
+- Check if the file exists in each folder before returning its path
+- If not found in any folder, create in `folders[0]`
+
+## RULE-11: New Files Must Be Added to build-vsix.js
+- When adding a new `.js` file to `extention/`, IMMEDIATELY add it to `filesToCopy`
+  in `build-vsix.js`
+- Rebuild and verify the VSIX file count increases
+- REASON: Missing files cause silent `require()` crashes at activation
+
+## RULE-12: Commands Must Have Keyboard Shortcuts
+- Every primary command MUST have a keybinding in `package.json`
+- Follow pattern: `Ctrl+Alt+[letter]` / `Cmd+Alt+[letter]` for Mac
+- Document shortcuts in sidebar HTML and README
+
+## RULE-13: User-Facing Errors Must Be Helpful
+- NEVER show raw JavaScript errors to users
+- Error messages MUST include: what failed + how to fix it
+- For missing API keys: always offer "Open Settings" action button
+- For timeout: mention which provider failed and suggest fallback
+
+## RULE-14: No Polling — Use fs.watch + Heartbeat
+- NEVER use `fs.watchFile` as the primary sync mechanism (polling-based)
+- PREFER `fs.watch` (event-based) with `fs.watchFile` as fallback only
+- HUD sends 400ms ping → extension pushes status (heartbeat pattern)
+- Maximum poll interval if fallback needed: 300ms
+
+## RULE-15: Documentation Must Stay Current
+- PRD.md, PHASES.md, DESIGN.md, ARCHITECTURE.md must be updated with every release
+- CHANGELOG.md must have an entry for every version bump
+- Version in package.json, CHANGELOG.md, and extension title must match
+- .RULES must be updated when new patterns are established

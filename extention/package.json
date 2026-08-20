@@ -1,0 +1,225 @@
+{
+  "name": "multi-ai-orchestrator",
+  "displayName": "Multi-AI Orchestrator: Real Agentic AI Council",
+  "description": "Autonomous Multi-AI Council v5.0: Live SSE Streaming, Multi-Router Auto-Failover, Zero-Leak Token Redaction & Round-Table HUD.",
+  "version": "5.0.0",
+  "publisher": "sohel-ahammad",
+  "author": {
+    "name": "Sohel Ahammad"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/sohel-ahammad/multi-ai-orchestrator",
+  "bugs": {
+    "url": "https://github.com/sohel-ahammad/multi-ai-orchestrator/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sohel-ahammad/multi-ai-orchestrator.git"
+  },
+  "keywords": [
+    "ai",
+    "multi-agent",
+    "deepseek",
+    "llama",
+    "groq",
+    "qwen",
+    "gemma",
+    "claude",
+    "orchestrator",
+    "agentic",
+    "round-table",
+    "hud",
+    "ecc",
+    "security",
+    "autonomous"
+  ],
+  "galleryBanner": {
+    "color": "#060c1a",
+    "theme": "dark"
+  },
+  "icon": "media/icon.png",
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:multiAI.chatView"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "AI",
+    "Programming Languages",
+    "Machine Learning",
+    "Security",
+    "Other"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Multi-AI Orchestrator",
+      "properties": {
+        "multiAI.groqApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "⚡ **Groq Free Tier API Key** — Free Qwen 2.5 Coder & Llama 3.3 @ 540 tok/s. [console.groq.com/keys](https://console.groq.com/keys)",
+          "order": 1
+        },
+        "multiAI.bynaraApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "🌐 **Bynara / Nara Router Key** — Free AI Router Hub. [bynara.ai](https://bynara.ai)",
+          "order": 2
+        },
+        "multiAI.bynaraEndpoint": {
+          "type": "string",
+          "default": "https://router.bynara.id/v1/chat/completions",
+          "markdownDescription": "🌐 **Bynara Custom Endpoint URL**",
+          "order": 3
+        },
+        "multiAI.openrouterApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "🧠 **OpenRouter Free Key** — Free DeepSeek R1 & Gemma models. [openrouter.ai/keys](https://openrouter.ai/keys)",
+          "order": 4
+        },
+        "multiAI.agentrouterApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "🤖 **Agent Router Key** — Autonomous Agent Router Hub. [agentrouter.org](https://agentrouter.org)",
+          "order": 5
+        },
+        "multiAI.agentrouterEndpoint": {
+          "type": "string",
+          "default": "https://co.agentrouter.org/v1/chat/completions",
+          "markdownDescription": "🤖 **Agent Router Endpoint URL**",
+          "order": 6
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "multiAI.askCouncil",
+        "title": "Multi-AI: Ask Council (Full 5-Agent Pipeline)",
+        "icon": "$(hubot)"
+      },
+      {
+        "command": "multiAI.refactor",
+        "title": "Multi-AI: Refactor Selected Code",
+        "icon": "$(wand)"
+      },
+      {
+        "command": "multiAI.explain",
+        "title": "Multi-AI: Explain Code",
+        "icon": "$(book)"
+      },
+      {
+        "command": "multiAI.fixBug",
+        "title": "Multi-AI: Fix Bug with Error Message",
+        "icon": "$(debug-alt)"
+      },
+      {
+        "command": "multiAI.openWarRoom",
+        "title": "Multi-AI: Open Live Round-Table HUD",
+        "icon": "$(broadcast)"
+      },
+      {
+        "command": "multiAI.setupKeys",
+        "title": "Multi-AI: Setup API Keys",
+        "icon": "$(key)"
+      },
+      {
+        "command": "multiAI.runECCScan",
+        "title": "Multi-AI + ECC: Run AgentShield Security Scan",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "multiAI.openSettings",
+        "title": "Multi-AI: Open Settings & API Configuration",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "multiAI.generateTests",
+        "title": "Multi-AI: Generate Unit Tests (Nemotron/Gemma)",
+        "icon": ""
+      },
+      {
+        "command": "multiAI.explainBengali",
+        "title": "Multi-AI: Explain Code in Bengali (বাংলায় ব্যাখ্যা)",
+        "icon": ""
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "multiAI.openWarRoom",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m"
+      },
+      {
+        "command": "multiAI.askCouncil",
+        "key": "ctrl+alt+a",
+        "mac": "cmd+alt+a"
+      },
+      {
+        "command": "multiAI.refactor",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r",
+        "when": "editorTextFocus"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "multi-ai-sidebar",
+          "title": "Multi-AI v4.0",
+          "icon": "icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "multi-ai-sidebar": [
+        {
+          "type": "webview",
+          "id": "multiAI.chatView",
+          "name": "Multi-AI Council"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "multiAI.refactor",
+          "group": "MultiAI@1",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "multiAI.runECCScan",
+          "group": "MultiAI@2",
+          "when": "editorTextFocus"
+        },
+        {
+          "command": "multiAI.generateTests",
+          "group": "MultiAI@3",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "multiAI.explainBengali",
+          "group": "MultiAI@4",
+          "when": "editorHasSelection"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "multiAI.openWarRoom",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "validate": "node --check extension.js && node -e \"JSON.parse(require('fs').readFileSync('package.json','utf8'))\" && echo OK",
+    "package": "node ../build-vsix.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "eslint": "^8.45.0"
+  }
+}

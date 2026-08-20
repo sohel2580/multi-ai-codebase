@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-AI Orchestrator — Real Autonomous Agentic AI Council for VSCode</title>
+  <meta name="description" content="Supercharge VSCode with 6 specialized AI models (DeepSeek, Qwen 3.6-27B, Llama 3.3, Nemotron, Cohere) working in parallel with live Round-Table HUD. 100% Free & Zero Cost.">
+  <meta name="keywords" content="VSCode AI Extension, Multi-Agent AI, DeepSeek, Groq LPU, Qwen Coder, OpenRouter Free, VSCode Copilot Free">
+  
+  <!-- OpenGraph / Social -->
+  <meta property="og:title" content="Multi-AI Orchestrator: Real Agentic AI Council">
+  <meta property="og:description" content="6 Free Specialized AIs collaborating in parallel with Live Laser Round-Table HUD for VSCode.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              500: '#3b82f6',
+              600: '#2563eb',
+              900: '#1e3a8a',
+            },
+            dark: {
+              base: '#040814',
+              card: '#091124',
+              cardLight: '#0e1a38',
+              border: '#17254b',
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'laser': 'laser 3s linear infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #040814; color: #e2e8f0; }
+    .glass-card {
+      background: rgba(9, 17, 36, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    .glass-card:hover {
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
+    }
+    .neon-text {
+      background: linear-gradient(135deg, #60a5fa, #34d399, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glow-sphere {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen overflow-x-hidden font-sans selection:bg-brand-500 selection:text-white">
+
+  <!-- Ambient Glowing Background Spheres -->
+  <div class="glow-sphere top-0 left-1/4 w-96 h-96 bg-blue-600/20"></div>
+  <div class="glow-sphere top-1/3 right-10 w-[30rem] h-[30rem] bg-emerald-500/15"></div>
+  <div class="glow-sphere bottom-20 left-10 w-[28rem] h-[28rem] bg-purple-600/20"></div>
+
+  <!-- ── NAVBAR ─────────────────────────────────────────── -->
+  <nav class="sticky top-0 z-50 border-b border-dark-border/80 bg-dark-base/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-xl shadow-lg shadow-brand-500/30">
+          ⚡
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2">
+            Multi-AI <span class="text-xs px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30 font-mono">v5.0</span>
+          </span>
+          <p class="text-xs text-slate-400 font-medium">Autonomous Agentic Council</p>
+        </div>
+      </div>
+
+      <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+        <a href="#features" class="hover:text-white transition">Features</a>
+        <a href="#council" class="hover:text-white transition">AI Council Roster</a>
+        <a href="#how-it-works" class="hover:text-white transition">How It Works</a>
+        <a href="#setup" class="hover:text-white transition">Quick Setup</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="#download" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-emerald-500 hover:from-blue-500 hover:to-emerald-400 text-white font-bold text-sm shadow-lg shadow-blue-500/25 transition duration-200 transform hover:-translate-y-0.5 flex items-center gap-2">
+          <span>⬇️ Download VSIX</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO SECTION ───────────────────────────────────── -->
+  <section class="relative pt-16 pb-24 lg:pt-24 lg:pb-32 z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-dark-card border border-dark-border text-xs font-semibold text-emerald-400 mb-8 shadow-inner">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>100% Free · Real Parallel AI Cloud Council · Zero Cost</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-5xl mx-auto leading-[1.15]">
+        Why Use One AI When You Can Have an <br>
+        <span class="neon-text">Entire AI Council</span> for Free?
+      </h1>
+
+      <p class="mt-6 text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto font-normal leading-relaxed">
+        Supercharge your VSCode with 6 specialized AI models running simultaneously in parallel. From architectural planning to ultra-fast coding and automated security audits — all with a stunning live <span class="text-white font-semibold">Round-Table Laser HUD</span>.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <a href="#download" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 hover:opacity-90 text-white font-extrabold text-base shadow-2xl shadow-blue-600/40 transition transform hover:-translate-y-1 flex items-center gap-3">
+          <span>📦 Download Extension (v5.0.0 VSIX)</span>
+          <span class="text-xs bg-white/20 px-2 py-0.5 rounded">495 KB</span>
+        </a>
+        <a href="#setup" class="px-8 py-4 rounded-2xl glass-card hover:bg-dark-cardLight text-white font-bold text-base transition flex items-center gap-2">
+          <span>⚡ 1-Minute Quick Start</span>
+        </a>
+      </div>
+
+      <!-- Feature Badges -->
+      <div class="mt-12 flex flex-wrap justify-center items-center gap-6 text-xs font-mono text-slate-400">
+        <div class="flex items-center gap-2">⚡ <strong>Groq LPU:</strong> 540 Tokens/Sec</div>
+        <div class="flex items-center gap-2">🧠 <strong>DeepSeek / Agnes:</strong> Deep Reasoning</div>
+        <div class="flex items-center gap-2">🛡️ <strong>Llama 3.3:</strong> ECC AgentShield</div>
+        <div class="flex items-center gap-2">🧪 <strong>Nemotron Free:</strong> Auto QA Tests</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6 AI COUNCIL ROSTER SECTION ─────────────────────── -->
+  <section id="council" class="py-20 bg-dark-card/40 border-y border-dark-border relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-mono font-bold text-brand-400 tracking-wider uppercase mb-2">Architectural Powerhouse</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">The 6 Real Specialized AI Models</p>
+        <p class="mt-4 text-slate-400 text-sm">Every agent has a dedicated role. No generic prompts. Pure engineering excellence.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Card 1: Lead Coder -->
+        <div class="glass-card rounded-2xl p-6 transition duration-300">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl">⚡</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-orange-500/15 text-orange-400 border border-orange-500/30">Alibaba · Groq</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Qwen 3.6-27B Coder</h3>
+          <p class="text-xs font-mono text-brand-400 mt-1">Lead Coding Specialist</p>
+          <p class="text-slate-400 text-xs mt-3 leading-relaxed">
+            Runs on Groq LPU at blazing 540 tokens/sec. Writes clean, modular, production-grade code based on the architect's blueprint in under 1 second.
+          </p>
+        </div>
+
+        <!-- Card 2: Architect -->
+        <div class="glass-card rounded-2xl p-6 transition duration-300">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl">🧠</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-blue-500/15 text-blue-400 border border-blue-500/30">DeepSeek · Bynara</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Agnes 2.5 / DeepSeek R1</h3>
+          <p class="text-xs font-mono text-blue-400 mt-1">Chief Architect AI</p>
+          <p class="text-slate-400 text-xs mt-3 leading-relaxed">
+            Deconstructs complex user prompts into step-by-step technical DAGs and delegates sub-tasks to the specialists before writing code.
+          </p>
+        </div>
+
+        <!-- Card 3: Security Shield -->
+        <div class="glass-card rounded-2xl p-6 transition duration-300">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl">🛡️</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">OpenAI / OSS · Groq</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">GPT-OSS 120B / Llama 3.3</h3>
+          <p class="text-xs font-mono text-emerald-400 mt-1">Security & ECC AgentShield</p>
+          <p class="text-slate-400 text-xs mt-3 leading-relaxed">
+            Performs pre-flight AST analysis, catches XSS, SQLi, prototype pollution, exposed API keys, and memory leaks before applying code.
+          </p>
+        </div>
+
+        <!-- Card 4: QA Tester -->
+        <div class="glass-card rounded-2xl p-6 transition duration-300">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl">🧪</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-lime-500/15 text-lime-400 border border-lime-500/30">NVIDIA · OpenRouter</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Nemotron 3.5 Lightning</h3>
+          <p class="text-xs font-mono text-lime-400 mt-1">QA & Auto-Fix Specialist</p>
+          <p class="text-slate-400 text-xs mt-3 leading-relaxed">
+            Synthesizes edge-case unit tests (Jest/Mocha/Vitest) and auto-detects runtime bugs with immediate self-healing patch proposals.
+          </p>
+        </div>
+
+        <!-- Card 5: Refactor Agent -->
+        <div class="glass-card rounded-2xl p-6 transition duration-300">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl">💻</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">Cohere · OpenRouter</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Cohere North Mini Code</h3>
+          <p class="text-xs font-mono text-purple-400 mt-1">Refactor & Optimization</p>
+          <p class="text-slate-400 text-xs mt-3 leading-relaxed">
+            Deep AST level refactoring engine that modernizes legacy functions, cleans up repetitive boilerplate, and optimizes algorithms.
+          </p>
+        </div>
+
+        <!-- Card 6: Executive Judge -->
+        <div class="glass-card rounded-2xl p-6 transition duration-300">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-3xl">⚖️</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">Anthropic Consensus</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Claude Consensus v5</h3>
+          <p class="text-xs font-mono text-amber-400 mt-1">Executive Judge AI</p>
+          <p class="text-slate-400 text-xs mt-3 leading-relaxed">
+            Consolidates the architect plan, generated code, security verdict, and test harness into one unified, flawless production output.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS SECTION ───────────────────────────── -->
+  <section id="how-it-works" class="py-20 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs font-mono font-bold text-emerald-400 tracking-wider uppercase mb-2">Agentic Execution Flow</h2>
+        <p class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">How the Multi-AI Council Solves Tasks</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+        <div class="glass-card p-6 rounded-xl">
+          <div class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold mx-auto mb-3">1</div>
+          <h4 class="font-bold text-white text-sm mb-1">User Prompt / /agent</h4>
+          <p class="text-xs text-slate-400">Type naturally in chat or run <code class="text-emerald-400">/agent &lt;task&gt;</code>.</p>
+        </div>
+        <div class="glass-card p-6 rounded-xl">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold mx-auto mb-3">2</div>
+          <h4 class="font-bold text-white text-sm mb-1">Parallel Dispatch</h4>
+          <p class="text-xs text-slate-400">DeepSeek plans while Groq Qwen codes concurrently.</p>
+        </div>
+        <div class="glass-card p-6 rounded-xl">
+          <div class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold mx-auto mb-3">3</div>
+          <h4 class="font-bold text-white text-sm mb-1">Security & QA Gate</h4>
+          <p class="text-xs text-slate-400">Llama 3.3 audits vulnerabilities; Nemotron writes tests.</p>
+        </div>
+        <div class="glass-card p-6 rounded-xl">
+          <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold mx-auto mb-3">4</div>
+          <h4 class="font-bold text-white text-sm mb-1">Judge Synthesis</h4>
+          <p class="text-xs text-slate-400">Executive Judge synthesizes final verified code.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUICK SETUP IN 3 STEPS ─────────────────────────── -->
+  <section id="setup" class="py-20 bg-dark-card/60 border-y border-dark-border relative z-10">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-xs font-mono font-bold text-blue-400 tracking-wider uppercase mb-2">Zero-Config Onboarding</h2>
+        <p class="text-3xl font-extrabold text-white">Start in 3 Simple Steps</p>
+      </div>
+
+      <div class="space-y-4 font-mono text-sm">
+        <div class="glass-card p-5 rounded-xl flex items-start gap-4">
+          <div class="px-3 py-1 rounded-lg bg-blue-600 text-white font-bold">Step 1</div>
+          <div>
+            <h4 class="text-white font-sans font-bold text-base">Install the Extension VSIX</h4>
+            <p class="text-slate-400 text-xs font-sans mt-1">Press <code class="text-blue-400">Ctrl+Shift+P</code> &rarr; select <strong>"Extensions: Install from VSIX..."</strong> &rarr; choose <code class="text-emerald-400">multi-ai-orchestrator-5.0.0.vsix</code>.</p>
+          </div>
+        </div>
+
+        <div class="glass-card p-5 rounded-xl flex items-start gap-4">
+          <div class="px-3 py-1 rounded-lg bg-emerald-600 text-white font-bold">Step 2</div>
+          <div>
+            <h4 class="text-white font-sans font-bold text-base">Add Your Free API Keys (One-Time)</h4>
+            <p class="text-slate-400 text-xs font-sans mt-1">Open the sidebar &rarr; click <strong>"⚙️ Settings & API Keys"</strong> &rarr; paste your free Groq, Bynara, or OpenRouter keys &rarr; click <strong>Save</strong>.</p>
+          </div>
+        </div>
+
+        <div class="glass-card p-5 rounded-xl flex items-start gap-4">
+          <div class="px-3 py-1 rounded-lg bg-purple-600 text-white font-bold">Step 3</div>
+          <div>
+            <h4 class="text-white font-sans font-bold text-base">Ask Anything & Watch the Live Round-Table HUD</h4>
+            <p class="text-slate-400 text-xs font-sans mt-1">Press <code class="text-purple-400">Ctrl+Alt+M</code> to open the visual War Room, and ask any task in chat or with <code class="text-emerald-400">/agent &lt;prompt&gt;</code>!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DOWNLOAD SECTION ───────────────────────────────── -->
+  <section id="download" class="py-24 relative z-10 text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="glass-card rounded-3xl p-10 sm:p-14 border border-brand-500/40 relative overflow-hidden">
+        
+        <div class="relative z-10">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-3xl mx-auto mb-6 shadow-xl shadow-brand-500/30">
+            📦
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Ready to Unleash the AI Council?</h2>
+          <p class="mt-4 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+            Download the latest production build of Multi-AI Orchestrator (v5.0.0). No subscriptions. Zero hidden fees.
+          </p>
+
+          <div class="mt-8 flex flex-wrap justify-center gap-4">
+            <a href="multi-ai-orchestrator-5.0.0.vsix" download class="px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-500 hover:opacity-90 text-white font-extrabold text-base shadow-xl shadow-blue-500/30 transition transform hover:-translate-y-0.5 flex items-center gap-3">
+              <span>⬇️ Download multi-ai-orchestrator-5.0.0.vsix</span>
+              <span class="text-xs bg-white/20 px-2 py-0.5 rounded">495 KB</span>
+            </a>
+          </div>
+
+          <p class="mt-6 text-xs text-slate-500 font-mono">MD5: verified · VSCode 1.80+ Compatible · Windows / macOS / Linux</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="border-t border-dark-border py-8 text-center text-xs text-slate-500 font-medium">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© 2026 Multi-AI Orchestrator. Architected by Sohel Ahammad.</p>
+      <div class="flex items-center gap-6">
+        <a href="#council" class="hover:text-slate-300">Models</a>
+        <a href="#setup" class="hover:text-slate-300">Docs</a>
+        <a href="#download" class="hover:text-slate-300">Download</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

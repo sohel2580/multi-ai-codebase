@@ -1,0 +1,89 @@
+{
+    "profile": {
+        "name": "Sohel Ahammad",
+        "tagline": "Saudi Arabia Professional | Electrical Terminator & Multi-Skilled Worker",
+        "image": "images\/profile.jpg"
+    },
+    "contacts": [
+        {
+            "id": "c1",
+            "icon": "fa-phone",
+            "url": "tel:+966551839526",
+            "label": "Direct Call",
+            "color": "#10b981"
+        },
+        {
+            "id": "c2",
+            "icon": "fa-paper-plane",
+            "url": "https:\/\/t.me\/soheldev53",
+            "label": "Telegram",
+            "color": "#0088cc"
+        },
+        {
+            "id": "c3",
+            "icon": "fa-envelope",
+            "url": "mailto:Sohelahammad5853@gmail.com",
+            "label": "Email",
+            "color": "#ea4335"
+        }
+    ],
+    "socials": [
+        {
+            "id": "s1",
+            "name": "Facebook",
+            "url": "https:\/\/www.facebook.com\/sohel.ahammad5853",
+            "icon": "fa-facebook",
+            "color": "#1877f2"
+        },
+        {
+            "id": "s2",
+            "name": "WhatsApp",
+            "url": "https:\/\/wa.me\/+966551839526",
+            "icon": "fa-whatsapp",
+            "color": "#25d366"
+        },
+        {
+            "id": "s3",
+            "name": "Telegram",
+            "url": "https:\/\/t.me\/soheldev53",
+            "icon": "fa-telegram",
+            "color": "#0088cc"
+        },
+        {
+            "id": "s4",
+            "name": "Twitter",
+            "url": "https:\/\/twitter.com\/Sohelahammad58",
+            "icon": "fa-twitter",
+            "color": "#1da1f2"
+        },
+        {
+            "id": "s5",
+            "name": "Instagram",
+            "url": "https:\/\/www.instagram.com\/sohel.ahammad5853",
+            "icon": "fa-instagram",
+            "color": "#e4405f"
+        },
+        {
+            "id": "s6",
+            "name": "TikTok",
+            "url": "https:\/\/www.tiktok.com\/@Sohel.ahammad5853",
+            "icon": "fa-music",
+            "color": "#ff0050"
+        },
+        {
+            "id": "s7",
+            "name": "Delux Telecom (Android App & Portal)",
+            "url": "https:\/\/deluxtelecom.pp.ua\/",
+            "icon": "fa-android",
+            "color": "#10b981"
+        }
+    ],
+    "settings": {
+        "show_home": true,
+        "show_experience": true,
+        "show_gallery": true,
+        "show_blog": true,
+        "show_contact": true,
+        "password_hash": "$2y$10$TUxKhpAdNv4RI6TUAi8Fc.4Wm\/\/p3xlpiQKsJlGbjpMIJyfxpFSlu"
+    }
+}
