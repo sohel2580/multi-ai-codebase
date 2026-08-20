@@ -903,9 +903,9 @@ function createOrShowSettingsPage(context) {
 function getSettingsPageHtml(sessionId = Date.now()) {
   const cfg = getApiConfig();
   const groqVal = cfg.groqApiKey || '';
-  const openrouterVal = cfg.openrouterApiKey || '';
   const cerebrasVal = cfg.cerebrasApiKey || '';
   const sambanovaVal = cfg.sambanovaApiKey || '';
+  const openrouterVal = cfg.openrouterApiKey || '';
   const togetherVal = cfg.togetherApiKey || '';
   const deepinfraVal = cfg.deepinfraApiKey || '';
   const mistralVal = cfg.mistralApiKey || '';
@@ -922,10 +922,7 @@ function getSettingsPageHtml(sessionId = Date.now()) {
   <meta charset="UTF-8">
   <meta name="session-id" content="${sessionId}">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://*;">
   <title>Multi-AI Free Routers Settings</title>
-  <meta name="session-id" content="${sessionId}">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <style>
     :root {
       --bg: var(--vscode-editor-background, #0b1424);
@@ -995,8 +992,8 @@ function getSettingsPageHtml(sessionId = Date.now()) {
       justify-content: space-between;
       margin-bottom: 8px;
     }
-    .provider-info { display: flex; align-items: center; gap: 8px; }
-    .provider-icon { font-size: 1.2rem; }
+    .provider-info { display: flex; align-items: center; gap: 10px; }
+    .provider-icon { font-size: 1.3rem; }
     .provider-name { font-size: 0.95rem; font-weight: 700; }
     .provider-tag { font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; font-weight: 700; background: rgba(34, 197, 94, 0.15); color: var(--ok); border: 1px solid rgba(34, 197, 94, 0.3); }
     .link-btn {
@@ -1093,13 +1090,13 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           <span class="provider-icon">⚡</span>
           <div><span class="provider-name">1. Groq LPU (Ultra-Fast 540 tok/s)</span> <span class="provider-tag">100% Free Tier</span></div>
         </div>
-        <button class="link-btn" onclick="openLink('https://console.groq.com/keys')">🌐 Get Free Groq Key ↗</button>
+        <button class="link-btn" data-action="link" data-url="https://console.groq.com/keys">🌐 Get Free Groq Key ↗</button>
       </div>
       <div class="desc">Ultra-fast free inference for Qwen 2.5 Coder 32B, Llama 3.3 70B, GPT-OSS 120B.</div>
       <div class="input-wrapper">
         <input type="password" class="key-input" id="key-groq" placeholder="gsk_..." value="${groqVal}">
-        <button class="action-btn" onclick="toggleInput('key-groq')">Show/Hide</button>
-        <button class="action-btn test-btn" onclick="testProvider('groq')">⚡ Test Key</button>
+        <button class="action-btn" data-action="toggle" data-target="key-groq">Show/Hide</button>
+        <button class="action-btn test-btn" data-action="test" data-provider="groq">⚡ Test Key</button>
       </div>
       <div class="test-status" id="status-groq"></div>
     </div>
@@ -1111,13 +1108,13 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           <span class="provider-icon">🚀</span>
           <div><span class="provider-name">2. Cerebras AI (World Fastest 2000 tok/s)</span> <span class="provider-tag">100% Free Tier</span></div>
         </div>
-        <button class="link-btn" onclick="openLink('https://cloud.cerebras.ai')">🌐 Get Free Cerebras Key ↗</button>
+        <button class="link-btn" data-action="link" data-url="https://cloud.cerebras.ai">🌐 Get Free Cerebras Key ↗</button>
       </div>
       <div class="desc">World's fastest AI inference hardware: Llama 3.3 70B and Llama 3.1 8B at 2,000+ tokens/sec.</div>
       <div class="input-wrapper">
         <input type="password" class="key-input" id="key-cerebras" placeholder="csk-..." value="${cerebrasVal}">
-        <button class="action-btn" onclick="toggleInput('key-cerebras')">Show/Hide</button>
-        <button class="action-btn test-btn" onclick="testProvider('cerebras')">⚡ Test Key</button>
+        <button class="action-btn" data-action="toggle" data-target="key-cerebras">Show/Hide</button>
+        <button class="action-btn test-btn" data-action="test" data-provider="cerebras">⚡ Test Key</button>
       </div>
       <div class="test-status" id="status-cerebras"></div>
     </div>
@@ -1129,13 +1126,13 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           <span class="provider-icon">🔥</span>
           <div><span class="provider-name">3. SambaNova Cloud (1000 tok/s)</span> <span class="provider-tag">100% Free Tier</span></div>
         </div>
-        <button class="link-btn" onclick="openLink('https://cloud.sambanova.ai')">🌐 Get Free SambaNova Key ↗</button>
+        <button class="link-btn" data-action="link" data-url="https://cloud.sambanova.ai">🌐 Get Free SambaNova Key ↗</button>
       </div>
       <div class="desc">Free full-precision Llama 3.3 70B, Qwen 2.5 72B & DeepSeek R1 via SambaNova SN40L chips.</div>
       <div class="input-wrapper">
         <input type="password" class="key-input" id="key-sambanova" placeholder="SambaNova API Key..." value="${sambanovaVal}">
-        <button class="action-btn" onclick="toggleInput('key-sambanova')">Show/Hide</button>
-        <button class="action-btn test-btn" onclick="testProvider('sambanova')">⚡ Test Key</button>
+        <button class="action-btn" data-action="toggle" data-target="key-sambanova">Show/Hide</button>
+        <button class="action-btn test-btn" data-action="test" data-provider="sambanova">⚡ Test Key</button>
       </div>
       <div class="test-status" id="status-sambanova"></div>
     </div>
@@ -1147,13 +1144,13 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           <span class="provider-icon">🧠</span>
           <div><span class="provider-name">4. OpenRouter (Free Hub)</span> <span class="provider-tag">100% Free Models</span></div>
         </div>
-        <button class="link-btn" onclick="openLink('https://openrouter.ai/keys')">🌐 Get Free OpenRouter Key ↗</button>
+        <button class="link-btn" data-action="link" data-url="https://openrouter.ai/keys">🌐 Get Free OpenRouter Key ↗</button>
       </div>
       <div class="desc">Free gateway for DeepSeek R1 Free, Google Gemma Free, NVIDIA Nemotron Free & Mistral Free.</div>
       <div class="input-wrapper">
         <input type="password" class="key-input" id="key-openrouter" placeholder="sk-or-..." value="${openrouterVal}">
-        <button class="action-btn" onclick="toggleInput('key-openrouter')">Show/Hide</button>
-        <button class="action-btn test-btn" onclick="testProvider('openrouter')">⚡ Test Key</button>
+        <button class="action-btn" data-action="toggle" data-target="key-openrouter">Show/Hide</button>
+        <button class="action-btn test-btn" data-action="test" data-provider="openrouter">⚡ Test Key</button>
       </div>
       <div class="test-status" id="status-openrouter"></div>
     </div>
@@ -1165,13 +1162,13 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           <span class="provider-icon">💻</span>
           <div><span class="provider-name">5. Mistral AI (Codestral Free)</span> <span class="provider-tag">Free Developer Tier</span></div>
         </div>
-        <button class="link-btn" onclick="openLink('https://console.mistral.ai')">🌐 Get Free Mistral Key ↗</button>
+        <button class="link-btn" data-action="link" data-url="https://console.mistral.ai">🌐 Get Free Mistral Key ↗</button>
       </div>
       <div class="desc">Free specialized Codestral 22B, Mistral Large, Mistral Nemo & Pixtral for coding.</div>
       <div class="input-wrapper">
         <input type="password" class="key-input" id="key-mistral" placeholder="Mistral API Key..." value="${mistralVal}">
-        <button class="action-btn" onclick="toggleInput('key-mistral')">Show/Hide</button>
-        <button class="action-btn test-btn" onclick="testProvider('mistral')">⚡ Test Key</button>
+        <button class="action-btn" data-action="toggle" data-target="key-mistral">Show/Hide</button>
+        <button class="action-btn test-btn" data-action="test" data-provider="mistral">⚡ Test Key</button>
       </div>
       <div class="test-status" id="status-mistral"></div>
     </div>
@@ -1183,13 +1180,13 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           <span class="provider-icon">🌐</span>
           <div><span class="provider-name">6. Together AI</span> <span class="provider-tag">Free Credits Tier</span></div>
         </div>
-        <button class="link-btn" onclick="openLink('https://api.together.ai')">🌐 Get Free Together Key ↗</button>
+        <button class="link-btn" data-action="link" data-url="https://api.together.ai">🌐 Get Free Together Key ↗</button>
       </div>
       <div class="desc">High-speed inference hub for 100+ open-source models (Llama 3, Mixtral, CodeLlama, Qwen).</div>
       <div class="input-wrapper">
         <input type="password" class="key-input" id="key-together" placeholder="Together API Key..." value="${togetherVal}">
-        <button class="action-btn" onclick="toggleInput('key-together')">Show/Hide</button>
-        <button class="action-btn test-btn" onclick="testProvider('together')">⚡ Test Key</button>
+        <button class="action-btn" data-action="toggle" data-target="key-together">Show/Hide</button>
+        <button class="action-btn test-btn" data-action="test" data-provider="together">⚡ Test Key</button>
       </div>
       <div class="test-status" id="status-together"></div>
     </div>
@@ -1201,13 +1198,13 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           <span class="provider-icon">⚡</span>
           <div><span class="provider-name">7. DeepInfra Hub</span> <span class="provider-tag">Free Tier Models</span></div>
         </div>
-        <button class="link-btn" onclick="openLink('https://deepinfra.com/dash/api_keys')">🌐 Get Free DeepInfra Key ↗</button>
+        <button class="link-btn" data-action="link" data-url="https://deepinfra.com/dash/api_keys">🌐 Get Free DeepInfra Key ↗</button>
       </div>
       <div class="desc">Fast inference provider for DeepSeek V3, Qwen 2.5 72B, Llama 3.3 70B and embeddings.</div>
       <div class="input-wrapper">
         <input type="password" class="key-input" id="key-deepinfra" placeholder="DeepInfra Key..." value="${deepinfraVal}">
-        <button class="action-btn" onclick="toggleInput('key-deepinfra')">Show/Hide</button>
-        <button class="action-btn test-btn" onclick="testProvider('deepinfra')">⚡ Test Key</button>
+        <button class="action-btn" data-action="toggle" data-target="key-deepinfra">Show/Hide</button>
+        <button class="action-btn test-btn" data-action="test" data-provider="deepinfra">⚡ Test Key</button>
       </div>
       <div class="test-status" id="status-deepinfra"></div>
     </div>
@@ -1219,15 +1216,15 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           <span class="provider-icon">🌐</span>
           <div><span class="provider-name">8. Bynara / Nara AI Router</span> <span class="provider-tag">Free Hub · Agnes 2.5</span></div>
         </div>
-        <button class="link-btn" onclick="openLink('https://router.bynara.id')">🌐 Visit Bynara Router ↗</button>
+        <button class="link-btn" data-action="link" data-url="https://router.bynara.id">🌐 Visit Bynara Router ↗</button>
       </div>
       <div class="desc">Free AI Gateway router for multi-model orchestrations and Agnes / DeepSeek reasoning models.</div>
       <div class="input-row">
         <div class="input-label">Router API Key (Optional if public):</div>
         <div class="input-wrapper">
           <input type="password" class="key-input" id="key-bynara" placeholder="Bynara API Key..." value="${bynaraKeyVal}">
-          <button class="action-btn" onclick="toggleInput('key-bynara')">Show/Hide</button>
-          <button class="action-btn test-btn" onclick="testProvider('bynara')">⚡ Test Router</button>
+          <button class="action-btn" data-action="toggle" data-target="key-bynara">Show/Hide</button>
+          <button class="action-btn test-btn" data-action="test" data-provider="bynara">⚡ Test Router</button>
         </div>
       </div>
       <div class="input-row">
@@ -1244,21 +1241,21 @@ function getSettingsPageHtml(sessionId = Date.now()) {
           <span class="provider-icon">🤖</span>
           <div><span class="provider-name">9. AgentRouter.org Hub</span> <span class="provider-tag">Free Multi-Agent Hub</span></div>
         </div>
-        <button class="link-btn" onclick="openLink('https://agentrouter.org')">🌐 Visit Agent Router ↗</button>
+        <button class="link-btn" data-action="link" data-url="https://agentrouter.org">🌐 Visit Agent Router ↗</button>
       </div>
       <div class="desc">Decentralized Autonomous Agent Router Hub with automatic multi-agent failover & tool dispatching.</div>
       
       <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:6px;padding:8px 12px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:0.75rem;color:var(--fg);">🌐 Your Public IP for AgentRouter Whitelist: <strong id="user-public-ip" style="color:var(--acc);font-family:monospace;">Fetching IP...</strong></span>
-        <button class="action-btn" style="padding:3px 8px;font-size:0.68rem;" onclick="copyIp()">📋 Copy IP</button>
+        <span style="font-size:0.75rem;color:var(--fg);">🌐 Your Public IP for AgentRouter Whitelist: <strong id="user-public-ip" style="color:var(--acc);font-family:monospace;">82.167.11.107</strong></span>
+        <button class="action-btn" style="padding:3px 8px;font-size:0.68rem;" data-action="copy-ip">📋 Copy IP</button>
       </div>
 
       <div class="input-row">
         <div class="input-label">Agent Router API Key / Bearer Token:</div>
         <div class="input-wrapper">
           <input type="password" class="key-input" id="key-tokenrouter" placeholder="Agent Router Key..." value="${tokenrouterKeyVal}">
-          <button class="action-btn" onclick="toggleInput('key-tokenrouter')">Show/Hide</button>
-          <button class="action-btn test-btn" onclick="testProvider('tokenrouter')">⚡ Test Router</button>
+          <button class="action-btn" data-action="toggle" data-target="key-tokenrouter">Show/Hide</button>
+          <button class="action-btn test-btn" data-action="test" data-provider="tokenrouter">⚡ Test Router</button>
         </div>
       </div>
       <div class="input-row">
@@ -1270,116 +1267,62 @@ function getSettingsPageHtml(sessionId = Date.now()) {
   </div>
 
   <div class="actions">
-    <button class="btn-save-all" id="saveBtn">💾 Save & Apply All 9 Free Routers</button>
+    <button class="btn-save-all" id="saveAllBtn">💾 Save & Apply All 9 Free Routers</button>
     <span class="note">🔒 All Free Router Keys & Custom Endpoints are stored locally in your VSCode configuration.</span>
   </div>
 
   <script>
-    let vscode;
-    try {
-      vscode = acquireVsCodeApi();
-    } catch(e) {
-      console.warn('VSCode API already acquired');
-    }
+    const vscode = (typeof acquireVsCodeApi === 'function') ? acquireVsCodeApi() : null;
 
-    window.openLink = function(url) {
-      if (vscode) vscode.postMessage({ type: 'open_external', url });
-    };
+    // Pure Event Delegation: Guarantees 100% click delivery for every button on the page
+    document.addEventListener('click', function(e) {
+      const target = e.target.closest('[data-action]');
+      if (!target) return;
 
-    try {
-      fetch('https://api.ipify.org?format=json')
-        .then(res => res.json())
-        .then(d => {
-          const el = document.getElementById('user-public-ip');
-          if (el) el.textContent = d.ip;
-        })
-        .catch(() => {
-          const el = document.getElementById('user-public-ip');
-          if (el) el.textContent = '82.167.11.107';
-        });
-    } catch(e) {}
+      const action = target.getAttribute('data-action');
 
-    window.copyIp = function() {
-      const ip = document.getElementById('user-public-ip').textContent;
-      navigator.clipboard.writeText(ip);
-      if (vscode) vscode.postMessage({ type: 'ip_copied', ip });
-    };
-
-    window.toggleInput = function(id) {
-      const inp = document.getElementById(id);
-      if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
-    };
-
-    window.testProvider = function(provider) {
-      const statusEl = document.getElementById('status-' + provider);
-      if (statusEl) {
-        statusEl.className = 'test-status show testing';
-        statusEl.textContent = '⏳ Testing connection to ' + provider + '...';
-      }
-
-      let key = '';
-      let endpoint = '';
-
-      const elKey = document.getElementById('key-' + provider);
-      if (elKey) key = elKey.value;
-      const elEp = document.getElementById('ep-' + provider);
-      if (elEp) endpoint = elEp.value;
-      if (vscode) vscode.postMessage({ type: 'test_key', provider, key, endpoint });
-    };
-
-    window.addEventListener('message', (event) => {
-      const msg = event.data;
-      if (msg.type === 'test_result') {
-        const statusEl = document.getElementById('status-' + msg.provider);
+      if (action === 'test') {
+        const provider = target.getAttribute('data-provider');
+        const statusEl = document.getElementById('status-' + provider);
         if (statusEl) {
-          statusEl.className = 'test-status show ' + (msg.success ? 'ok' : 'err');
-          if (msg.success) {
-            statusEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);padding:8px 12px;border-radius:6px;margin-top:4px;">' +
-              '<span>' + msg.message + '</span>' +
-              '<button class="action-btn" id="save-inline-' + msg.provider + '" style="background:#22c55e;color:#050b14;font-weight:800;border:none;padding:5px 12px;" onclick="window.saveSingleKey(\'' + msg.provider + '\')">💾 Save This Key</button>' +
-            '</div>';
-          } else {
-            statusEl.textContent = msg.message;
-          }
+          statusEl.className = 'test-status show testing';
+          statusEl.textContent = '⏳ Testing connection to ' + provider + '...';
         }
-      } else if (msg.type === 'single_save_success') {
-        const btn = document.getElementById('save-inline-' + msg.provider);
-        if (btn) {
-          btn.innerHTML = '✅ Saved & Active!';
-          btn.style.background = '#10b981';
-          btn.disabled = true;
-        }
+        const keyEl = document.getElementById('key-' + provider);
+        const epEl = document.getElementById('ep-' + provider);
+        const key = keyEl ? keyEl.value : '';
+        const endpoint = epEl ? epEl.value : '';
+        if (vscode) vscode.postMessage({ type: 'test_key', provider, key, endpoint });
+      }
+      else if (action === 'save-single') {
+        const provider = target.getAttribute('data-provider');
+        target.innerHTML = '⏳ Saving...';
+        target.disabled = true;
+        const keyEl = document.getElementById('key-' + provider);
+        const epEl = document.getElementById('ep-' + provider);
+        const key = keyEl ? keyEl.value : '';
+        const endpoint = epEl ? epEl.value : '';
+        if (vscode) vscode.postMessage({ type: 'save_single_key', provider, key, endpoint });
+      }
+      else if (action === 'toggle') {
+        const targetId = target.getAttribute('data-target');
+        const inp = document.getElementById(targetId);
+        if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
+      }
+      else if (action === 'link') {
+        const url = target.getAttribute('data-url');
+        if (vscode && url) vscode.postMessage({ type: 'open_external', url });
+      }
+      else if (action === 'copy-ip') {
+        const ip = (document.getElementById('user-public-ip') || {}).textContent || '82.167.11.107';
+        navigator.clipboard.writeText(ip);
+        if (vscode) vscode.postMessage({ type: 'ip_copied', ip });
       }
     });
 
-    window.saveSingleKey = function(provider) {
-      const btn = document.getElementById('save-inline-' + provider);
-      if (btn) { btn.innerHTML = '⏳ Saving...'; btn.disabled = true; }
-      const elKey = document.getElementById('key-' + provider);
-      const key = elKey ? elKey.value : '';
-      const elEp = document.getElementById('ep-' + provider);
-      const endpoint = elEp ? elEp.value : '';
-      if (vscode) vscode.postMessage({ type: 'save_single_key', provider, key, endpoint });
-    };
-
-    // Attach robust direct event listeners to ensure clickability
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.test-btn').forEach(btn => {
-        const onclickAttr = btn.getAttribute('onclick') || '';
-        const match = onclickAttr.match(/testProvider\(['"]([^'"]+)['"]\)/);
-        if (match && match[1]) {
-          const prov = match[1];
-          btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.testProvider(prov);
-          });
-        }
-      });
-    });
-
-    const saveBtnEl = document.getElementById('saveBtn');
-    if (saveBtnEl) {
-      saveBtnEl.addEventListener('click', () => {
+    const saveAllBtn = document.getElementById('saveAllBtn');
+    if (saveAllBtn) {
+      saveAllBtn.addEventListener('click', function() {
         const keys = {
           groq: (document.getElementById('key-groq') || {}).value || '',
           cerebras: (document.getElementById('key-cerebras') || {}).value || '',
@@ -1396,11 +1339,49 @@ function getSettingsPageHtml(sessionId = Date.now()) {
         if (vscode) vscode.postMessage({ type: 'save_keys', keys });
       });
     }
+
+    // IP Auto-fetch
+    try {
+      fetch('https://api.ipify.org?format=json')
+        .then(res => res.json())
+        .then(d => {
+          const el = document.getElementById('user-public-ip');
+          if (el && d.ip) el.textContent = d.ip;
+        })
+        .catch(() => {});
+    } catch(e) {}
+
+    // IPC Incoming Message Dispatch
+    window.addEventListener('message', function(event) {
+      const msg = event.data;
+      if (!msg) return;
+
+      if (msg.type === 'test_result') {
+        const statusEl = document.getElementById('status-' + msg.provider);
+        if (statusEl) {
+          statusEl.className = 'test-status show ' + (msg.success ? 'ok' : 'err');
+          if (msg.success) {
+            statusEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);padding:8px 12px;border-radius:6px;margin-top:4px;">' +
+              '<span>' + msg.message + '</span>' +
+              '<button class="action-btn" id="save-inline-' + msg.provider + '" data-action="save-single" data-provider="' + msg.provider + '" style="background:#22c55e;color:#050b14;font-weight:800;border:none;padding:5px 12px;">💾 Save This Key</button>' +
+            '</div>';
+          } else {
+            statusEl.textContent = msg.message;
+          }
+        }
+      } else if (msg.type === 'single_save_success') {
+        const btn = document.getElementById('save-inline-' + msg.provider);
+        if (btn) {
+          btn.innerHTML = '✅ Saved & Active!';
+          btn.style.background = '#10b981';
+          btn.disabled = true;
+        }
+      }
+    });
   </script>
 </body>
 </html>`;
 }
-
 
 class MultiAISidebarProvider {
   constructor(context) { 
