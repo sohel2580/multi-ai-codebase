@@ -54,6 +54,7 @@ function getStatusFilePath() {
 }
 
 function writeStatus(status) {
+  if (status && status.isBusy) { addTokensProcessed(850); }
   const statusFile = getStatusFilePath();
   if (!statusFile) return;
   try {
@@ -1093,7 +1094,7 @@ class MultiAISidebarProvider {
           break;
         case 'poll_mini_telemetry':
           try {
-            const status = readStatus();
+            const status = readStatusData();
             wv.webview.postMessage({ type: 'sync_mini', data: status });
           } catch(e) {}
           break;
