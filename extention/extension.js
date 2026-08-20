@@ -764,33 +764,46 @@ function createOrShowSettingsPage(context) {
       case 'test_key':
         try {
           const { provider, key, endpoint } = msg;
-          const { callGroq, callOpenRouter, callBynaraRouter, callTokenRouter } = require('./ai-router');
+          const router = require('./ai-router');
           let res = null;
           const testMsg = [{ role: 'user', content: 'Ping: reply with "OK"' }];
 
-          if (provider === 'groq') {
-            if (!key) throw new Error('Please enter Groq API Key first.');
-            res = await callGroq(key, 'qwen/qwen3.6-27b', testMsg, 20);
-          } else if (provider === 'openrouter') {
-            if (!key) throw new Error('Please enter OpenRouter API Key first.');
-            res = await callOpenRouter(key, 'nvidia/nemotron-3.5-lightning:free', testMsg, 20);
-          } else if (provider === 'bynara') {
-            let cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://router.bynara.id/v1/chat/completions';
-            if (cleanEp.includes('api.bynara.ai')) {
-              cleanEp = 'https://router.bynara.id/v1/chat/completions';
-            }
-            res = await callBynaraRouter(key, cleanEp, 'agnes-2.5-flash', testMsg, 20);
-          } else if (provider === 'tokenrouter') {
-                      const cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://co.agentrouter.org/v1/chat/completions';
-          res = await callTokenRouter(key, cleanEp, 'deepseek-r1', testMsg, 20);
+          if (!key && provider !== 'bynara' && provider !== 'tokenrouter') {
+            throw new Error('Please enter ' + provider + ' API Key first.');
           }
 
+          if (provider === 'groq') {
+            res = await router.callGroq(key, 'qwen/qwen3.6-27b', testMsg, 20);
+          } else if (provider === 'cerebras') {
+            res = await router.callCerebras(key, 'llama-3.3-70b', testMsg, 20);
+          } else if (provider === 'sambanova') {
+            res = await router.callSambaNova(key, 'Meta-Llama-3.3-70B-Instruct', testMsg, 20);
+          } else if (provider === 'openrouter') {
+            res = await router.callOpenRouter(key, 'nvidia/nemotron-3.5-lightning:free', testMsg, 20);
+          } else if (provider === 'mistral') {
+            res = await router.callMistral(key, 'codestral-latest', testMsg, 20);
+          } else if (provider === 'together') {
+            res = await router.callTogether(key, 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo', testMsg, 20);
+          } else if (provider === 'deepinfra') {
+            res = await router.callDeepInfra(key, 'meta-llama/Meta-Llama-3-8B-Instruct', testMsg, 20);
+          } else if (provider === 'bynara') {
+            let cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://router.bynara.id/v1/chat/completions';
+            if (cleanEp.includes('api.bynara.ai')) cleanEp = 'https://router.bynara.id/v1/chat/completions';
+            res = await router.callBynaraRouter(key, cleanEp, 'agnes-2.5-flash', testMsg, 20);
+          } else if (provider === 'tokenrouter') {
+            const cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://co.agentrouter.org/v1/chat/completions';
+            res = await router.callTokenRouter(key, cleanEp, 'deepseek-r1', testMsg, 20);
+          } else {
+            throw new Error('Unsupported provider: ' + provider);
+          }
+
+          const modelName = (res && res.model) ? res.model : provider;
           if (currentSettingsPanel) {
             currentSettingsPanel.webview.postMessage({
               type: 'test_result',
               provider,
               success: true,
-              message: `✅ Verified Online! (${res.model || provider})`
+              message: '✅ Verified Online! (' + modelName + ')'
             });
           }
         } catch (err) {
@@ -799,7 +812,7 @@ function createOrShowSettingsPage(context) {
               type: 'test_result',
               provider: msg.provider,
               success: false,
-              message: `❌ Failed: ${err.message}`
+              message: '❌ Failed: ' + err.message
             });
           }
         }
