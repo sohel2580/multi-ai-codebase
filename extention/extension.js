@@ -1380,21 +1380,22 @@ function getSettingsPageHtml(sessionId = Date.now()) {
     const saveBtnEl = document.getElementById('saveBtn');
     if (saveBtnEl) {
       saveBtnEl.addEventListener('click', () => {
-      const keys = {
-        groq: (document.getElementById('key-groq') || {}).value || '',
-        cerebras: (document.getElementById('key-cerebras') || {}).value || '',
-        sambanova: (document.getElementById('key-sambanova') || {}).value || '',
-        openrouter: (document.getElementById('key-openrouter') || {}).value || '',
-        mistral: (document.getElementById('key-mistral') || {}).value || '',
-        together: (document.getElementById('key-together') || {}).value || '',
-        deepinfra: (document.getElementById('key-deepinfra') || {}).value || '',
-        bynaraKey: (document.getElementById('key-bynara') || {}).value || '',
-        bynaraEp: (document.getElementById('ep-bynara') || {}).value || '',
-        tokenrouterKey: (document.getElementById('key-tokenrouter') || {}).value || '',
-        tokenrouterEp: (document.getElementById('ep-tokenrouter') || {}).value || ''
-      };
-      vscode.postMessage({ type: 'save_keys', keys });
-    });
+        const keys = {
+          groq: (document.getElementById('key-groq') || {}).value || '',
+          cerebras: (document.getElementById('key-cerebras') || {}).value || '',
+          sambanova: (document.getElementById('key-sambanova') || {}).value || '',
+          openrouter: (document.getElementById('key-openrouter') || {}).value || '',
+          mistral: (document.getElementById('key-mistral') || {}).value || '',
+          together: (document.getElementById('key-together') || {}).value || '',
+          deepinfra: (document.getElementById('key-deepinfra') || {}).value || '',
+          bynaraKey: (document.getElementById('key-bynara') || {}).value || '',
+          bynaraEp: (document.getElementById('ep-bynara') || {}).value || '',
+          tokenrouterKey: (document.getElementById('key-tokenrouter') || {}).value || '',
+          tokenrouterEp: (document.getElementById('ep-tokenrouter') || {}).value || ''
+        };
+        if (vscode) vscode.postMessage({ type: 'save_keys', keys });
+      });
+    }
   </script>
 </body>
 </html>`;
@@ -1894,7 +1895,8 @@ function getModelScannerHtml(sessionId = Date.now()) {
   </div>
 
   <script>
-    const vscode = acquireVsCodeApi();
+    let vscode;
+    try { vscode = acquireVsCodeApi(); } catch(e) {}
     let currentModels = [];
 
     window.addEventListener('message', event => {
