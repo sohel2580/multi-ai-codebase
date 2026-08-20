@@ -446,7 +446,7 @@ function createOrShowWarRoom(context) {
     staleCheckInterval = setInterval(() => {
       try {
         const data = readStatusData();
-        if (data.isBusy && data._ts && (Date.now() - new Date(data._ts).getTime()) > 4000) {
+        if (data.isBusy && data._ts && (Date.now() - new Date(data._ts).getTime()) > 45000) {
           writeStandby();
         }
       } catch (e) {}
