@@ -194,7 +194,7 @@ async function callOpenRouter(apiKey, model, messages, maxTokens = 1500, onToken
     'https://openrouter.ai/api/v1/chat/completions',
     {
       Authorization: `Bearer ${apiKey}`,
-      'HTTP-Referer': 'https://github.com/sohel-ahammad/multi-ai-orchestrator',
+      'HTTP-Referer': 'https://github.com/sohel-ahammad/agent-council',
       'X-Title': 'Multi-AI Free Orchestrator v5.0'
     },
     { model: targetModel, messages: sanitizedMessages, max_tokens: maxTokens, temperature: 0.7 },

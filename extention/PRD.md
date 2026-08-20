@@ -1,5 +1,5 @@
 # Product Requirements Document
-# Multi-AI Orchestrator — Zero-Config Autonomous Edition
+# AgentCouncil — Zero-Config Autonomous Edition
 **Version:** 4.8.0  
 **Author:** Sohel Ahammad  
 **Status:** Production  

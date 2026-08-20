@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to "Multi-AI Orchestrator" are documented here.
+All notable changes to "AgentCouncil" are documented here.
 
 ## [3.0.0] - 2026-08-19 — Production Release
 

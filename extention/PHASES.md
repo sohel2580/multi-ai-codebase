@@ -1,5 +1,5 @@
 # Development Phases
-# Multi-AI Orchestrator — VSCode Extension
+# AgentCouncil — VSCode Extension
 **Version:** 4.0.0  
 **Author:** Sohel Ahammad
 
@@ -56,7 +56,7 @@
 | Theme-adaptive sidebar (dark + light) | ✅ Done |
 | `ai-router.js` added to VSIX package | ✅ Done (critical bug fix) |
 
-**Outcome:** `v4.0.0.vsix` — real agentic production release.
+**Outcome:** `v1.0.0.vsix` — real agentic production release.
 
 ---
 

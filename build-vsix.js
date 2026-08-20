@@ -3,7 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 /**
- * Production VSIX Builder for Multi-AI Orchestrator v3.0.0
+ * Production VSIX Builder for AgentCouncil v3.0.0
  * Zero-dependency, cross-platform packager
  */
 

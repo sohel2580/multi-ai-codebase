@@ -1,5 +1,5 @@
 # Design Document
-# Multi-AI Orchestrator — VSCode Extension
+# AgentCouncil — VSCode Extension
 **Version:** 4.0.0  
 **Author:** Sohel Ahammad
 
@@ -48,7 +48,7 @@ Text muted:    #64748b
 
 ```
 ┌─────────────────────────────────────────────────┐
-│ 🏢 Multi-AI Parallel Council  v4.0  [LIVE] 23:45│  ← Topbar
+│ 🏢 AgentCouncil — Multi-AI Parallel Council  v4.0  [LIVE] 23:45│  ← Topbar
 ├─────────────────────────────────────────────────┤
 │                                                   │
 │        🧠 DeepSeek R1                            │

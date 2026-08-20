@@ -6,7 +6,7 @@ const { MultiAIOrchestrator } = require('./orchestrator');
 const { AIRouter } = require('./ai-router');
 
 /**
- * Multi-AI Orchestrator Extension — extension.js
+ * AgentCouncil Extension — extension.js
  * Version: 4.0.0 — Real Agentic Production Release
  * Architected by Sohel Ahammad
  *
@@ -60,7 +60,7 @@ function writeStatus(status) {
   try {
     const data = {
       ...status,
-      _updatedBy: 'Multi-AI Extension v4.0.0',
+      _updatedBy: 'Multi-AI Extension v1.0.0',
       _ts: new Date().toISOString()
     };
     fs.writeFileSync(statusFile, JSON.stringify(data, null, 2), 'utf8');
@@ -543,7 +543,7 @@ function getRoundTableHtml(nonce, initData = null) {
   <div class="topbar">
     <div class="topbar-left">
       <span class="logo">🏢</span>
-      <div><span class="title-text">Multi-AI Parallel Council</span><span class="ver">v1.0.0 — Official Release</span></div>
+      <div><span class="title-text">AgentCouncil — Multi-AI Parallel Council</span><span class="ver">v1.0.0 — Official Release</span></div>
     </div>
     <div class="topbar-right" style="display:flex;align-items:center;gap:8px;">
       <div class="pill pill-live"><div class="dot"></div>LIVE</div>
@@ -575,7 +575,7 @@ function getRoundTableHtml(nonce, initData = null) {
     <div class="agent" id="ag-seo"><div class="bubble" id="b-seo"></div><div class="agent-emoji">📈</div><div class="agent-name" id="nm-seo">north-mini-code:free</div><div class="agent-role" id="rl-seo">Cohere Coder (OpenRouter)</div><div class="agent-badge" id="bd-seo">Standby</div></div>
   </div>
 
-  <div class="ticker"><span class="ticker-lbl">► LIVE</span><span class="ticker-txt" id="tickerTxt">Real Multi-AI Agentic Engine · v4.0.0 Ready</span></div>
+  <div class="ticker"><span class="ticker-lbl">► LIVE</span><span class="ticker-txt" id="tickerTxt">Real Multi-AI Agentic Engine · v1.0.0 Ready</span></div>
 
 <script nonce="${nonce}">
 (function(){
@@ -650,7 +650,7 @@ function getRoundTableHtml(nonce, initData = null) {
     const cs=document.getElementById('coreState'),cm=document.getElementById('coreMetrics'),tt=document.getElementById('tickerTxt');
     if(cs)cs.textContent=d.taskTitle||'Standby & Listening';
     if(cm)cm.textContent=d.realMetrics||'Awaiting command';
-    if(tt)tt.textContent=d.taskTitle||'Real Multi-AI Agentic Engine · v4.0.0 Ready';
+    if(tt)tt.textContent=d.taskTitle||'Real Multi-AI Agentic Engine · v1.0.0 Ready';
     const activeList=Array.isArray(d.activeAgents)?d.activeAgents:(d.activeAgent?[d.activeAgent]:[]);
     activeList.forEach((id,idx)=>{
       if(!id||id==='standby')return;
@@ -1246,7 +1246,7 @@ function getSidebarHtml(initData = null) {
   </div>
 
   <p class="note">💡 Click "⚙️ Settings & API Keys" to enter or get your provider keys.</p>
-  <p class="ver">Multi-AI Orchestrator v4.0.0 — Real Agentic</p>
+  <p class="ver">AgentCouncil v1.0.0 — Real Agentic</p>
 
   <script>
     const vscode = acquireVsCodeApi();
@@ -1591,7 +1591,7 @@ function activate(context) {
 
     // Auto-create and monitor .ai_team_status.json in workspace
     writeStandby('🟢 Autonomous Agentic Engine Active · Ready for queries');
-    console.log('[Multi-AI Orchestrator v4.0.0] Real Agentic Engine activated.');
+    console.log('[AgentCouncil v1.0.0] Real Agentic Engine activated.');
   } catch (err) {
     vscode.window.showErrorMessage('[Multi-AI] Activation Error: ' + err.message);
   }

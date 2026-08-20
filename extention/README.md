@@ -1,4 +1,4 @@
-# 🤖 Multi-AI Orchestrator Extension (VS Code / Antigravity IDE)
+# 🤖 AgentCouncil Extension (VS Code / Antigravity IDE)
 
 > **Architected by Sohel Ahammad**  
 > Coordinate DeepSeek R1, Alibaba Qwen 2.5 Coder, Meta Llama 3.3, Google Gemma 2 & Claude Opus simultaneously inside your IDE!
@@ -27,14 +27,14 @@ graph TD
 ## 📦 How to Install in 1 Click:
 
 ### Method 1: Load Directly in VS Code / Antigravity
-1. Copy the `extensions/multi-ai-orchestrator` folder into:
+1. Copy the `extensions/agent-council` folder into:
    - **Windows:** `%USERPROFILE%\.vscode\extensions\`
    - **Antigravity IDE:** `~/.gemini/antigravity-ide/extensions/`
 2. Restart your IDE or press `Ctrl+Shift+P` -> **Developer: Reload Window**.
 
 ### Method 2: Package as `.vsix`
 ```bash
-cd extensions/multi-ai-orchestrator
+cd extensions/agent-council
 npx vsce package
 ```
 Then right-click the generated `.vsix` file and select **"Install from VSIX..."**!

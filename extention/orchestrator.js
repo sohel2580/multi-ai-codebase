@@ -1,5 +1,5 @@
 /**
- * Multi-AI Orchestrator Pipeline — orchestrator.js
+ * AgentCouncil Pipeline — orchestrator.js
  * 5-Step Autonomous Task Pipeline with Real AI Calls
  * Version: 4.0.0
  * Architected by Sohel Ahammad

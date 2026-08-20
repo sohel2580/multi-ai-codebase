@@ -3,7 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 /**
- * 1-Click Zero-Dependency OPC/PKZIP VSIX Packager for Multi-AI Orchestrator
+ * 1-Click Zero-Dependency OPC/PKZIP VSIX Packager for AgentCouncil
  */
 
 const extDir = __dirname;

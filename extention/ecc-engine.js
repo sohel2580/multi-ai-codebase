@@ -1,7 +1,7 @@
 /**
  * ECC (Everything Claude Code) Universal Engine Integration
  * Source: https://github.com/affaan-m/ecc
- * Bundled inside Multi-AI Orchestrator by Sohel Ahammad
+ * Bundled inside AgentCouncil by Sohel Ahammad
  */
 
 class ECCAgentShield {

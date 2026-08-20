@@ -1,6 +1,6 @@
-# Multi-AI Orchestrator: Real Agentic AI Council (VSCode Extension)
+# AgentCouncil: Real Agentic AI Council (VSCode Extension)
 
-[![VSIX](https://img.shields.io/badge/VSIX-v5.0.0-blue.svg)](https://github.com/sohel-ahammad/multi-ai-orchestrator)
+[![VSIX](https://img.shields.io/badge/VSIX-v5.0.0-blue.svg)](https://github.com/sohel-ahammad/agent-council)
 [![License](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
 [![Free Tier](https://img.shields.io/badge/Cost-$0.00%20Free-green.svg)](#)
 
@@ -22,7 +22,7 @@
 
 ## 📦 How to Install
 
-1. Download **`multi-ai-orchestrator-5.0.0.vsix`**.
+1. Download **`agent-council-5.0.0.vsix`**.
 2. In VSCode: Press `Ctrl + Shift + P` &rarr; type **`Extensions: Install from VSIX...`**.
 3. Select the `.vsix` file and reload VSCode.
 4. Open the sidebar &rarr; click **`⚙️ Settings & API Keys`** &rarr; add your Free Groq / Bynara / OpenRouter keys.

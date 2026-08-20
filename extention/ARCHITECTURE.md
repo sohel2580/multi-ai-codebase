@@ -1,5 +1,5 @@
 # Architecture Document
-# Multi-AI Orchestrator — Agent Router & Gateway Flow
+# AgentCouncil — Agent Router & Gateway Flow
 **Version:** 4.7.0  
 **Author:** Sohel Ahammad
 
