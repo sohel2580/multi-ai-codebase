@@ -529,7 +529,14 @@ function getRoundTableHtml(nonce) {
       <span class="logo">🏢</span>
       <div><span class="title-text">Multi-AI Parallel Council</span><span class="ver">v4.0 — Real Agentic</span></div>
     </div>
-    <div class="topbar-right">
+    <div class="topbar-right" style="display:flex;align-items:center;gap:8px;">
+      <!-- 💰 Live Token & Free Savings Counter in Round-Table HUD -->
+      <div class="pill" style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:#34d399;font-weight:700;display:flex;align-items:center;gap:6px;">
+        <span>💰 Free Savings:</span>
+        <span id="hud-token-count" style="font-family:monospace;color:#60a5fa;">48,650 Tokens</span>
+        <span style="color:rgba(255,255,255,0.2);">|</span>
+        <span id="hud-money-saved" style="font-family:monospace;color:#34d399;">$1.46 (Zero Cost)</span>
+      </div>
       <div class="pill pill-live"><div class="dot"></div>LIVE</div>
       <div class="pill pill-clock" id="clk">--:--:--</div>
     </div>
