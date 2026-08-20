@@ -433,13 +433,10 @@ function createOrShowWarRoom(context) {
       vscode.ViewColumn.One,
       { enableScripts: true, retainContextWhenHidden: false }
     );
-      'multiAI.warRoom',
-      '⚡ Multi-AI Round-Table HUD',
-      vscode.ViewColumn.One,
-      { enableScripts: true, retainContextWhenHidden: true }
-    );
     const currentStatus = readStatusData();
     currentWarRoomPanel.webview.html = getRoundTableHtml(nonce, currentStatus);
+
+    ;
 
     const statusFile = getStatusFilePath();
     let pollInterval = null;
