@@ -1083,7 +1083,8 @@ class MultiAISidebarProvider {
   resolveWebviewView(wv) {
     this._view = wv;
     wv.webview.options = { enableScripts: true };
-    wv.webview.html = getSidebarHtml();
+    const initStatus = readStatusData();
+    wv.webview.html = getSidebarHtml(initStatus);
     wv.webview.onDidReceiveMessage(async (msg) => {
       switch (msg.type) {
         case 'open_hud':     
@@ -1109,7 +1110,10 @@ class MultiAISidebarProvider {
   }
 }
 
-function getSidebarHtml() {
+function getSidebarHtml(initData = null) {
+  const data = initData || readStatusData();
+  const initialTokens = Number(data.totalTokens || gTotalTokensProcessed || 0).toLocaleString();
+  const initialSaved = data.moneySaved || ((data.totalTokens || gTotalTokensProcessed || 0) * 0.00003).toFixed(2);
   const cfg = getApiConfig();
   const hasKey = Object.values(cfg).some(v => v && v.trim().length > 5);
   const keyStatus = hasKey ? '🟢 Real AI Engine Ready' : '🔴 API Keys Required';
@@ -1195,11 +1199,11 @@ function getSidebarHtml() {
     </div>
     <div class="row" style="border:none;padding:2px 0;">
       <span style="font-size:0.75rem;color:var(--muted);">Total Processed:</span>
-      <strong id="mini-token-count" style="color:var(--acc);font-family:monospace;font-size:0.8rem;">48,650 Tokens</strong>
+      <strong id="mini-token-count" style="color:var(--acc);font-family:monospace;font-size:0.8rem;">${initialTokens} Tokens</strong>
     </div>
     <div class="row" style="border:none;padding:2px 0;">
       <span style="font-size:0.75rem;color:var(--muted);">Money Saved:</span>
-      <strong id="mini-cost-saved" style="color:#34d399;font-family:monospace;font-size:0.85rem;">.46 (Zero Cost)</strong>
+      <strong id="mini-cost-saved" style="color:#34d399;font-family:monospace;font-size:0.85rem;">\${initialSaved} (Zero Cost)</strong>
     </div>
   </div>
 
