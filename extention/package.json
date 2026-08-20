@@ -2,7 +2,7 @@
   "name": "agent-council",
   "displayName": "AgentCouncil: Multi-AI Free Coding Assistant",
   "description": "Free Multi-Agent AI Coding Copilot — 6 Specialist AI Models (DeepSeek R1, Groq Qwen 3.6-27B, Llama 3.3, Nemotron & Cohere) with Real-Time Round-Table HUD.",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "publisher": "sohel-ahammad",
   "author": {
     "name": "Sohel Ahammad"
@@ -60,79 +60,79 @@
         "multiAI.groqApiKey": {
           "type": "string",
           "default": "",
-          "markdownDescription": "⚡ **Groq Free Tier API Key** — Free Qwen 2.5 Coder & Llama 3.3 @ 540 tok/s. [console.groq.com/keys](https://console.groq.com/keys)",
+          "markdownDescription": "⚡ **Groq Free Tier API Key** — [console.groq.com/keys](https://console.groq.com/keys)",
           "order": 1
         },
-        "multiAI.bynaraApiKey": {
+        "multiAI.cerebrasApiKey": {
           "type": "string",
           "default": "",
-          "markdownDescription": "🌐 **Bynara / Nara Router Key** — Free AI Router Hub. [bynara.ai](https://bynara.ai)",
+          "markdownDescription": "🚀 **Cerebras Free LPU (2000 tok/s)** — [cloud.cerebras.ai](https://cloud.cerebras.ai)",
           "order": 2
         },
-        "multiAI.bynaraEndpoint": {
+        "multiAI.sambanovaApiKey": {
           "type": "string",
-          "default": "https://router.bynara.id/v1/chat/completions",
-          "markdownDescription": "🌐 **Bynara Custom Endpoint URL**",
+          "default": "",
+          "markdownDescription": "🔥 **SambaNova Cloud Free Tier (1000 tok/s)** — [cloud.sambanova.ai](https://cloud.sambanova.ai)",
           "order": 3
         },
         "multiAI.openrouterApiKey": {
           "type": "string",
           "default": "",
-          "markdownDescription": "🧠 **OpenRouter Free Key** — Free DeepSeek R1 & Gemma models. [openrouter.ai/keys](https://openrouter.ai/keys)",
+          "markdownDescription": "🧠 **OpenRouter Free Models Hub** — [openrouter.ai/keys](https://openrouter.ai/keys)",
           "order": 4
-        },
-        "multiAI.agentrouterApiKey": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "🤖 **Agent Router Key** — Autonomous Agent Router Hub. [agentrouter.org](https://agentrouter.org)",
-          "order": 5
-        },
-        "multiAI.agentrouterEndpoint": {
-          "type": "string",
-          "default": "https://co.agentrouter.org/v1/chat/completions",
-          "markdownDescription": "🤖 **Agent Router Endpoint URL**",
-          "order": 6
-        },
-        "multiAI.cerebrasApiKey": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "⚡ **Cerebras Free Llama 3.3 70B @ 2000 tok/s** — [cloud.cerebras.ai](https://cloud.cerebras.ai)",
-          "order": 7
-        },
-        "multiAI.sambanovaApiKey": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "⚡ **SambaNova Free Ultra Llama 3.3 @ 1000 tok/s** — [cloud.sambanova.ai](https://cloud.sambanova.ai)",
-          "order": 8
-        },
-        "multiAI.togetherApiKey": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "🌐 **Together AI Free Tier Router** — [together.ai](https://together.ai)",
-          "order": 9
-        },
-        "multiAI.deepinfraApiKey": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "🌐 **DeepInfra Free / Pay-per-use Router** — [deepinfra.com](https://deepinfra.com)",
-          "order": 10
         },
         "multiAI.mistralApiKey": {
           "type": "string",
           "default": "",
           "markdownDescription": "💻 **Mistral Codestral Free Coding API** — [console.mistral.ai](https://console.mistral.ai)",
+          "order": 5
+        },
+        "multiAI.togetherApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "🌐 **Together AI Free Credits Tier** — [together.ai](https://together.ai)",
+          "order": 6
+        },
+        "multiAI.deepinfraApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "⚡ **DeepInfra Free / Low Cost Router** — [deepinfra.com](https://deepinfra.com)",
+          "order": 7
+        },
+        "multiAI.bynaraApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "🌐 **Bynara / Nara AI Router Key** — [router.bynara.id](https://router.bynara.id)",
+          "order": 8
+        },
+        "multiAI.bynaraEndpoint": {
+          "type": "string",
+          "default": "https://router.bynara.id/v1/chat/completions",
+          "markdownDescription": "🌐 **Bynara Custom Router Endpoint**",
+          "order": 9
+        },
+        "multiAI.agentrouterApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "🤖 **Agent Router Key** — [agentrouter.org](https://agentrouter.org)",
+          "order": 10
+        },
+        "multiAI.agentrouterEndpoint": {
+          "type": "string",
+          "default": "https://co.agentrouter.org/v1/chat/completions",
+          "markdownDescription": "🤖 **Agent Router Endpoint URL**",
           "order": 11
         },
         "multiAI.tokenrouterApiKey": {
           "type": "string",
           "default": "",
-          "markdownDescription": "🤖 **Agent Router Key / Token Router Key** — [agentrouter.org](https://agentrouter.org)",
+          "markdownDescription": "🤖 **Token Router Key (Alias)**",
           "order": 12
         },
         "multiAI.tokenrouterEndpoint": {
           "type": "string",
           "default": "https://co.agentrouter.org/v1/chat/completions",
-          "markdownDescription": "🤖 **Agent Router Custom Endpoint URL**",
+          "markdownDescription": "🤖 **Token Router Endpoint URL (Alias)**",
           "order": 13
         }
       }

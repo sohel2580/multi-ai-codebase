@@ -744,23 +744,30 @@ function createOrShowSettingsPage(context) {
         try {
           const cfg = vscode.workspace.getConfiguration('multiAI');
           const k = msg.keys || {};
-          if (k.groq !== undefined) await cfg.update('groqApiKey', (k.groq || '').trim(), vscode.ConfigurationTarget.Global);
-          if (k.cerebras !== undefined) await cfg.update('cerebrasApiKey', (k.cerebras || '').trim(), vscode.ConfigurationTarget.Global);
-          if (k.sambanova !== undefined) await cfg.update('sambanovaApiKey', (k.sambanova || '').trim(), vscode.ConfigurationTarget.Global);
-          if (k.openrouter !== undefined) await cfg.update('openrouterApiKey', (k.openrouter || '').trim(), vscode.ConfigurationTarget.Global);
-          if (k.mistral !== undefined) await cfg.update('mistralApiKey', (k.mistral || '').trim(), vscode.ConfigurationTarget.Global);
-          if (k.together !== undefined) await cfg.update('togetherApiKey', (k.together || '').trim(), vscode.ConfigurationTarget.Global);
-          if (k.deepinfra !== undefined) await cfg.update('deepinfraApiKey', (k.deepinfra || '').trim(), vscode.ConfigurationTarget.Global);
-          if (k.bynaraKey !== undefined) await cfg.update('bynaraApiKey', (k.bynaraKey || '').trim(), vscode.ConfigurationTarget.Global);
-          if (k.bynaraEp !== undefined) await cfg.update('bynaraEndpoint', (k.bynaraEp || 'https://router.bynara.id/v1/chat/completions').trim(), vscode.ConfigurationTarget.Global);
-          if (k.tokenrouterKey !== undefined) {
-            await cfg.update('agentrouterApiKey', (k.tokenrouterKey || '').trim(), vscode.ConfigurationTarget.Global);
-            await cfg.update('tokenrouterApiKey', (k.tokenrouterKey || '').trim(), vscode.ConfigurationTarget.Global);
-          }
-          if (k.tokenrouterEp !== undefined) {
-            await cfg.update('agentrouterEndpoint', (k.tokenrouterEp || 'https://co.agentrouter.org/v1/chat/completions').trim(), vscode.ConfigurationTarget.Global);
-            await cfg.update('tokenrouterEndpoint', (k.tokenrouterEp || 'https://co.agentrouter.org/v1/chat/completions').trim(), vscode.ConfigurationTarget.Global);
-          }
+          
+          const safeUpdate = async (key, val) => {
+            if (val !== undefined) {
+              try {
+                await cfg.update(key, (val || '').trim(), vscode.ConfigurationTarget.Global);
+              } catch(e) {
+                // Ignore any un-configured key silently
+              }
+            }
+          };
+
+          await safeUpdate('groqApiKey', k.groq);
+          await safeUpdate('cerebrasApiKey', k.cerebras);
+          await safeUpdate('sambanovaApiKey', k.sambanova);
+          await safeUpdate('openrouterApiKey', k.openrouter);
+          await safeUpdate('mistralApiKey', k.mistral);
+          await safeUpdate('togetherApiKey', k.together);
+          await safeUpdate('deepinfraApiKey', k.deepinfra);
+          await safeUpdate('bynaraApiKey', k.bynaraKey);
+          await safeUpdate('bynaraEndpoint', k.bynaraEp || 'https://router.bynara.id/v1/chat/completions');
+          await safeUpdate('agentrouterApiKey', k.tokenrouterKey);
+          await safeUpdate('tokenrouterApiKey', k.tokenrouterKey);
+          await safeUpdate('agentrouterEndpoint', k.tokenrouterEp || 'https://co.agentrouter.org/v1/chat/completions');
+          await safeUpdate('tokenrouterEndpoint', k.tokenrouterEp || 'https://co.agentrouter.org/v1/chat/completions');
           
           vscode.window.showInformationMessage('✅ All Free AI Routers & Keys saved and activated globally!');
           if (currentSettingsPanel) {
