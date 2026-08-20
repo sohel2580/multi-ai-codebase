@@ -424,7 +424,8 @@ function createOrShowWarRoom(context) {
       vscode.ViewColumn.One,
       { enableScripts: true, retainContextWhenHidden: true }
     );
-    currentWarRoomPanel.webview.html = getRoundTableHtml(nonce);
+    const currentStatus = readStatusData();
+    currentWarRoomPanel.webview.html = getRoundTableHtml(nonce, currentStatus);
 
     const statusFile = getStatusFilePath();
     let pollInterval = null;
@@ -480,7 +481,10 @@ function createOrShowWarRoom(context) {
 // ─────────────────────────────────────────────────────────────
 // HUD HTML — inherits bug-fixed v3.0.0 design
 // ─────────────────────────────────────────────────────────────
-function getRoundTableHtml(nonce) {
+function getRoundTableHtml(nonce, initData = null) {
+  const d = initData || readStatusData();
+  const initTokens = Number(d.totalTokens || gTotalTokensProcessed || 0).toLocaleString();
+  const initSaved = d.moneySaved || ((d.totalTokens || gTotalTokensProcessed || 0) * 0.00003).toFixed(2);
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -545,9 +549,9 @@ function getRoundTableHtml(nonce) {
       <!-- 💰 Live Token & Free Savings Counter in Round-Table HUD -->
       <div class="pill" style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:#34d399;font-weight:700;display:flex;align-items:center;gap:6px;">
         <span>💰 Free Savings:</span>
-        <span id="hud-token-count" style="font-family:monospace;color:#60a5fa;">48,650 Tokens</span>
+        <span id="hud-token-count" style="font-family:monospace;color:#60a5fa;">${initTokens} Tokens</span>
         <span style="color:rgba(255,255,255,0.2);">|</span>
-        <span id="hud-money-saved" style="font-family:monospace;color:#34d399;">$1.46 (Zero Cost)</span>
+        <span id="hud-money-saved" style="font-family:monospace;color:#34d399;">\$${initSaved} (Zero Cost)</span>
       </div>
       <div class="pill pill-live"><div class="dot"></div>LIVE</div>
       <div class="pill pill-clock" id="clk">--:--:--</div>
