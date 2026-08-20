@@ -2,7 +2,7 @@
   "name": "agent-council",
   "displayName": "AgentCouncil: Multi-AI Free Coding Assistant",
   "description": "Free Multi-Agent AI Coding Copilot — 6 Specialist AI Models (DeepSeek R1, Groq Qwen 3.6-27B, Llama 3.3, Nemotron & Cohere) with Real-Time Round-Table HUD.",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "publisher": "sohel-ahammad",
   "author": {
     "name": "Sohel Ahammad"
