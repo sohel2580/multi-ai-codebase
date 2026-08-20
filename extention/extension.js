@@ -543,7 +543,7 @@ function getRoundTableHtml(nonce, initData = null) {
   <div class="topbar">
     <div class="topbar-left">
       <span class="logo">🏢</span>
-      <div><span class="title-text">AgentCouncil — Multi-AI Parallel Council</span><span class="ver">v1.2.0 — 6-Superpowers Edition</span></div>
+      <div><span class="title-text">AgentCouncil — Multi-AI Parallel Council</span><span class="ver">v1.3.0 — AI Company Edition</span></div>
     </div>
     <div class="topbar-right" style="display:flex;align-items:center;gap:8px;">
       <div class="pill pill-live"><div class="dot"></div>LIVE</div>
