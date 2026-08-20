@@ -240,6 +240,102 @@ async function callTokenRouter(apiKey, endpointUrl, model, messages, maxTokens =
 }
 
 // ── 🧠 AUTONOMOUS FAILOVER MESH ROUTER (v5.0) ───────────────
+
+// ── 5. CEREBRAS (2000 tok/s) ────────────────────────────────
+async function callCerebras(apiKey, model, messages, maxTokens = 1500, onToken = null) {
+  const targetModel = model || 'llama-3.3-70b';
+  const sanitizedMessages = messages.map(m => ({ ...m, content: sanitizePrompt(m.content) }));
+  const res = await httpPost(
+    'https://api.cerebras.ai/v1/chat/completions',
+    { Authorization: 'Bearer ' + apiKey },
+    { model: targetModel, messages: sanitizedMessages, max_tokens: maxTokens, temperature: 0.7 },
+    25000,
+    onToken
+  );
+  return {
+    text: extractText(res),
+    tokens: res.usage?.total_tokens || 20,
+    provider: 'Cerebras LPU (2000 tok/s)',
+    model: targetModel
+  };
+}
+
+// ── 6. SAMBANOVA (1000 tok/s) ───────────────────────────────
+async function callSambaNova(apiKey, model, messages, maxTokens = 1500, onToken = null) {
+  const targetModel = model || 'Meta-Llama-3.3-70B-Instruct';
+  const sanitizedMessages = messages.map(m => ({ ...m, content: sanitizePrompt(m.content) }));
+  const res = await httpPost(
+    'https://api.sambanova.ai/v1/chat/completions',
+    { Authorization: 'Bearer ' + apiKey },
+    { model: targetModel, messages: sanitizedMessages, max_tokens: maxTokens, temperature: 0.7 },
+    25000,
+    onToken
+  );
+  return {
+    text: extractText(res),
+    tokens: res.usage?.total_tokens || 20,
+    provider: 'SambaNova SN40L',
+    model: targetModel
+  };
+}
+
+// ── 7. MISTRAL (Codestral Free) ──────────────────────────────
+async function callMistral(apiKey, model, messages, maxTokens = 1500, onToken = null) {
+  const targetModel = model || 'codestral-latest';
+  const sanitizedMessages = messages.map(m => ({ ...m, content: sanitizePrompt(m.content) }));
+  const res = await httpPost(
+    'https://api.mistral.ai/v1/chat/completions',
+    { Authorization: 'Bearer ' + apiKey },
+    { model: targetModel, messages: sanitizedMessages, max_tokens: maxTokens, temperature: 0.7 },
+    25000,
+    onToken
+  );
+  return {
+    text: extractText(res),
+    tokens: res.usage?.total_tokens || 20,
+    provider: 'Mistral AI',
+    model: targetModel
+  };
+}
+
+// ── 8. TOGETHER AI ──────────────────────────────────────────
+async function callTogether(apiKey, model, messages, maxTokens = 1500, onToken = null) {
+  const targetModel = model || 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo';
+  const sanitizedMessages = messages.map(m => ({ ...m, content: sanitizePrompt(m.content) }));
+  const res = await httpPost(
+    'https://api.together.xyz/v1/chat/completions',
+    { Authorization: 'Bearer ' + apiKey },
+    { model: targetModel, messages: sanitizedMessages, max_tokens: maxTokens, temperature: 0.7 },
+    25000,
+    onToken
+  );
+  return {
+    text: extractText(res),
+    tokens: res.usage?.total_tokens || 20,
+    provider: 'Together AI',
+    model: targetModel
+  };
+}
+
+// ── 9. DEEPINFRA ────────────────────────────────────────────
+async function callDeepInfra(apiKey, model, messages, maxTokens = 1500, onToken = null) {
+  const targetModel = model || 'meta-llama/Meta-Llama-3-8B-Instruct';
+  const sanitizedMessages = messages.map(m => ({ ...m, content: sanitizePrompt(m.content) }));
+  const res = await httpPost(
+    'https://api.deepinfra.com/v1/openai/chat/completions',
+    { Authorization: 'Bearer ' + apiKey },
+    { model: targetModel, messages: sanitizedMessages, max_tokens: maxTokens, temperature: 0.7 },
+    25000,
+    onToken
+  );
+  return {
+    text: extractText(res),
+    tokens: res.usage?.total_tokens || 20,
+    provider: 'DeepInfra',
+    model: targetModel
+  };
+}
+
 class AIRouter {
   constructor(config) {
     this.cfg = config || {};
@@ -363,5 +459,10 @@ module.exports = {
   callBynaraRouter,
   callOpenRouter,
   callTokenRouter,
+  callCerebras,
+  callSambaNova,
+  callMistral,
+  callTogether,
+  callDeepInfra,
   sanitizePrompt
 };
