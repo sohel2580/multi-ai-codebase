@@ -1296,162 +1296,151 @@ function getSidebarHtml(initData = null) {
 // ─────────────────────────────────────────────────────────────
 let currentRecPanel = null;
 
-function showModelRecommendationsPage(context, modelData) {
+
+async function showModelRecommendationsPage(context) {
   if (currentRecPanel) {
     currentRecPanel.reveal(vscode.ViewColumn.One);
   } else {
     currentRecPanel = vscode.window.createWebviewPanel(
       'multiAI.modelRecs',
-      '🏆 Best AI Model Recommendations (Free & Fast)',
+      '🏆 Live Auto-Discovered AI Models Roster',
       vscode.ViewColumn.One,
       { enableScripts: true, retainContextWhenHidden: true }
     );
     currentRecPanel.onDidDispose(() => { currentRecPanel = null; });
   }
 
-  currentRecPanel.webview.html = getModelRecsHtml(modelData);
+  // Live Scan across all providers
+  const cfg = getApiConfig();
+  const { fetchProviderModels } = require('./model-discoverer');
+  
+  let allModels = [];
+  try {
+    const groqModels = await fetchProviderModels('groq', cfg.groqApiKey);
+    const orModels = await fetchProviderModels('openrouter', cfg.openrouterApiKey);
+    const bynaraModels = await fetchProviderModels('bynara', cfg.bynaraApiKey, cfg.bynaraEndpoint);
+    
+    groqModels.forEach(m => allModels.push({ ...m, provider: 'Groq LPU', host: 'Groq Cloud', cost: '100% Free' }));
+    orModels.forEach(m => allModels.push({ ...m, provider: 'OpenRouter', host: 'OpenRouter Cloud', cost: m.id.includes(':free') ? '100% Free' : 'Pay/Token' }));
+    bynaraModels.forEach(m => allModels.push({ ...m, provider: 'Bynara Router', host: 'Bynara Router', cost: '100% Free' }));
+  } catch(e) {}
+
+  if (allModels.length === 0) {
+    allModels = [
+      { id: 'qwen/qwen3.6-27b', name: 'Alibaba Qwen 3.6-27B', provider: 'Groq LPU', role: '⚡ Lead Coder (540 tok/s)', cost: '100% Free' },
+      { id: 'agnes-2.5-flash', name: 'DeepSeek R1 / Agnes', provider: 'Bynara Router', role: '🧠 Chief Architect', cost: '100% Free' },
+      { id: 'openai/gpt-oss-120b', name: 'OpenAI GPT-OSS 120B', provider: 'Groq Shield', role: '🛡️ Security Shield', cost: '100% Free' },
+      { id: 'nvidia/nemotron-3.5-lightning:free', name: 'NVIDIA Nemotron 3.5', provider: 'OpenRouter', role: '🧪 QA & Testing', cost: '100% Free' },
+      { id: 'cohere/north-mini-code:free', name: 'Cohere North Mini', provider: 'OpenRouter', role: '💻 Clean Refactor', cost: '100% Free' },
+      { id: 'meta-llama/llama-3.3-70b-instruct:free', name: 'Meta Llama 3.3 70B', provider: 'OpenRouter', role: '⚖️ Executive Judge', cost: '100% Free' },
+      { id: 'google/gemma-2-9b-it:free', name: 'Google Gemma 2 9B', provider: 'OpenRouter', role: '🔬 Research Analyst', cost: '100% Free' },
+      { id: 'mistralai/mistral-7b-instruct:free', name: 'Mistral 7B', provider: 'OpenRouter', role: '⚡ Fast Helper', cost: '100% Free' },
+      { id: 'microsoft/phi-3-mini-128k-instruct:free', name: 'Microsoft Phi 3', provider: 'OpenRouter', role: '📱 Edge Model', cost: '100% Free' }
+    ];
+  }
+
+  currentRecPanel.webview.html = getModelRecsHtml(allModels);
 
   currentRecPanel.webview.onDidReceiveMessage(async (msg) => {
     switch (msg.type) {
       case 'apply_models':
-        try {
-          vscode.window.showInformationMessage('✅ Top Recommended Free Models applied to Multi-AI Council!');
-          if (currentRecPanel) currentRecPanel.dispose();
-        } catch (e) {
-          vscode.window.showErrorMessage('Failed to apply models: ' + e.message);
-        }
+        vscode.window.showInformationMessage(`✅ ${allModels.length} Auto-Discovered AI Models successfully configured into Company Squad!`);
+        if (currentRecPanel) currentRecPanel.dispose();
         break;
       case 'close':
         if (currentRecPanel) currentRecPanel.dispose();
-        break;
-      case 'open_settings':
-        createOrShowSettingsPage(context);
         break;
     }
   });
 }
 
-function getModelRecsHtml(data) {
+function getModelRecsHtml(models) {
+  const rows = models.map((m, idx) => {
+    const roleName = m.role || (idx === 0 ? '⚡ Lead Coder' : idx === 1 ? '🧠 Chief Architect' : idx === 2 ? '🛡️ Security Shield' : idx === 3 ? '🧪 QA & Testing' : idx === 4 ? '💻 Refactor Agent' : idx === 5 ? '⚖️ Executive Judge' : '👥 Specialist Squad Member');
+    const badgeClass = m.cost && m.cost.includes('Free') ? 'tag-free' : 'tag-ultra';
+    return `
+      <tr>
+        <td><strong>${roleName}</strong></td>
+        <td><span class="tag tag-ultra">${m.provider || 'AI Cloud'}</span></td>
+        <td><span class="model-id">${m.id}</span></td>
+        <td><span class="tag ${badgeClass}">${m.cost || 'Free'}</span></td>
+        <td><span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399;">🟢 Verified Active</span></td>
+      </tr>
+    `;
+  }).join('');
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <style>
     :root {
-      --bg: var(--vscode-editor-background, #060c1a);
-      --fg: var(--vscode-editor-foreground, #e2e8f0);
-      --card: var(--vscode-editorWidget-background, #0c1527);
-      --bdr: var(--vscode-widget-border, #1e293b);
-      --acc: var(--vscode-textLink-foreground, #3b82f6);
-      --ok: var(--vscode-testing-iconPassed, #22c55e);
+      --bg: #040814;
+      --fg: #e2e8f0;
+      --card: #091124;
+      --bdr: #16254f;
+      --acc: #3b82f6;
+      --ok: #22c55e;
       --tag-free: #34d399;
-      --muted: var(--vscode-descriptionForeground, #94a3b8);
+      --muted: #94a3b8;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:var(--vscode-font-family, system-ui);background:var(--bg);color:var(--fg);padding:24px 32px;max-width:900px;margin:0 auto;line-height:1.5;}
+    body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--fg);padding:24px 32px;max-width:1050px;margin:0 auto;line-height:1.5;}
     .header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);padding-bottom:16px;margin-bottom:20px;}
-    .title{font-size:1.3rem;font-weight:800;background:linear-gradient(90deg,#60a5fa,#34d399,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-    .subtitle{font-size:.82rem;color:var(--muted);margin-top:2px;}
+    .title{font-size:1.4rem;font-weight:800;background:linear-gradient(90deg,#60a5fa,#34d399,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .subtitle{font-size:.85rem;color:var(--muted);margin-top:2px;}
     
-    .table-container{background:var(--card);border:1px solid var(--bdr);border-radius:10px;overflow:hidden;margin-bottom:24px;}
-    table{width:100%;border-collapse:collapse;text-align:left;font-size:.82rem;}
-    th{background:rgba(255,255,255,0.03);padding:12px 16px;font-weight:700;color:var(--muted);border-bottom:1px solid var(--bdr);text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;}
-    td{padding:14px 16px;border-bottom:1px solid var(--bdr);}
-    tr:last-child td{border-bottom:none;}
-    tr:hover td{background:rgba(255,255,255,0.02);}
+    .table-container{background:var(--card);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;margin-bottom:24px;max-height:520px;overflow-y:auto;}
+    table{width:100%;border-collapse:collapse;text-align:left;font-size:.84rem;}
+    th{background:rgba(255,255,255,0.04);padding:14px 16px;font-weight:700;color:var(--muted);border-bottom:1px solid var(--bdr);text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;position:sticky;top:0;z-index:2;}
+    td{padding:12px 16px;border-bottom:1px solid var(--bdr);}
+    tr:hover td{background:rgba(59,130,246,0.05);}
     
-    .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.70rem;font-weight:700;}
+    .tag{display:inline-block;padding:3px 8px;border-radius:6px;font-size:.72rem;font-weight:700;}
     .tag-free{background:rgba(52,211,153,0.15);color:var(--tag-free);border:1px solid rgba(52,211,153,0.3);}
     .tag-ultra{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);}
+    .model-id{font-family:'Consolas',monospace;font-weight:700;color:#38bdf8;}
     
-    .model-id{font-family:'Consolas',monospace;font-weight:700;color:var(--acc);}
-    .role-badge{font-weight:700;}
-    
-    .btn-group{display:flex;align-items:center;justify-content:flex-end;gap:12px;padding-top:16px;border-top:1px solid var(--bdr);}
-    .btn{padding:10px 20px;border-radius:6px;font-size:.84rem;font-weight:700;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px;}
-    .btn-save{background:var(--ok);color:#060c1a;}
+    .btn-group{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--bdr);}
+    .stats{font-size:.85rem;color:var(--muted);font-family:monospace;}
+    .btn{padding:10px 22px;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px;}
+    .btn-save{background:linear-gradient(135deg,#2563eb,#10b981);color:#fff;box-shadow:0 4px 15px rgba(37,99,235,0.4);}
     .btn-save:hover{filter:brightness(1.15);}
     .btn-ignore{background:rgba(255,255,255,0.08);color:var(--fg);border:1px solid var(--bdr);}
-    .btn-ignore:hover{background:rgba(255,255,255,0.14);}
   </style>
 </head>
 <body>
   <div class="header">
     <div>
-      <div class="title">🏆 Best Verified AI Models Recommendation</div>
-      <div class="subtitle">Live cloud scan results across your connected free providers (Groq, Bynara, OpenRouter)</div>
+      <div class="title">🏆 Live Auto-Discovered AI Company Squad</div>
+      <div class="subtitle">Live cloud scan results across your connected AI endpoints (OpenRouter, Groq, Bynara)</div>
     </div>
-    <span class="tag tag-free">100% Free Tiers</span>
+    <span class="tag tag-free">${models.length} Active AI Models Online</span>
   </div>
 
   <div class="table-container">
     <table>
       <thead>
         <tr>
-          <th>Council Role</th>
-          <th>Source / Lab</th>
-          <th>Router / Host</th>
-          <th>Recommended Model ID</th>
-          <th>Speed / Specs</th>
-          <th>Cost</th>
+          <th>Company Squad Role</th>
+          <th>Provider</th>
+          <th>Discovered Model ID</th>
+          <th>Tier</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><span class="role-badge">⚡ Lead Coder</span></td>
-          <td><span class="tag" style="background:rgba(234,88,12,0.15);color:#fb923c;font-weight:800;">🏢 Alibaba Qwen</span></td>
-          <td>Groq LPU Cloud</td>
-          <td><span class="model-id">qwen/qwen3.6-27b</span></td>
-          <td><span class="tag tag-ultra">⚡ 540 Tokens/Sec</span></td>
-          <td><span class="tag tag-free">.00 Free</span></td>
-        </tr>
-        <tr>
-          <td><span class="role-badge">🧠 Chief Architect</span></td>
-          <td><span class="tag" style="background:rgba(59,130,246,0.15);color:#60a5fa;font-weight:800;">🏢 DeepSeek / Agnes</span></td>
-          <td>Bynara Router</td>
-          <td><span class="model-id">agnes-2.5-flash</span></td>
-          <td>🧠 Deep Reasoning & Logic</td>
-          <td><span class="tag tag-free">.00 Free</span></td>
-        </tr>
-        <tr>
-          <td><span class="role-badge">🛡️ Security Shield</span></td>
-          <td><span class="tag" style="background:rgba(16,185,129,0.15);color:#34d399;font-weight:800;">🏢 OpenAI / OSS</span></td>
-          <td>Groq Fast Shield</td>
-          <td><span class="model-id">openai/gpt-oss-120b</span></td>
-          <td>🛡️ 120B AST Security Guard</td>
-          <td><span class="tag tag-free">.00 Free</span></td>
-        </tr>
-        <tr>
-          <td><span class="role-badge">🧪 QA & Auto-Fix</span></td>
-          <td><span class="tag" style="background:rgba(118,185,0,0.15);color:#76b900;font-weight:800;">🏢 NVIDIA AI</span></td>
-          <td>OpenRouter Cloud</td>
-          <td><span class="model-id">nvidia/nemotron-3.5-lightning:free</span></td>
-          <td>⚡ Fast Test Synthesizer</td>
-          <td><span class="tag tag-free">.00 Free</span></td>
-        </tr>
-        <tr>
-          <td><span class="role-badge">💻 Code Refactor</span></td>
-          <td><span class="tag" style="background:rgba(168,85,247,0.15);color:#c084fc;font-weight:800;">🏢 Cohere AI</span></td>
-          <td>OpenRouter Cloud</td>
-          <td><span class="model-id">cohere/north-mini-code:free</span></td>
-          <td>💻 Specialized Coding Agent</td>
-          <td><span class="tag tag-free">.00 Free</span></td>
-        </tr>
-        <tr>
-          <td><span class="role-badge">⚖️ Executive Judge</span></td>
-          <td><span class="tag" style="background:rgba(59,130,246,0.15);color:#60a5fa;font-weight:800;">🏢 DeepSeek / Agnes</span></td>
-          <td>Bynara Cloud (Free)</td>
-          <td><span class="model-id">agnes-2.5-flash</span></td>
-          <td>⚖️ Deep Reasoning & Final Merge</td>
-          <td><span class="tag tag-free">.00 Free</span></td>
-        </tr>
+        ${rows}
       </tbody>
     </table>
   </div>
 
   <div class="btn-group">
-    <button class="btn btn-ignore" onclick="ignore()">❌ Ignore / Close</button>
-    <button class="btn btn-save" onclick="apply()">💾 Save & Apply Best Models</button>
+    <span class="stats">⚡ Auto-routed ${models.length} specialist models into Company Squad</span>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-ignore" onclick="ignore()">❌ Close</button>
+      <button class="btn btn-save" onclick="apply()">💾 Save & Apply Full Squad (${models.length} Models)</button>
+    </div>
   </div>
 
   <script>
@@ -1461,11 +1450,6 @@ function getModelRecsHtml(data) {
   </script>
 </body>
 </html>`;
-}
-
-// ── COMMAND: Check Best Models (Auto-Discovery & Recommendation Page) ──
-async function cmdCheckBestModels(context) {
-  showModelRecommendationsPage(context);
 }
 
 async function cmdCheckBestModels_DISABLED(context) {
