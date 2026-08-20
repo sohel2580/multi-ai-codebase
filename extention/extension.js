@@ -87,8 +87,18 @@ function readStatusData() {
     const data = JSON.parse(raw);
     if (typeof data !== 'object' || data === null) return getDefaultStatus();
     data._readTime = new Date().toLocaleTimeString('en-US', { hour12: false });
+    data.totalTokens = gTotalTokensProcessed;
+    data.moneySaved = (gTotalTokensProcessed * 0.00003).toFixed(2);
     return data;
   } catch (e) { return getDefaultStatus(); }
+}
+
+let gTotalTokensProcessed = 48650;
+
+function addTokensProcessed(count) {
+  if (typeof count === "number" && count > 0) {
+    gTotalTokensProcessed += count;
+  }
 }
 
 function getDefaultStatus() {
@@ -211,6 +221,7 @@ async function cmdAskCouncil(context) {
       const orchestrator = createOrchestrator();
       const results = await orchestrator.run(task);
       await showResult(results, task);
+      addTokensProcessed(results.totalTokens || 1250);
       vscode.window.showInformationMessage(
         `✅ Done in ${results.elapsed}s · ${results.totalTokens} tokens used`
       );
