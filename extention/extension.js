@@ -743,18 +743,28 @@ function createOrShowSettingsPage(context) {
       case 'save_keys':
         try {
           const cfg = vscode.workspace.getConfiguration('multiAI');
-          if (msg.keys) {
-            if (msg.keys.groq !== undefined) await cfg.update('groqApiKey', msg.keys.groq.trim(), vscode.ConfigurationTarget.Global);
-            if (msg.keys.openrouter !== undefined) await cfg.update('openrouterApiKey', msg.keys.openrouter.trim(), vscode.ConfigurationTarget.Global);
-            if (msg.keys.bynaraKey !== undefined) await cfg.update('bynaraApiKey', msg.keys.bynaraKey.trim(), vscode.ConfigurationTarget.Global);
-            if (msg.keys.bynaraEp !== undefined) await cfg.update('bynaraEndpoint', msg.keys.bynaraEp.trim(), vscode.ConfigurationTarget.Global);
-            if (msg.keys.tokenrouterKey !== undefined) await cfg.update('tokenrouterApiKey', msg.keys.tokenrouterKey.trim(), vscode.ConfigurationTarget.Global);
-            if (msg.keys.tokenrouterEp !== undefined) await cfg.update('tokenrouterEndpoint', msg.keys.tokenrouterEp.trim(), vscode.ConfigurationTarget.Global);
-            
-            vscode.window.showInformationMessage('✅ Free AI Routers & Keys saved and activated globally!');
-            if (currentSettingsPanel) {
-              currentSettingsPanel.webview.html = getSettingsPageHtml();
-            }
+          const k = msg.keys || {};
+          if (k.groq !== undefined) await cfg.update('groqApiKey', (k.groq || '').trim(), vscode.ConfigurationTarget.Global);
+          if (k.cerebras !== undefined) await cfg.update('cerebrasApiKey', (k.cerebras || '').trim(), vscode.ConfigurationTarget.Global);
+          if (k.sambanova !== undefined) await cfg.update('sambanovaApiKey', (k.sambanova || '').trim(), vscode.ConfigurationTarget.Global);
+          if (k.openrouter !== undefined) await cfg.update('openrouterApiKey', (k.openrouter || '').trim(), vscode.ConfigurationTarget.Global);
+          if (k.mistral !== undefined) await cfg.update('mistralApiKey', (k.mistral || '').trim(), vscode.ConfigurationTarget.Global);
+          if (k.together !== undefined) await cfg.update('togetherApiKey', (k.together || '').trim(), vscode.ConfigurationTarget.Global);
+          if (k.deepinfra !== undefined) await cfg.update('deepinfraApiKey', (k.deepinfra || '').trim(), vscode.ConfigurationTarget.Global);
+          if (k.bynaraKey !== undefined) await cfg.update('bynaraApiKey', (k.bynaraKey || '').trim(), vscode.ConfigurationTarget.Global);
+          if (k.bynaraEp !== undefined) await cfg.update('bynaraEndpoint', (k.bynaraEp || 'https://router.bynara.id/v1/chat/completions').trim(), vscode.ConfigurationTarget.Global);
+          if (k.tokenrouterKey !== undefined) {
+            await cfg.update('agentrouterApiKey', (k.tokenrouterKey || '').trim(), vscode.ConfigurationTarget.Global);
+            await cfg.update('tokenrouterApiKey', (k.tokenrouterKey || '').trim(), vscode.ConfigurationTarget.Global);
+          }
+          if (k.tokenrouterEp !== undefined) {
+            await cfg.update('agentrouterEndpoint', (k.tokenrouterEp || 'https://co.agentrouter.org/v1/chat/completions').trim(), vscode.ConfigurationTarget.Global);
+            await cfg.update('tokenrouterEndpoint', (k.tokenrouterEp || 'https://co.agentrouter.org/v1/chat/completions').trim(), vscode.ConfigurationTarget.Global);
+          }
+          
+          vscode.window.showInformationMessage('✅ All Free AI Routers & Keys saved and activated globally!');
+          if (currentSettingsPanel) {
+            currentSettingsPanel.webview.html = getSettingsPageHtml();
           }
         } catch (err) {
           vscode.window.showErrorMessage('Error saving settings: ' + err.message);

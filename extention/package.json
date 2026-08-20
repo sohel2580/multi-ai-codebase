@@ -2,7 +2,7 @@
   "name": "agent-council",
   "displayName": "AgentCouncil: Multi-AI Free Coding Assistant",
   "description": "Free Multi-Agent AI Coding Copilot — 6 Specialist AI Models (DeepSeek R1, Groq Qwen 3.6-27B, Llama 3.3, Nemotron & Cohere) with Real-Time Round-Table HUD.",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "publisher": "sohel-ahammad",
   "author": {
     "name": "Sohel Ahammad"
@@ -122,6 +122,18 @@
           "default": "",
           "markdownDescription": "💻 **Mistral Codestral Free Coding API** — [console.mistral.ai](https://console.mistral.ai)",
           "order": 11
+        },
+        "multiAI.tokenrouterApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "🤖 **Agent Router Key / Token Router Key** — [agentrouter.org](https://agentrouter.org)",
+          "order": 12
+        },
+        "multiAI.tokenrouterEndpoint": {
+          "type": "string",
+          "default": "https://co.agentrouter.org/v1/chat/completions",
+          "markdownDescription": "🤖 **Agent Router Custom Endpoint URL**",
+          "order": 13
         }
       }
     },
