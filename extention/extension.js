@@ -752,8 +752,16 @@ function createOrShowSettingsPage(context) {
           } else if (provider === 'openrouter') {
             if (!key) throw new Error('Please enter OpenRouter API Key first.');
             res = await callOpenRouter(key, 'nvidia/nemotron-3.5-lightning:free', testMsg, 20);
-          } else if (provider === 'bynara') {
-            res = await callBynaraRouter(key, endpoint, 'agnes-2.5-flash', testMsg, 20);
+          } else       if (provider === 'bynara') {
+        const bynaraInput = document.getElementById('ep-bynara');
+        if (bynaraInput && (bynaraInput.value.includes('api.bynara.ai') || !bynaraInput.value.trim())) {
+          bynaraInput.value = 'https://router.bynara.id/v1/chat/completions';
+        }
+                        let cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://router.bynara.id/v1/chat/completions';
+            if (cleanEp.includes('api.bynara.ai')) {
+              cleanEp = 'https://router.bynara.id/v1/chat/completions';
+            }
+            res = await callBynaraRouter(key, cleanEp, 'agnes-2.5-flash', testMsg, 20);
           } else if (provider === 'tokenrouter') {
                       const cleanEp = (endpoint && endpoint.trim()) ? endpoint.trim() : 'https://co.agentrouter.org/v1/chat/completions';
           res = await callTokenRouter(key, cleanEp, 'deepseek-r1', testMsg, 20);
@@ -1037,7 +1045,11 @@ function getSettingsPageHtml() {
 
       if (provider === 'groq') key = document.getElementById('key-groq').value;
       if (provider === 'openrouter') key = document.getElementById('key-openrouter').value;
-      if (provider === 'bynara') {
+            if (provider === 'bynara') {
+        const bynaraInput = document.getElementById('ep-bynara');
+        if (bynaraInput && (bynaraInput.value.includes('api.bynara.ai') || !bynaraInput.value.trim())) {
+          bynaraInput.value = 'https://router.bynara.id/v1/chat/completions';
+        }
         key = document.getElementById('key-bynara').value;
         endpoint = document.getElementById('ep-bynara').value;
       }
