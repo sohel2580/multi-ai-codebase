@@ -1111,6 +1111,13 @@ class MultiAISidebarProvider {
             wv.webview.postMessage({ type: 'sync_mini', data: status });
           } catch(e) {}
           break;
+        case 'copy_rules':
+          try {
+            const rulesPrompt = `# Autonomous Multi-AI Agentic Protocol (STRICT ENFORCEMENT)\n\nWhenever I send ANY message, coding task, or question in Antigravity Chat or type /agent <prompt>:\n1. You MUST NOT answer using your internal single AI model.\n2. You MUST route the task strictly through the Multi-AI Router & 6-Specialist Council (DeepSeek, Groq Qwen 3.6-27B, Llama 3.3 ECC Shield, Nemotron QA, Cohere Coder, Executive Judge).\n3. Always broadcast live telemetry to .ai_team_status.json so the Round-Table HUD lights up in real-time.`;
+            await vscode.env.clipboard.writeText(rulesPrompt);
+            vscode.window.showInformationMessage('📋 Multi-AI Agentic Rules copied to Clipboard! Paste it directly in Antigravity chat.');
+          } catch(e) {}
+          break;
         case 'check_models':
           cmdCheckBestModels(this.context);
           break;
@@ -1196,6 +1203,7 @@ function getSidebarHtml(initData = null) {
   <button class="btn btn-secondary" id="hudBtn">⚡ Open Round-Table HUD</button>
   <button class="btn btn-settings" id="settingsBtn">⚙️ Settings & API Keys</button>
   <button class="btn" style="background:rgba(52,211,153,0.12);border:1px solid #10b981;color:#10b981;" id="checkModelsBtn">🔍 Check & Suggest Best Models</button>
+  <button class="btn" style="background:rgba(168,85,247,0.15);border:1px solid #a855f7;color:#c084fc;" id="copyRulesBtn">📋 Copy Antigravity Agent Rules</button>
 
   <div class="shortcuts">
     <div class="shortcut-row"><span>Round-Table HUD</span><kbd>Ctrl+Alt+M</kbd></div>
@@ -1252,6 +1260,7 @@ function getSidebarHtml(initData = null) {
     document.getElementById('hudBtn').addEventListener('click', () => vscode.postMessage({ type: 'open_hud' }));
     document.getElementById('settingsBtn').addEventListener('click', () => vscode.postMessage({ type: 'open_settings' }));
     document.getElementById('checkModelsBtn').addEventListener('click', () => vscode.postMessage({ type: 'check_models' }));
+    document.getElementById('copyRulesBtn').addEventListener('click', () => vscode.postMessage({ type: 'copy_rules' }));
 
     // Real-time Mini HUD & Savings Poller
     setInterval(() => {
