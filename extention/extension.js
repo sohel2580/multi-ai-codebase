@@ -740,6 +740,51 @@ function createOrShowSettingsPage(context) {
 
   currentSettingsPanel.webview.onDidReceiveMessage(async (msg) => {
     switch (msg.type) {
+      case 'save_single_key':
+        try {
+          const cfg = vscode.workspace.getConfiguration('multiAI');
+          const { provider, key, endpoint } = msg;
+          const cleanKey = (key || '').trim();
+          const cleanEp = (endpoint || '').trim();
+
+          const keyMap = {
+            groq: 'groqApiKey',
+            cerebras: 'cerebrasApiKey',
+            sambanova: 'sambanovaApiKey',
+            openrouter: 'openrouterApiKey',
+            mistral: 'mistralApiKey',
+            together: 'togetherApiKey',
+            deepinfra: 'deepinfraApiKey',
+            bynara: 'bynaraApiKey',
+            tokenrouter: 'agentrouterApiKey'
+          };
+
+          const targetConfig = keyMap[provider];
+          if (targetConfig) {
+            await cfg.update(targetConfig, cleanKey, vscode.ConfigurationTarget.Global);
+            if (provider === 'tokenrouter') {
+              await cfg.update('tokenrouterApiKey', cleanKey, vscode.ConfigurationTarget.Global);
+              if (cleanEp) {
+                await cfg.update('agentrouterEndpoint', cleanEp, vscode.ConfigurationTarget.Global);
+                await cfg.update('tokenrouterEndpoint', cleanEp, vscode.ConfigurationTarget.Global);
+              }
+            }
+            if (provider === 'bynara' && cleanEp) {
+              await cfg.update('bynaraEndpoint', cleanEp, vscode.ConfigurationTarget.Global);
+            }
+            vscode.window.showInformationMessage(`✅ Saved & Activated ${provider.toUpperCase()} Key globally!`);
+            if (currentSettingsPanel) {
+              currentSettingsPanel.webview.postMessage({
+                type: 'single_save_success',
+                provider
+              });
+            }
+          }
+        } catch (err) {
+          vscode.window.showErrorMessage('Error saving key: ' + err.message);
+        }
+        break;
+
       case 'save_keys':
         try {
           const cfg = vscode.workspace.getConfiguration('multiAI');
@@ -1270,10 +1315,34 @@ function getSettingsPageHtml() {
         const statusEl = document.getElementById('status-' + msg.provider);
         if (statusEl) {
           statusEl.className = 'test-status show ' + (msg.success ? 'ok' : 'err');
-          statusEl.textContent = msg.message;
+          if (msg.success) {
+            statusEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);padding:8px 12px;border-radius:6px;margin-top:4px;">' +
+              '<span>' + msg.message + '</span>' +
+              '<button class="action-btn" id="save-inline-' + msg.provider + '" style="background:#22c55e;color:#050b14;font-weight:800;border:none;padding:5px 12px;" onclick="saveSingleKey(\'' + msg.provider + '\')">💾 Save This Key</button>' +
+            '</div>';
+          } else {
+            statusEl.textContent = msg.message;
+          }
+        }
+      } else if (msg.type === 'single_save_success') {
+        const btn = document.getElementById('save-inline-' + msg.provider);
+        if (btn) {
+          btn.innerHTML = '✅ Saved & Active!';
+          btn.style.background = '#10b981';
+          btn.disabled = true;
         }
       }
     });
+
+    function saveSingleKey(provider) {
+      const btn = document.getElementById('save-inline-' + provider);
+      if (btn) { btn.innerHTML = '⏳ Saving...'; btn.disabled = true; }
+      const elKey = document.getElementById('key-' + provider);
+      const key = elKey ? elKey.value : '';
+      const elEp = document.getElementById('ep-' + provider);
+      const endpoint = elEp ? elEp.value : '';
+      vscode.postMessage({ type: 'save_single_key', provider, key, endpoint });
+    }
 
     document.getElementById('saveBtn').addEventListener('click', () => {
       const keys = {
